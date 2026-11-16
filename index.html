@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IDENFLU | NOVA 소개 자료</title>
+<style>
+:root{--ink:#202020;--muted:#707070;--line:#dedede;--accent:#bdd7a5;--accent-on-light:#687a5d;--accent-on-dark:#bdd7a5;--accent-text:#252525;--deep:#262626;--paper:#f5f5f4;--white:#fff}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e9e9e8;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all;line-height:1.55}.toolbar{position:sticky;top:0;z-index:5;background:#252525;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px max(24px,calc((100vw - 1200px)/2));gap:20px}.toolbar strong{letter-spacing:.09em;font-size:14px}.toolbar span{font-size:12px;color:#bdbdbd}.toolbar-actions{display:flex;align-items:center;gap:12px}.color-control{display:flex;align-items:center;gap:8px;font-size:12px;color:#ddd;white-space:nowrap}.color-control input{width:34px;height:30px;padding:2px;border:1px solid #777;border-radius:4px;background:transparent;cursor:pointer}.toolbar button{border:1px solid #777;background:transparent;color:#fff;padding:8px 14px;border-radius:4px;cursor:pointer;font:inherit;font-size:12px}.deck{max-width:1200px;margin:auto;padding:28px 0 70px}.page{position:relative;min-height:675px;background:var(--white);margin-bottom:24px;padding:54px 64px 48px;overflow:hidden;display:flex;flex-direction:column}.page.dark{background:#242424;color:#fff}.page.light{background:#f5f5f4}.topline,.footer{display:flex;justify-content:space-between;align-items:center}.topline{font-size:11px;font-weight:800;letter-spacing:.13em;color:#858585}.dark .topline{color:#b7b7b7}.footer{margin-top:auto;padding-top:26px;border-top:1px solid var(--line);font-size:10px;letter-spacing:.08em;color:#929292}.dark .footer{border-color:#505050;color:#aaa}.eyebrow{color:var(--accent-on-light);font-weight:800;font-size:11px;letter-spacing:.16em;margin:42px 0 12px}.dark .eyebrow{color:var(--accent-on-dark)}h1,h2,h3,p{margin:0}h1{font-size:clamp(46px,5.8vw,76px);line-height:1.08;letter-spacing:-.055em}h2{font-size:clamp(30px,3.5vw,44px);line-height:1.22;letter-spacing:-.045em}h3{font-size:19px;letter-spacing:-.025em}.lead{font-size:17px;color:var(--muted);line-height:1.8;margin-top:16px;max-width:720px}.dark .lead{color:#ccc}.cover{min-height:675px;background:#222}.cover:before,.cover:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.12);border-radius:50%;width:620px;height:620px;right:-130px;top:-70px}.cover:after{width:460px;height:460px;right:-50px;top:10px}.cover-content{position:relative;z-index:1;margin-top:105px}.cover h1 span{color:var(--accent-on-dark)}.cover .lead{max-width:560px}.tagline{display:inline-block;margin-top:38px;padding:9px 13px;border:1px solid #777;border-radius:3px;font-size:12px;letter-spacing:.1em;color:#d0d0d0}.cover .footer{position:relative;z-index:1}.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px}.section-head .lead{max-width:460px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}.card{padding:24px;border:1px solid var(--line);background:#fff;min-height:180px}.num{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--accent-on-light);margin-bottom:24px}.card p,.feature p,.step p{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.75}.highlight{border-left:3px solid var(--accent);padding:14px 18px;background:#f3f4f1;margin-top:25px;color:#525952;font-size:14px}.flow{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:14px;margin-top:35px;align-items:stretch}.flowbox{padding:25px;background:#f5f5f4;border:1px solid #e2e2e0;min-height:220px}.flowbox.center{background:#303030;color:#fff;border:0}.flowbox .label{font-size:10px;letter-spacing:.14em;font-weight:800;color:#858585}.flowbox.center .label{color:var(--accent-on-dark)}.flowbox h3{font-size:22px;margin:12px 0}.flowbox p{font-size:13px;color:#777}.flowbox.center p{color:#ccc}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px}.chip{font-size:11px;padding:6px 9px;border:1px solid #d4d4d2;color:#666}.center .chip{border-color:#777;color:#ddd}.caption{font-size:12px;color:#929292;margin-top:12px}.features{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;margin-top:27px}.feature{padding:19px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:48px 1fr}.feature b{font-size:11px;color:var(--accent-on-light);letter-spacing:.1em}.feature h3{font-size:18px}.feature p{margin-top:5px}.studio-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px;align-items:center}.visual{background:#303030;min-height:270px;position:relative;padding:30px;color:#dedede;display:grid;place-items:center}.visual:before{content:"";position:absolute;inset:25px;background:repeating-linear-gradient(0deg,transparent 0 29px,rgba(255,255,255,.08) 30px),repeating-linear-gradient(90deg,transparent 0 39px,rgba(255,255,255,.08) 40px)}.map{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transform:rotate(-6deg);width:85%}.map div{border:1px solid #888;background:#4b4b4b;padding:20px 8px;text-align:center;font-size:11px}.map div:nth-child(2){background:var(--accent);color:var(--accent-text)}.visual small{position:absolute;bottom:10px;right:14px;color:#aaa;font-size:10px}.studio-copy h3{font-size:23px}.studio-copy ul{margin:20px 0 0;padding:0;list-style:none}.studio-copy li{padding:11px 0;border-top:1px solid var(--line);font-size:14px}.studio-copy li:before{content:"↗";color:var(--accent-on-light);margin-right:12px}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:34px}.step{border-top:2px solid var(--accent);padding-top:15px}.step b{font-size:10px;color:var(--accent-on-light);letter-spacing:.12em}.step h3{font-size:16px;margin-top:14px}.contact{margin-top:30px;padding:24px 28px;background:#292929;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px}.contact p{font-size:13px;color:#ccc;margin-top:5px}.contact a{color:var(--accent-text);background:var(--accent);text-decoration:none;padding:12px 18px;font-size:13px;font-weight:800;white-space:nowrap}.small-note{font-size:11px;color:#929292;margin-top:13px}.source{color:inherit;text-decoration:none}
+.table-wrap{margin-top:26px;border-top:2px solid #333}.function-table{width:100%;border-collapse:collapse;table-layout:fixed;text-align:left}.function-table th{padding:11px 14px;background:#f2f2f1;color:#777;font-size:11px;letter-spacing:.06em}.function-table td{padding:13px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top;color:#555;line-height:1.5}.function-table td:first-child{font-weight:800;color:#252525}.function-table td:nth-child(2){font-weight:700;color:#424242}.function-table th:first-child{width:21%}.function-table th:nth-child(2){width:24%}.function-table .sub{display:block;margin-top:3px;color:#888;font-size:11px;font-weight:400}.function-table.grouped th:first-child{width:13%}.function-table.grouped th:nth-child(2){width:18%}.function-table.grouped th:nth-child(3){width:21%}.function-table.nova-table td{padding-top:6px;padding-bottom:6px;font-size:12px;line-height:1.35}.function-table.grouped td{font-weight:400;color:#555}.function-table.grouped td.group{font-weight:800;color:#252525;vertical-align:middle}.function-table.grouped td.feature-name{font-weight:700;color:#424242}.table-note{margin-top:14px;color:#888;font-size:11px;line-height:1.6}
+/* NOVA brand symbol */
+.product-title{display:flex;align-items:center;gap:8px;line-height:1.2}.product-title img{display:block;width:56px;height:56px;margin-inline:-12px;object-fit:contain;flex:none;transform:translateY(-5px)}.product-title .product-subtitle{font-size:.65em;color:#777}
+/* Simple editorial treatment */
+body{background:#ededed}.toolbar{background:#202020}.deck{padding-top:20px}.page{background:#fff;box-shadow:none}.page.light{background:#fff}.page.dark,.cover{background:#202020}.cover:before,.cover:after{display:none}.cover-content{margin-top:112px}.cover h1{letter-spacing:-.06em}.tagline{padding:0;border:0;color:#aaa}.topline{color:#999}.eyebrow{font-size:10px;letter-spacing:.13em}.cards{gap:28px}.card{min-height:0;padding:20px 0;border:0;border-top:1px solid #d7d7d7;background:transparent}.card .num{margin-bottom:16px}.highlight{background:transparent;border-left:2px solid var(--accent);padding:6px 16px;color:#555}.flow{gap:0}.flowbox{background:transparent;border:0;border-top:1px solid #d7d7d7;padding:22px 20px 22px 0}.flowbox.center{background:transparent;color:var(--ink);border:0;border-top:2px solid var(--accent);padding-left:20px}.flowbox.center .label{color:var(--accent-on-light)}.flowbox.center p{color:var(--muted)}.flowbox.center .chip{border-color:#ddd;color:#555}.flowbox:last-child{padding-left:20px}.chip{border-color:#e4e4e4}.table-wrap{border-top:1px solid #333}.function-table th{background:transparent;border-bottom:1px solid #aaa;color:#777}.visual{background:#292929}.visual:before{display:none}.map{transform:none}.map div{background:transparent;border-color:#777}.contact{background:#242424}.footer{color:#aaa}
+/* Consistent type scale and spacing */
+.page{padding:48px 64px 42px}.topline{font-size:10px;letter-spacing:.12em}.eyebrow{margin:36px 0 10px;font-size:10px;line-height:1.4}h1{font-size:clamp(44px,5.5vw,70px);line-height:1.12}h2{font-size:clamp(30px,3.3vw,40px);line-height:1.25}h3{font-size:18px;line-height:1.4}.lead{margin-top:14px;font-size:15px;line-height:1.75}.cover-content{margin-top:108px}.cover .lead{margin-top:20px;font-size:17px}.tagline{margin-top:32px}.section-head{gap:32px}.cards,.flow{margin-top:30px}.card{padding-top:18px}.card .num{margin-bottom:14px}.card p,.feature p,.step p{font-size:13px;line-height:1.65}.highlight{margin-top:22px;font-size:13px;line-height:1.6}.flowbox h3{margin:10px 0;font-size:20px}.flowbox p{font-size:13px;line-height:1.6}.chips{margin-top:20px}.features{margin-top:22px;column-gap:32px}.feature{padding:16px 0}.feature h3{font-size:17px}.table-wrap{margin-top:22px}.function-table th{padding:10px 14px}.function-table td{font-size:13px;line-height:1.5}.table-note,.caption,.small-note{font-size:11px;line-height:1.6}.table-note{margin-top:10px}.studio-grid{margin-top:30px;gap:36px}.studio-copy h3{font-size:20px}.studio-copy ul{margin-top:16px}.studio-copy li{padding:10px 0;font-size:13px}.steps{margin-top:30px}.step h3{margin-top:12px;font-size:15px}.contact{margin-top:26px;padding:22px 26px}.footer{padding-top:20px;font-size:10px}.function-table.nova-table td{padding-top:6px;padding-bottom:6px;font-size:12px;line-height:1.35}
+/* Table readability */
+.function-table th{padding:12px 14px;font-size:12px;line-height:1.5}.function-table td{padding:14px;font-size:14px;line-height:1.65}.function-table .sub{margin-top:4px;font-size:12px;line-height:1.5}.function-table.nova-table td{padding-top:9px;padding-bottom:9px;font-size:13px;line-height:1.5}
+/* Column proportions and alignment */
+.inline-description{margin-left:6px;color:#777;font-size:12px;font-weight:400;white-space:nowrap}
+.function-table th,.function-table td{text-align:left;vertical-align:top}.function-table th:first-child{width:20%}.function-table th:nth-child(2){width:25%}.function-table th:last-child{width:auto}.function-table.grouped td.group{vertical-align:middle}.function-table.nova-features-table th:nth-child(1){width:11%}.function-table.nova-features-table th:nth-child(2){width:17%}.function-table.nova-features-table th:nth-child(3){width:22%}.function-table.nova-features-table th:nth-child(4){width:50%}.function-table.equipment-table th:nth-child(1){width:18%}.function-table.equipment-table th:nth-child(2){width:42%}.function-table.equipment-table th:nth-child(3){width:40%}
+/* Editorial cards for overview content */
+.bento-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}.bento-card{min-width:0;padding:19px 21px;background:#f5f5f4;border-top:2px solid #e3e3e1}.bento-card:first-child{border-top-color:var(--accent)}.bento-card .card-kicker{display:block;margin-bottom:9px;color:var(--accent-on-light);font-size:10px;font-weight:800;letter-spacing:.1em}.bento-card h3{font-size:17px;line-height:1.35}.bento-card p{margin-top:8px;color:#666;font-size:13px;line-height:1.65}.bento-card .card-detail{margin-top:9px;color:#888;font-size:11px;line-height:1.5}.bento-grid.studio-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.bento-grid.studio-cards .bento-card{min-height:178px}.bento-grid.workspace-cards .bento-card{padding:16px 19px}.bento-grid.workspace-cards .bento-card p{margin-top:6px}
+/* Calm system typography */
+h1,h2,h3{font-family:inherit;font-weight:500;letter-spacing:-.025em}.cover h1{font-weight:500;letter-spacing:-.03em}.toolbar strong,.topline,.eyebrow,.num,.flowbox .label,.bento-card .card-kicker,.step b{font-weight:600;letter-spacing:.035em}.footer,.tagline,.feature b,.function-table th{letter-spacing:.02em}.function-table.grouped td.group,.function-table.grouped td.feature-name,.contact a{font-weight:600}
+/* Reference-aligned brochure: light surfaces and measured typography. */
+.toolbar{background:#fff;color:#222;border-bottom:1px solid #e5e5e5}.toolbar span{color:#777}.toolbar strong{font-weight:500}.color-control{color:#666}.color-control input{border-color:#ccc}.toolbar button{color:#444;border-color:#d5d5d5;background:#fff}.page{border:1px solid #e8e8e8}.cover{background:#fff;color:var(--ink)}.cover .lead{color:#555;font-size:16px;font-weight:400;max-width:660px}.cover h1{font-size:clamp(40px,4.8vw,58px);line-height:1.2}.cover h1 span{color:inherit}.cover .tagline{color:#666}.cover .footer{color:#777;border-color:var(--line)}h2{font-size:clamp(28px,3vw,36px);line-height:1.3}h3{font-weight:600}.lead{font-weight:400}.eyebrow,.topline{font-weight:500}.topline,.footer{color:#777}.bento-card{border-top-width:1px}.bento-card h3{font-weight:600}.function-table.grouped td:not(.group):not(.feature-name){font-weight:400;color:#555}.function-table th{font-weight:500}.table-note,.caption,.small-note{color:#737373}.product-title{line-height:1.25}.product-title img{width:52px;height:52px;margin-inline:-11px;transform:translateY(-4px)}
+/* Solution relationship diagram reused from the WES introduction. */
+.solution-map{--diagram-branch-gap:44px;width:min(100%,864px);margin:32px auto 20px}.solution-map__views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--diagram-branch-gap)}.solution-map .diagram-node{padding:20px 24px;background:#f5f5f4;min-height:116px;display:flex;flex-direction:column;justify-content:center;gap:8px}.solution-map .diagram-node__kicker{font-size:11px;color:#666}.solution-map .diagram-node h3{font-size:20px;font-weight:500}.solution-map .diagram-node p{font-size:13px;color:#555}.diagram-branches{position:relative;height:48px;color:#888}.diagram-branches svg{position:absolute;top:0;left:calc(var(--diagram-branch-gap)/-2);display:block;width:calc(100% + var(--diagram-branch-gap));height:100%}.solution-map__core{min-height:64px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 36px;padding:16px 24px;background:#252525;color:#fff}.solution-map__core h3{font-size:20px;font-weight:500}.solution-map__core>span{font-size:13px}
+@media(max-width:760px){.solution-map{--diagram-branch-gap:16px;margin-top:24px}.solution-map .diagram-node{padding:14px 12px;min-height:140px}.solution-map .diagram-node h3{font-size:17px}.solution-map .diagram-node p{font-size:12px}.solution-map__core{gap:8px 20px}.solution-map__core>span{font-size:12px}.page{border-left:0;border-right:0}.bento-grid,.bento-grid.studio-cards{grid-template-columns:1fr}.bento-grid.studio-cards .bento-card{min-height:0}.table-wrap{overflow-x:auto}.function-table{min-width:550px}.function-table.nova-features-table{min-width:680px}.cover-content{margin-top:90px}.cover .lead{font-size:15px}.eyebrow{margin-top:32px}.toolbar{flex-wrap:wrap;gap:10px}.toolbar-actions{gap:7px}.toolbar button{padding:8px 10px}.toolbar span{display:none}.deck{padding:0}.page{padding:32px 24px;min-height:auto;margin:0;border-bottom:8px solid #e9e9e8}.cover{min-height:620px}.cover-content{margin-top:100px}.cover:before{right:-370px}.cover:after{right:-290px}.section-head{display:block}.cards,.flow,.studio-grid{grid-template-columns:1fr}.features{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.flowbox{min-height:0}.footer{margin-top:45px}.contact{align-items:flex-start;flex-direction:column}.function-table th,.function-table td{padding:11px 8px;font-size:13px}.function-table.nova-table td{padding:9px 8px;font-size:13px}.eyebrow{margin-top:38px}}
+@page{size:A4 landscape;margin:0}@media print{.page{border:0}.solution-map{margin-top:24px;margin-bottom:16px}.solution-map .diagram-node{min-height:100px}.solution-map__core{min-height:56px}.bento-grid{gap:8px;margin-top:18px}.bento-card,.bento-grid.workspace-cards .bento-card{padding:12px 16px}.bento-card p{font-size:11px;line-height:1.5}.bento-card .card-detail{font-size:10px}.bento-grid.studio-cards .bento-card{min-height:0}.function-table th{padding:8px 12px;font-size:11px}.function-table td{padding:9px 12px;font-size:12px;line-height:1.4}.function-table .sub{font-size:10px}.function-table.nova-table td{padding-top:5px;padding-bottom:5px;font-size:11px;line-height:1.3}html,body{background:#fff}.toolbar{display:none}.deck{max-width:none;padding:0}.page{width:297mm;height:210mm;min-height:0;margin:0;padding:16mm 19mm 12mm;break-after:page;page-break-after:always;print-color-adjust:exact;-webkit-print-color-adjust:exact}.page:last-child{break-after:auto}.cover-content{margin-top:30mm}.page h1{font-size:44pt}.page h2{font-size:27pt}.lead{font-size:13pt}.footer{margin-top:auto}.cover:before{right:-100px}.cover:after{right:-20px}}
+</style>
+</head>
+<body>
+<header class="toolbar"><div><strong>IDENFLU / NOVA</strong> <span>　소개 자료 초안</span></div><div class="toolbar-actions"><label class="color-control" for="accent-color">포인트 컬러 <input id="accent-color" type="color" value="#bdd7a5" aria-label="포인트 컬러 선택"></label><button id="reset-color" type="button">기본색</button><button type="button" onclick="window.print()">인쇄 / PDF 저장</button></div></header>
+<main class="deck">
+<section class="page cover">
+  <div class="topline"><span>IDENFLU</span><span>LOGISTICS AUTOMATION</span></div>
+  <div class="cover-content"><p class="eyebrow">EXECUTION · CONTROL · VISIBILITY</p><h1>설비를 넘어,<br><span>흐름을 제어하다.</span></h1><p class="lead">NOVA는 상위 시스템과 자동화 설비를 연결하는<br>WES/WCS 실행·제어 플랫폼입니다.</p><div class="tagline">NOVA &nbsp; / &nbsp; NOVA Workspace &nbsp; / &nbsp; NOVA Studio</div></div>
+  <div class="footer"><span>㈜아이덴플루 &nbsp; | &nbsp; 회사 및 솔루션 소개</span><span>01 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>OUR EXPERTISE</span></div><p class="eyebrow">WHO WE ARE</p>
+  <div class="section-head"><h2>현장을 이해하고,<br>운영의 흐름을 연결합니다.</h2><p class="lead">아이덴플루는 시스템과 설비, 현장 운영을 함께 바라보며 물류 자동화의 구축과 안정화를 지원합니다.</p></div>
+  <div class="cards"><div class="card"><div class="num">01 / BUILD</div><h3>업무 시스템 구축</h3><p>현장의 업무 흐름을 반영해 작업 실행과 운영 데이터 관리 기능을 구성합니다.</p></div><div class="card"><div class="num">02 / CONNECT</div><h3>시스템·설비 연동</h3><p>상위 시스템의 작업 요청을 설비 실행으로 연결하고 상태와 결과를 수집합니다.</p></div><div class="card"><div class="num">03 / SUPPORT</div><h3>운영 지원·유지보수</h3><p>시운전과 초기 안정화부터 점검, 장애 대응 및 운영 개선을 지원합니다.</p></div></div>
+  <div class="highlight">요구사항 분석부터 구축, 시운전, 안정화까지 — 실제 현장에서 이어지는 운영을 생각합니다.</div>
+  <div class="footer"><span>COMPANY OVERVIEW</span><span>02 / 11</span></div>
+</section>
+<section class="page light">
+  <div class="topline"><span>IDENFLU</span><span>NOVA PLATFORM</span></div><p class="eyebrow">THE CONNECTION</p>
+  <h2>작업 요청은 실행으로,<br>실행 결과는 다시 운영으로.</h2><p class="lead">NOVA는 상위 시스템과 자동화 설비 사이에서 작업을 조율하고 설비별 실행을 연결합니다.</p>
+  <div class="flow"><div class="flowbox"><div class="label">01 / REQUEST</div><h3>상위 시스템</h3><p>주문과 업무 계획, 작업 요청 전달</p><div class="chips"><span class="chip">ERP</span><span class="chip">WMS</span><span class="chip">MES</span></div></div><div class="flowbox center"><div class="label">02 / ORCHESTRATE</div><h3>NOVA</h3><p>요청을 실행 가능한 작업으로 구성하고, 설비에 맞게 연결</p><div class="chips"><span class="chip">WES · 작업 실행</span><span class="chip">WCS · 설비 제어</span></div></div><div class="flowbox"><div class="label">03 / EXECUTE</div><h3>자동화 설비</h3><p>작업 지시 수행 및 진행 상태 전달</p><div class="chips"><span class="chip">ASRS</span><span class="chip">CONVEYOR</span><span class="chip">AGV / AMR</span></div></div></div><p class="caption">대표적인 연동 구조입니다. 실제 연결 방식과 제어 범위는 현장 조건에 따라 달라집니다.</p>
+  <div class="footer"><span>EXECUTION &amp; CONTROL</span><span>03 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>SOLUTION OVERVIEW</span></div><p class="eyebrow">ONE CONNECTED OPERATION</p>
+  <h2>실행·운영·시각화의 연결</h2><p class="lead">NOVA의 실행 데이터를 운영 화면과 현장 시각화로 연결합니다.</p>
+  <figure class="explain-diagram solution-map" aria-label="NOVA WES·WCS의 운영 데이터가 NOVA Workspace와 NOVA Studio로 연결되는 관계">
+              <div class="solution-map__views">
+                <div class="diagram-node "><span class="diagram-node__kicker">NOVA의 운영 화면</span><h3>NOVA Workspace</h3><p>현황 · 이력 · 사용자 · 설정</p></div><div class="diagram-node "><span class="diagram-node__kicker">현장 시각화</span><h3>NOVA Studio</h3><p>2.5D·3D 현장 배치 · 상태 · 알람</p></div>
+              </div>
+              <div class="diagram-branches" aria-hidden="true"><svg viewBox="0 0 800 48" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M400 47V27H200V2M400 27H600V2" vector-effect="non-scaling-stroke"/><path d="m194 8 6-6 6 6m388 0 6-6 6 6" vector-effect="non-scaling-stroke"/></svg></div>
+              <div class="solution-map__core"><h3>NOVA</h3><span>WES · 작업 조율</span><span>WCS · 설비 연동</span></div>
+            </figure>
+  <p class="table-note">NOVA Workspace는 NOVA의 운영 화면입니다. NOVA Studio는 NOVA 또는 기존 운영 시스템과 연계합니다.</p>
+  <div class="footer"><span>NOVA · WORKSPACE · STUDIO</span><span>04 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>LOGISTICS WORKFLOWS</span></div><p class="eyebrow">WORK IN MOTION</p>
+  <h2>물류 업무와 설비를<br>하나의 흐름으로 연결합니다.</h2><p class="lead">입고부터 보관·이송·분류·출고까지, 각 공정의 작업 요청과 실행 결과를 연결합니다.</p>
+  <div class="bento-grid"><article class="bento-card"><span class="card-kicker">01 / INBOUND</span><h3>입고·투입</h3><p>입고 요청을 실행 작업으로 구성하고 투입 설비에 지시를 전달합니다.</p><div class="card-detail">입고 물품 → 다음 공정 투입</div></article><article class="bento-card"><span class="card-kicker">02 / STORAGE</span><h3>보관</h3><p>자동창고의 입고·출고 작업을 연결하고 진행·완료 상태를 수집합니다.</p><div class="card-detail">보관 요청 → 자동창고 실행</div></article><article class="bento-card"><span class="card-kicker">03 / TRANSFER</span><h3>이송</h3><p>컨베이어 또는 AGV·AMR과 연동해 공정 간 이동을 전달하고 상태를 확인합니다.</p><div class="card-detail">공정과 설비 사이의 물품 이동</div></article><article class="bento-card"><span class="card-kicker">04 / OUTBOUND</span><h3>분류·출고</h3><p>출고 우선순위와 현장 상태를 반영해 작업을 조율하고 분류 설비와 연결합니다.</p><div class="card-detail">작업 순서 조정 → 분류·출고</div></article></div>
+  <div class="highlight">요청 → 작업 조율 → 설비 실행 → 결과 수집 → 다음 공정 반영</div><p class="table-note">이해를 돕기 위한 업무 흐름 예시입니다. 작업 규칙과 설비별 연동 범위는 현장 조건에 따라 결정됩니다.</p>
+  <div class="footer"><span>LOGISTICS WORKFLOWS</span><span>05 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>NOVA CAPABILITIES</span></div><p class="eyebrow">WHAT NOVA DOES</p>
+  <h2>작업을 조율하고,<br>설비의 실행을 관리합니다.</h2><p class="lead">WES와 WCS를 중심으로 현장의 작업 흐름과 설비 상태를 이어갑니다.</p>
+  <div class="features"><div class="feature"><b>01</b><div><h3>작업 우선순위와 흐름 조율</h3><p>요청을 실행 단위로 구성하고 현장 상태와 예외 상황에 따라 작업 순서를 조정합니다.</p></div></div><div class="feature"><b>02</b><div><h3>설비별 연동과 제어</h3><p>작업 지시를 설비별 명령으로 전달하고 통신 및 연결 상태를 관리합니다.</p></div></div><div class="feature"><b>03</b><div><h3>진행 상태와 결과 수집</h3><p>작업 진행, 완료 결과와 설비 알람을 수집해 다음 운영에 반영합니다.</p></div></div><div class="feature"><b>04</b><div><h3>운영 현황과 이력 확인</h3><p>브라우저에서 작업·설비 현황을 확인하고 이력, 사용자 및 운영 설정을 관리합니다.</p></div></div></div>
+  <div class="highlight">기존 시스템과 설비의 재사용 가능 범위를 먼저 검토하고, 필요한 업무와 공정부터 적용할 수 있습니다.</div>
+  <div class="footer"><span>WES · WCS · NOVA WORKSPACE</span><span>06 / 11</span></div>
+</section>
+<section class="page light">
+  <div class="topline"><span>IDENFLU</span><span>FUNCTION OVERVIEW / 01</span></div><p class="eyebrow">NOVA · EXECUTION &amp; CONTROL</p>
+  <h2 class="product-title"><img src="nova-symbol.png" alt=""><span>NOVA <span class="product-subtitle">WES / WCS</span></span></h2><p class="lead">NOVA WES와 WCS가 작업 요청을 설비 실행으로 연결합니다.</p>
+  <div class="table-wrap"><table class="function-table grouped nova-table nova-features-table"><thead><tr><th scope="col">솔루션</th><th scope="col">구성</th><th scope="col">기능</th><th scope="col">상세 내용</th></tr></thead><tbody>
+    <tr><td class="group" rowspan="13">NOVA</td><td class="group" rowspan="3">WES<span class="sub">작업 실행·조율</span></td><td class="feature-name">작업 구성</td><td>상위 시스템의 요청을 실행 가능한 작업 단위로 구성합니다.</td></tr>
+    <tr><td class="feature-name">우선순위 관리</td><td>작업의 처리 순서와 진행 상태를 관리합니다.</td></tr>
+    <tr><td class="feature-name">상황별 흐름 조정</td><td>현장 상태와 예외 상황에 따라 대기 작업의 순서를 조정하고 완료 결과를 다음 공정에 반영합니다.</td></tr>
+    <tr><td class="group" rowspan="5">WCS<span class="sub">설비 연동·제어</span></td><td class="feature-name">설비 인터페이스</td><td>자동창고, 컨베이어, 소터, AGV·AMR 등 설비별 통신 방식에 맞춰 연결합니다.</td></tr>
+    <tr><td class="feature-name">명령 전달</td><td>WES의 작업 지시를 설비가 실행할 명령으로 변환해 전달합니다.</td></tr>
+    <tr><td class="feature-name">진행·완료 결과</td><td>설비의 작업 진행 및 완료 결과를 수집해 운영 흐름에 반영합니다.</td></tr>
+    <tr><td class="feature-name">설비 상태·알람</td><td>설비 상태와 알람을 공통된 형태로 수집해 운영 화면에 연결합니다.</td></tr>
+    <tr><td class="feature-name">통신 관리</td><td>설비 통신 단절과 응답 지연을 감지하고 연결 상태를 관리합니다.</td></tr>
+    <tr><td class="group" rowspan="5">WES / WCS<span class="sub">업무별 적용 예시</span></td><td class="feature-name">입고·투입</td><td>상위 시스템의 요청을 실행 작업으로 구성하고 투입 설비에 지시를 전달합니다.</td></tr>
+    <tr><td class="feature-name">보관·반출</td><td>자동창고의 입고·출고 작업을 설비 명령으로 연결하고 진행·완료 상태를 수집합니다.</td></tr>
+    <tr><td class="feature-name">공정 간 이송</td><td>컨베이어나 AGV·AMR과 연계해 이동 작업을 전달하고 설비 상태를 확인합니다.</td></tr>
+    <tr><td class="feature-name">분류</td><td>분류 공정의 작업 지시를 설비 실행으로 연결하고 처리 결과를 수집합니다.</td></tr>
+    <tr><td class="feature-name">출고 순서 조율</td><td>출고 우선순위와 현장 상태를 반영해 대기 작업의 순서를 조정합니다.</td></tr>
+  </tbody></table></div><p class="table-note">업무별 기능과 설비 유형은 적용 예시이며, 통신 방식·제어 범위와 작업 규칙은 현장 조건에 맞춰 검토합니다. <a class="source" href="https://idenflu.com/nova">NOVA 상세 ↗</a></p>
+  <div class="footer"><span>NOVA WES · WCS</span><span>07 / 11</span></div>
+</section>
+<section class="page light">
+  <div class="topline"><span>IDENFLU</span><span>NOVA / EQUIPMENT DOMAIN</span></div><p class="eyebrow">STANDARDIZED EQUIPMENT DOMAIN</p>
+  <h2>물류 업무별 설비와<br>표준 도메인</h2><p class="lead">설비를 보관·이송·분류·피킹 및 분배 업무로 구분하고, 유형별 표준 Agent를 정리합니다.</p>
+  <div class="table-wrap"><table class="function-table grouped nova-table equipment-table"><thead><tr><th scope="col">업무 구분</th><th scope="col">설비 유형 예시</th><th scope="col">표준 도메인</th></tr></thead><tbody>
+    <tr><td class="group" rowspan="4">보관</td><td class="feature-name">유닛·미니로더</td><td>Agent / 유닛·미니로더</td></tr>
+    <tr><td class="feature-name">셔틀</td><td>Agent / 셔틀</td></tr>
+    <tr><td class="feature-name">수직 회전식 보관 설비</td><td>Agent / 수직 캐러셀</td></tr>
+    <tr><td class="feature-name">플로우랙</td><td>Agent / 플로우랙</td></tr>
+    <tr><td class="group" rowspan="3">이송</td><td class="feature-name">컨베이어</td><td>Agent / 컨베이어</td></tr>
+    <tr><td class="feature-name">AGV·AMR</td><td>Agent / AGV·AMR</td></tr>
+    <tr><td class="feature-name">수직 이송기·리프터</td><td>Agent / 수직 이송기·리프터</td></tr>
+    <tr><td class="group" rowspan="2">분류</td><td class="feature-name">크로스벨트 소터</td><td>Agent / 크로스벨트 소터</td></tr>
+    <tr><td class="feature-name">틸트 트레이 소터</td><td>Agent / 틸트 트레이 소터</td></tr>
+    <tr><td class="group" rowspan="2">피킹·분배</td><td class="feature-name">DPS <span class="inline-description">디지털 피킹 시스템</span></td><td>Agent / DPS</td></tr>
+    <tr><td class="feature-name">DAS <span class="inline-description">디지털 분배 시스템</span></td><td>Agent / DAS</td></tr>
+  </tbody></table></div><div class="highlight">설비 유형별 표준 Agent → 작업 지시 전달 → 설비 상태·실행 결과 수집</div><p class="table-note">설비 분류는 예시이며 실제 역할과 연동 범위는 현장 구성에 따라 달라질 수 있습니다. 플로우랙의 연동 여부는 현장 구성에 따라 달라집니다. 설비 참고: <a class="source" href="https://www.daifuku.com/solution/intralogistics/products/rack-system/carousel/">수직 캐러셀 ↗</a></p>
+  <div class="footer"><span>NOVA · EQUIPMENT DOMAIN</span><span>08 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>FUNCTION OVERVIEW / 02</span></div><p class="eyebrow">OPERATIONS MANAGEMENT</p>
+  <h2 class="product-title"><img src="nova-symbol.png" alt=""><span>NOVA Workspace</span></h2><p class="lead">작업과 설비 현황부터 운영 설정까지, 브라우저에서 확인하고 관리합니다.</p>
+  <div class="bento-grid workspace-cards"><article class="bento-card"><span class="card-kicker">01 / OPERATIONS</span><h3>작업과 공간 현황</h3><p>작업 진행, 처리 수량과 주요 운영 지표를 확인합니다. 설비별 보관율과 구역별 여유 공간도 살펴봅니다.</p></article><article class="bento-card"><span class="card-kicker">02 / HISTORY</span><h3>작업·설비 이력</h3><p>입출고 작업과 설비 현황을 조회하고 알람 발생 시각과 복구 상태를 확인합니다.</p></article><article class="bento-card"><span class="card-kicker">03 / ACCESS</span><h3>사용자와 권한</h3><p>사용자와 역할을 관리하고 업무에 맞는 접근 권한과 메뉴를 설정합니다.</p></article><article class="bento-card"><span class="card-kicker">04 / SYSTEM</span><h3>운영 환경과 시스템</h3><p>일일 집계와 서버 리소스를 확인하고 운영 설정값, 스케줄러 및 정기 작업 일정을 관리합니다.</p><div class="card-detail">CPU · 메모리 · 디스크</div></article></div>
+  <p class="table-note">NOVA Workspace는 별도 클라이언트 설치 없이 사용하는 NOVA의 운영 화면입니다. <a class="source" href="https://idenflu.com/nova">NOVA 상세 ↗</a></p>
+  <div class="footer"><span>NOVA WORKSPACE</span><span>09 / 11</span></div>
+</section>
+<section class="page light">
+  <div class="topline"><span>IDENFLU</span><span>FUNCTION OVERVIEW / 03</span></div><p class="eyebrow">VISIBILITY &amp; MONITORING</p>
+  <h2 class="product-title"><img src="nova-symbol.png" alt=""><span>NOVA Studio</span></h2><p class="lead">운영 데이터를 설비 배치와 연결해, 전체 흐름과 문제가 발생한 위치를 함께 살펴봅니다.</p>
+  <div class="bento-grid studio-cards"><article class="bento-card"><span class="card-kicker">01 / 2.5D</span><h3>전체 흐름</h3><p>현장 레이아웃과 설비 연결 관계, 물류 이동 경로를 한눈에 살펴봅니다.</p></article><article class="bento-card"><span class="card-kicker">02 / 3D</span><h3>입체 공간</h3><p>설비 높이와 층간 구조, 주변 설비와의 위치 관계를 직관적으로 확인합니다.</p></article><article class="bento-card"><span class="card-kicker">03 / MONITORING</span><h3>상태와 알람</h3><p>설비 상태와 알람을 현장 위치에 연결해 주변 상황과 함께 확인합니다.</p></article></div>
+  <p class="table-note">NOVA 또는 기존 운영 시스템과 연계를 검토할 수 있으며, 연계 범위는 제공 데이터와 인터페이스에 따라 달라집니다. <a class="source" href="https://idenflu.com/nova-studio">NOVA Studio 상세 ↗</a></p>
+  <div class="footer"><span>NOVA STUDIO</span><span>10 / 11</span></div>
+</section>
+<section class="page">
+  <div class="topline"><span>IDENFLU</span><span>GETTING STARTED</span></div><p class="eyebrow">FROM PLAN TO OPERATIONS</p>
+  <h2>현장에 맞는 범위부터<br>함께 시작합니다.</h2><p class="lead">기존 현장 개선, 일부 공정 확장, 신규 구축까지 적용 범위와 현장 조건에 맞춰 진행합니다.</p>
+  <div class="steps"><div class="step"><b>STEP 01</b><h3>분석·설계</h3><p>업무 요구사항과 연동 대상 정리</p></div><div class="step"><b>STEP 02</b><h3>통합 구축</h3><p>업무 기능 및 시스템·설비 연동</p></div><div class="step"><b>STEP 03</b><h3>시운전·오픈</h3><p>정상·예외 시나리오 검증</p></div><div class="step"><b>STEP 04</b><h3>성능 안정화</h3><p>초기 운영 점검과 보완</p></div><div class="step"><b>STEP 05</b><h3>운영·유지보수</h3><p>점검과 개선 범위 협의</p></div></div>
+  <div class="contact"><div><h3>개선하고 싶은 업무부터 이야기해 주세요.</h3><p>연결할 시스템과 설비, 현재 운영의 고민을 함께 살펴봅니다.</p></div><a href="mailto:sales@idenflu.com">sales@idenflu.com ↗</a></div><p class="small-note">㈜아이덴플루 · 서울 구로구 디지털로 300, 12층 1248호 · <a class="source" href="https://idenflu.com">idenflu.com ↗</a></p>
+  <div class="footer"><span>CONTACT IDENFLU</span><span>11 / 11</span></div>
+</section>
+</main>
+<script>
+(function () {
+  const picker = document.getElementById('accent-color');
+  const defaultColor = '#bdd7a5';
+  const root = document.documentElement;
+  const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+  const hex = values => '#' + values.map(value => Math.round(value).toString(16).padStart(2, '0')).join('');
+  const luminance = values => values.map(value => { const v = value / 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((sum, value, i) => sum + value * [0.2126, 0.7152, 0.0722][i], 0);
+  const contrast = (a, b) => { const x = luminance(a), y = luminance(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  function readable(values, background, target) {
+    if (contrast(values, background) >= 4.5) return hex(values);
+    for (let i = 1; i <= 100; i++) {
+      const mixed = values.map((value, j) => value + (target[j] - value) * i / 100);
+      if (contrast(mixed, background) >= 4.6) return hex(mixed);
+    }
+    return hex(target);
+  }
+  function applyColor(color) {
+    const values = rgb(color), black = [0, 0, 0], white = [255, 255, 255];
+    root.style.setProperty('--accent', color);
+    root.style.setProperty('--accent-on-light', readable(values, [245, 245, 244], black));
+    root.style.setProperty('--accent-on-dark', readable(values, [36, 36, 36], white));
+    root.style.setProperty('--accent-text', contrast(values, black) >= contrast(values, white) ? '#000000' : '#ffffff');
+    picker.value = color;
+    try { localStorage.setItem('nova-accent-color', color); } catch (_) { /* 색상은 현재 화면에 유지됩니다. */ }
+  }
+  let saved = defaultColor;
+  try { saved = localStorage.getItem('nova-accent-color') || defaultColor; } catch (_) { /* 저장소를 사용할 수 없으면 기본색을 사용합니다. */ }
+  applyColor(/^#[0-9a-f]{6}$/i.test(saved) ? saved : defaultColor);
+  picker.addEventListener('input', event => applyColor(event.target.value));
+  document.getElementById('reset-color').addEventListener('click', () => applyColor(defaultColor));
+})();
+</script>
+</body>
+</html>
