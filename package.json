@@ -1,0 +1,16 @@
+{
+  "name": "idenflu-nova-brochure",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "dev": "node scripts/build.mjs --serve"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "pretendard": "^1.3.9"
+  }
+}

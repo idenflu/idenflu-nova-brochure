@@ -1,0 +1,28 @@
+{
+  "lang": "en",
+  "output": "en/index.html",
+  "languageName": "English",
+  "languageShort": "EN",
+  "meta": {
+    "title": "IDENFLU | NOVA Logistics Automation Platform",
+    "description": "NOVA is an integrated WES/WCS platform that turns logistics operating decisions into task execution, system integration and equipment control. An introduction to IDENFLU's logistics automation solution.",
+    "ogLocale": "en_US",
+    "ogImage": "og-image-en.png",
+    "ogTitle": "NOVA Logistics Automation Platform | IDENFLU",
+    "ogDescription": "NOVA, the integrated WES/WCS platform that connects logistics operating decisions to task execution, system integration and equipment control.",
+    "ogImageAlt": "Beyond equipment, control the flow. — NOVA integrated WES/WCS platform"
+  },
+  "ui": {
+    "deck": "Introducing the NOVA logistics automation platform",
+    "controls": "Slide controls",
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "overview": "Slide overview",
+    "overviewTitle": "NOVA at a glance",
+    "overviewHint": "Choose a slide to jump to.",
+    "overviewClose": "Close overview",
+    "fullscreen": "Full screen",
+    "fullscreenExit": "Exit full screen",
+    "fullscreenUnavailable": "Full screen is not available in this browser."
+  }
+}
