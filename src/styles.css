@@ -286,12 +286,14 @@ button { font: inherit; }
 .offering-card:last-child { border-color: var(--accent-ink); }
 .offering-card h3 { margin: 12px 0 22px; font-size: 22px; font-weight: 500; }
 .offering-visual { padding: 12px 6px; background: var(--surface); border: 1px solid #e2e9f3; border-radius: 5px; }
-.offering-visual svg { display: block; width: 100%; height: 204px; }
-.offering-summary { margin-top: 20px; color: var(--accent-ink); font-size: 15px; }
-.offering-roles { display: grid; gap: 10px; margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; line-height: 1.7; }
-.offering-roles div { display: grid; grid-template-columns: 68px 1fr; gap: 8px; }
-.offering-roles dt { color: var(--subtle); }
-.offering-roles dd { margin: 0; color: var(--muted); }
+.offering-visual svg { display: block; width: 100%; height: 156px; }
+/* Delivery layers: same three rows in every option; filled rows are provided by IDENFLU. */
+.offering-layers { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
+.offering-layers li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 12px; min-height: 44px; padding: 8px 12px; border: 1px dashed #c9d4e3; border-radius: 4px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.offering-layers li.is-provided { border-style: solid; border-color: #c6d7ef; background: #eef4fd; color: #3d5a82; }
+.layer-name { color: var(--ink); font-size: 13px; font-weight: 600; }
+.layer-owner { padding: 2px 9px; border: 1px solid #c9d4e3; border-radius: 10px; color: var(--subtle); font-size: 11px; white-space: nowrap; }
+.is-provided .layer-owner { border-color: var(--accent-ink); background: var(--accent-ink); color: #fff; }
 .reference-grid { margin-top: 32px; }
 .reference-card { min-width: 0; }
 .reference-card .example-media { height: 180px; }
