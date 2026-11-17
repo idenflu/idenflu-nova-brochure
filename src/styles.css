@@ -316,11 +316,14 @@ button { font: inherit; }
 .acceptance-bar > div { display: flex; justify-content: space-between; gap: 24px; color: var(--muted); font-size: 14px; }
 
 /* Feature categories and replaceable product screenshot areas. */
-.workspace-categories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; margin-top: 32px; }
-.workspace-category { padding: 24px 26px; border: 1px solid var(--line); }
-.workspace-category h3 { margin: 12px 0 10px; font-size: 21px; font-weight: 500; }
-.workspace-category p { color: var(--muted); font-size: 14px; line-height: 1.8; }
-.workspace-category small { display: block; margin-top: 14px; color: var(--subtle); font-size: 12px; }
+/* Workspace overview: representative screen on the left, feature categories listed on the right. */
+.workspace-overview { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; flex: 1; min-height: 0; margin-top: 32px; }
+.workspace-hero.example-media { height: 100%; }
+.workspace-features { display: grid; grid-template-columns: auto max-content minmax(0, 1fr); grid-template-rows: repeat(6, 1fr); margin: 0; padding: 0; border-bottom: 1px solid var(--line); list-style: none; }
+.workspace-features li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 18px; padding: 10px 0; border-top: 1px solid var(--line); }
+.workspace-features h3 { font-size: 18px; font-weight: 500; }
+.workspace-features p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.workspace-features small { display: block; margin-top: 3px; color: var(--subtle); font-size: 12px; }
 .example-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; margin-top: 32px; }
 .example-media { display: grid; place-items: center; height: 174px; overflow: hidden; border: 1px dashed #c5d2e5; background: var(--surface); }
 .example-placeholder { display: grid; justify-items: center; gap: 10px; color: #7a8da8; font-size: 12px; letter-spacing: .03em; }
@@ -402,7 +405,7 @@ button { font: inherit; }
   .hero, .closing-layout, .three-col, .four-col, .architecture,
   .execution-split, .operation-views, .workflow, .foundation-layout,
   .domain-modules, .detail-split, .wcs-flow, .boundary-grid,
-  .integration-path, .contract-grid, .workspace-categories, .product-layout,
+  .integration-path, .contract-grid, .workspace-overview, .product-layout,
   .comparison-grid, .example-gallery, .adoption-layout, .roadmap, .metric-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
@@ -425,7 +428,7 @@ button { font: inherit; }
   .platform-label, .app-titlebar, .scene-caption { flex-wrap: wrap; gap: 8px; }
   .pain-card, .suite-card, .detail-panel, .edge-panel, .equipment-card,
   .channel-card, .adoption-card, .comparison-card, .metric-card,
-  .workspace-category, .brief-panel { padding: 22px 20px; }
+  .brief-panel { padding: 22px 20px; }
   .pain-card, .workflow-step { min-height: 0; }
   .workflow { gap: 32px; }
   .workflow-step:not(:last-child)::after { top: auto; right: auto; bottom: -29px; left: calc(50% - 10px); transform: rotate(90deg); }
@@ -434,7 +437,10 @@ button { font: inherit; }
   .base-layer { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .studio-scene { height: 240px; padding: 0 12px; }
   .dimension-figure svg { max-width: 100%; height: auto; }
-  .workspace-examples .example-media { height: auto; aspect-ratio: 16 / 10; }
+  .workspace-examples .example-media, .workspace-hero.example-media { height: auto; aspect-ratio: 16 / 10; }
+  .workspace-features { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: none; }
+  .workspace-features li { align-items: baseline; gap: 4px 12px; padding: 14px 0; }
+  .workspace-features li > div { grid-column: 2; }
   .adoption-tags, .expertise-line, .acceptance-bar > div { flex-wrap: wrap; gap: 12px; }
   .configuration { flex-direction: column; }
   .configuration > span { transform: rotate(90deg); }
