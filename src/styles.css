@@ -336,11 +336,13 @@ button { font: inherit; }
 .studio-examples .example-media { height: auto; aspect-ratio: 16 / 9; }
 .studio-examples .example-caption { margin-top: 20px; }
 .studio-examples .example-caption h3 { font-size: 21px; }
-.studio-video { width: 760px; max-width: 100%; margin: 24px auto 0; }
+/* Three video slots, vertically centred between the heading and the note. */
+.studio-videos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: auto; padding-top: 32px; }
+.studio-video-item .example-caption { margin-top: 16px; }
 .studio-video-media { display: grid; place-items: center; aspect-ratio: 16 / 9; overflow: hidden; border: 1px dashed #c5d2e5; background: var(--surface); }
 .studio-video-media video, .studio-video-media iframe { display: block; width: 100%; height: 100%; border: 0; object-fit: contain; }
 .studio-video-media .example-placeholder { gap: 16px; }
-.studio-video-media svg { width: 48px; height: 48px; }
+.studio-video-media svg { width: 40px; height: 40px; }
 .studio-video-media small { color: var(--subtle); font-size: 10px; letter-spacing: .14em; }
 .workspace-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 36px; }
 .workspace-examples .example-media { height: 330px; }
@@ -406,7 +408,7 @@ button { font: inherit; }
   .execution-split, .operation-views, .workflow, .foundation-layout,
   .domain-modules, .detail-split, .wcs-flow, .boundary-grid,
   .integration-path, .contract-grid, .workspace-overview, .product-layout,
-  .comparison-grid, .example-gallery, .adoption-layout, .roadmap, .metric-grid {
+  .comparison-grid, .example-gallery, .adoption-layout, .roadmap, .metric-grid, .studio-videos {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
   }
