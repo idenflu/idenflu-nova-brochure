@@ -87,7 +87,11 @@ partial 안의 `{{aria-label}}`처럼 `{{이름}}`으로 적힌 자리가 넘긴
 
 ## 배포
 
-`npm run build` 후 `dist/` 폴더 전체를 정적 호스팅에 올립니다(GitHub Pages, Netlify, S3 등). `#slide-N` 해시 주소를 쓰므로 서버 리라이트 설정은 필요 없습니다.
+`main`에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 `dist/`를 빌드해 GitHub Pages에 배포합니다. Actions 탭에서 수동으로 실행할 수도 있습니다(workflow_dispatch).
+
+처음 한 번은 저장소 **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 바꿔야 합니다.
+
+다른 정적 호스팅(Netlify, S3 등)을 쓸 때는 `npm run build` 후 `dist/` 폴더 전체를 올리면 됩니다. `#slide-N` 해시 주소를 쓰므로 서버 리라이트 설정은 필요 없습니다.
 
 배포 주소가 정해지면 아래를 절대 주소로 바꾸세요. 대부분의 메신저·SNS 미리보기와 검색엔진은 상대 경로를 제대로 읽지 못합니다.
 
