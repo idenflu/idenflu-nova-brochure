@@ -1,6 +1,7 @@
 {
   "name": "idenflu-nova-brochure",
   "private": true,
+  "homepage": "https://idenflu.github.io/idenflu-nova-brochure/",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",

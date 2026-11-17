@@ -77,11 +77,31 @@ function copyFonts() {
 
 const relativeUrl = (from, to) => path.posix.relative(path.posix.dirname(from), to) || path.posix.basename(to);
 
+// Public address of dist/ ("homepage" in package.json, or SITE_URL). Link previews, canonical and
+// hreflang need absolute URLs; without one the build falls back to relative links.
+const siteUrl = process.env.SITE_URL || JSON.parse(read(path.join(root, 'package.json'))).homepage || '';
+const pageUrl = output => new URL(output.replace(/(^|\/)index\.html$/, '$1'), siteUrl).href;
+
+function headLinks(locale, locales) {
+  if (!siteUrl) {
+    return locales.filter(other => other !== locale)
+      .map(other => `<link rel="alternate" hreflang="${other.lang}" href="${escapeHtml(relativeUrl(locale.output, other.output))}">\n`)
+      .join('');
+  }
+  const links = [
+    `<link rel="canonical" href="${escapeHtml(pageUrl(locale.output))}">`,
+    `<meta property="og:url" content="${escapeHtml(pageUrl(locale.output))}">`,
+  ];
+  if (locales.length > 1) {
+    links.push(...locales.map(other => `<link rel="alternate" hreflang="${other.lang}" href="${escapeHtml(pageUrl(other.output))}">`));
+    links.push(`<link rel="alternate" hreflang="x-default" href="${escapeHtml(pageUrl(locales[0].output))}">`);
+  }
+  return links.map(link => `${link}\n`).join('');
+}
+
 function languageBlocks(locale, locales) {
   const others = locales.filter(other => other !== locale);
-  const alternates = others
-    .map(other => `<link rel="alternate" hreflang="${other.lang}" href="${escapeHtml(relativeUrl(locale.output, other.output))}">\n`)
-    .join('');
+  const alternates = headLinks(locale, locales);
   const links = others.map(other => `  <a class="language-button" href="${escapeHtml(relativeUrl(locale.output, other.output))}" hreflang="${other.lang}" lang="${other.lang}" aria-label="${escapeHtml(other.languageName)}" title="${escapeHtml(other.languageName)}">${escapeHtml(other.languageShort)}</a>\n`);
   const languageSwitch = links.length ? `  <i class="control-divider" aria-hidden="true"></i>\n${links.join('')}` : '';
   return { alternates, languageSwitch };
@@ -105,7 +125,9 @@ function build() {
       .map(file => expandIncludes(read(path.join(slideDir, file)), `slides/${locale.lang}/${file}`))
       .join('');
     const depth = locale.output.split('/').length - 1;
-    const data = { ...locale, base: '../'.repeat(depth) };
+    const base = '../'.repeat(depth);
+    const ogImageUrl = siteUrl ? new URL(locale.meta.ogImage, siteUrl).href : base + locale.meta.ogImage;
+    const data = { ...locale, base, ogImageUrl };
     const i18n = JSON.stringify(locale.ui).replaceAll('<', '\\u003c');
     const raw = { styles, viewer, slides, i18n, ...languageBlocks(locale, locales) };
     const html = render(template, data, raw, `locale ${locale.lang}`);

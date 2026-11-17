@@ -93,10 +93,7 @@ partial 안의 `{{aria-label}}`처럼 `{{이름}}`으로 적힌 자리가 넘긴
 
 다른 정적 호스팅(Netlify, S3 등)을 쓸 때는 `npm run build` 후 `dist/` 폴더 전체를 올리면 됩니다. `#slide-N` 해시 주소를 쓰므로 서버 리라이트 설정은 필요 없습니다.
 
-배포 주소가 정해지면 아래를 절대 주소로 바꾸세요. 대부분의 메신저·SNS 미리보기와 검색엔진은 상대 경로를 제대로 읽지 못합니다.
-
-- `src/template.html`의 `og:image` (예: `https://<도메인>/og-image.png`). 같은 위치에 `og:url`도 추가합니다.
-- `scripts/build.mjs`가 만드는 `<link rel="alternate" hreflang>` 주소
+공유 미리보기(`og:image`, `og:url`), `canonical`, `hreflang`은 `package.json`의 `homepage`(현재 `https://idenflu.github.io/idenflu-nova-brochure/`)를 기준으로 절대 주소로 만들어집니다. 대부분의 메신저·SNS 미리보기와 검색엔진은 상대 경로를 제대로 읽지 못하기 때문입니다. 배포 주소가 바뀌면(사용자 지정 도메인 등) `homepage`를 고치거나 빌드할 때 `SITE_URL=https://… npm run build`로 덮어쓰세요.
 
 ### 공유 미리보기 이미지 다시 만들기
 
