@@ -78,7 +78,13 @@
         span.append(...link.childNodes);
         link.replaceWith(span);
       });
-      copy.querySelectorAll('iframe, video').forEach(media => media.replaceWith(document.createElement('span')));
+      copy.querySelectorAll('video[poster]').forEach(video => {
+        const poster = document.createElement('img');
+        poster.src = video.poster;
+        poster.alt = '';
+        video.replaceWith(poster);
+      });
+      copy.querySelectorAll('iframe, video, audio').forEach(media => media.remove());
       frame.append(copy);
       overviewItems[index].prepend(frame);
     });
@@ -166,6 +172,7 @@
     languageLinks.forEach(link => { link.hash = `#slide-${target + 1}`; });
     if (target === current) return;
     const moveFocus = slides[current].contains(document.activeElement);
+    slides[current].querySelectorAll('video, audio').forEach(media => media.pause());
     slides[current].classList.remove('is-entering');
     slides[current].hidden = true;
     current = target;
@@ -183,7 +190,7 @@
   previous.addEventListener('click', () => showSlide(current - 1));
   next.addEventListener('click', () => showSlide(current + 1));
   document.addEventListener('keydown', event => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('video, audio, input, textarea, select, [contenteditable="true"]')) return;
     if (overview.open) return;
     if (event.key.toLowerCase() === 'o') { event.preventDefault(); openOverview(); return; }
     if (event.key.toLowerCase() === 'f' && !fullscreenButton.disabled) { event.preventDefault(); toggleFullscreen(); return; }
@@ -201,7 +208,7 @@
   let wheelLocked = false;
   let wheelReset;
   document.addEventListener('wheel', event => {
-    if (event.ctrlKey || overview.open || readingLayout.matches) return;
+    if (event.ctrlKey || overview.open || readingLayout.matches || event.target.closest('video, audio')) return;
     event.preventDefault();
     clearTimeout(wheelReset);
     wheelReset = setTimeout(() => { wheelDelta = 0; wheelLocked = false; }, 180);
@@ -218,7 +225,7 @@
 
   let touchStart;
   deck.addEventListener('touchstart', event => {
-    touchStart = !overview.open && event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+    touchStart = !overview.open && !event.target.closest('video, audio') && event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
   }, { passive: true });
   deck.addEventListener('touchend', event => {
     if (!touchStart || event.touches.length || event.changedTouches.length !== 1) return;

@@ -27,7 +27,7 @@ src/
   slides/ko/NN-이름.html   슬라이드 한 장 = 파일 하나 (파일명 순서대로 이어 붙임)
   slides/en/NN-이름.html
   partials/*.svg       여러 슬라이드에서 쓰는 큰 일러스트
-public/                그대로 dist/에 복사되는 정적 파일 (파비콘, 공유 미리보기 이미지)
+public/                그대로 dist/에 복사되는 정적 파일 (브랜드·공유 이미지, 제품 화면, 시연 영상)
 scripts/build.mjs      빌드 스크립트
 dist/                  빌드 결과 (git에 올리지 않음)
   index.html           한국어
@@ -49,6 +49,7 @@ dist/                  빌드 결과 (git에 올리지 않음)
 - 목차 상단에서 제품 구성, 도입 사례, 문의 슬라이드로 바로 이동할 수 있습니다.
 - 화면 폭 900px 이하에서는 세로로 스크롤되는 읽기 모드로 바뀌고, 목차 목록에는 제목만 표시됩니다.
 - 슬라이드를 차례로 넘길 때는 브라우저 기록이 쌓이지 않습니다. 목차에서 이동하거나 Home/End로 점프할 때만 기록이 남으므로, 뒤로가기는 직전에 보던 위치나 덱 이전 페이지로 돌아갑니다.
+- 영상에 포커스가 있으면 방향키와 스페이스는 영상에서 동작합니다. 다른 장으로 이동하면 재생이 멈춥니다.
 - 브라우저 인쇄(⌘P / Ctrl+P)로 슬라이드 한 장당 한 쪽(1440×810)인 PDF를 만들 수 있습니다.
 
 ## 슬라이드 추가 · 수정
@@ -59,7 +60,7 @@ dist/                  빌드 결과 (git에 올리지 않음)
 <section class="page" aria-labelledby="example-title" tabindex="-1" aria-roledescription="슬라이드" hidden>
   <header class="topline">…</header>
   <div class="content"> … <h2 id="example-title">제목</h2> … </div>
-  <footer class="footer"><span>IDENFLU · COMPANY &amp; SOLUTIONS</span><span class="footer-topic">TOPIC</span><span class="footer-page"></span></footer>
+  <footer class="footer"><span class="footer-page"></span></footer>
 </section>
 ```
 

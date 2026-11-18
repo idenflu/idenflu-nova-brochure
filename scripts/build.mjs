@@ -188,7 +188,24 @@ if (serve) {
     if (!file.startsWith(dist)) { res.writeHead(403).end(); return; }
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
     if (!fs.existsSync(file)) { res.writeHead(404).end('Not found'); return; }
-    res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-    fs.createReadStream(file).pipe(res);
+    const size = fs.statSync(file).size;
+    const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'Content-Length': size, 'Accept-Ranges': 'bytes' };
+    // Native video controls request byte ranges when seeking, including on a local preview.
+    const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? '');
+    let bounds;
+    if (req.method === 'GET' && range && (range[1] || range[2])) {
+      const start = range[1] ? Number(range[1]) : Math.max(0, size - Number(range[2]));
+      const end = range[1] && range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+      if (start > end || start >= size) {
+        res.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
+        return;
+      }
+      bounds = { start, end };
+      headers['Content-Length'] = end - start + 1;
+      headers['Content-Range'] = `bytes ${start}-${end}/${size}`;
+    }
+    res.writeHead(bounds ? 206 : 200, headers);
+    if (req.method === 'HEAD') res.end();
+    else fs.createReadStream(file, bounds).on('error', () => res.destroy()).pipe(res);
   }).listen(port, () => console.log(`serving dist/ at http://localhost:${port}`));
 }
