@@ -58,9 +58,36 @@ function loadLocales() {
   return fs.readdirSync(path.join(src, 'locales'))
     .filter(file => file.endsWith('.json'))
     .map(file => JSON.parse(read(path.join(src, 'locales', file))))
-    .filter(locale => fs.existsSync(path.join(src, 'slides', locale.lang)))
     // The default locale (output index.html at the root) is listed first.
     .sort((a, b) => a.output.split('/').length - b.output.split('/').length || a.lang.localeCompare(b.lang));
+}
+
+function listSlideFiles(locale) {
+  return fs.readdirSync(path.join(src, 'slides', locale.lang))
+    .filter(file => file.endsWith('.html')).sort();
+}
+
+function validateSlideFiles(locales) {
+  const [defaultLocale, ...translations] = locales;
+  if (!defaultLocale) throw new Error('No locales configured');
+
+  const slideFiles = listSlideFiles(defaultLocale);
+  if (!slideFiles.length) throw new Error(`slides/${defaultLocale.lang}: no HTML slides`);
+  const expected = new Set(slideFiles);
+
+  // Language links preserve the slide number, so every deck must have the same files.
+  for (const locale of translations) {
+    const actual = new Set(listSlideFiles(locale));
+    const missing = slideFiles.filter(file => !actual.has(file));
+    const extra = [...actual].filter(file => !expected.has(file));
+    const differences = [];
+    if (missing.length) differences.push(`missing [${missing.join(', ')}]`);
+    if (extra.length) differences.push(`extra [${extra.join(', ')}]`);
+    if (differences.length) {
+      throw new Error(`slides/${locale.lang} differs from slides/${defaultLocale.lang}: ${differences.join(', ')}`);
+    }
+  }
+  return slideFiles;
 }
 
 // Pretendard (SIL OFL 1.1) is self-hosted. The dynamic-subset build splits the font by
@@ -113,6 +140,7 @@ function build() {
   const styles = read(path.join(src, 'styles.css'));
   const viewer = read(path.join(src, 'viewer.js'));
   const locales = loadLocales();
+  const slideFiles = validateSlideFiles(locales);
 
   fs.rmSync(dist, { recursive: true, force: true });
   fs.mkdirSync(dist, { recursive: true });
@@ -121,7 +149,7 @@ function build() {
 
   for (const locale of locales) {
     const slideDir = path.join(src, 'slides', locale.lang);
-    const slides = fs.readdirSync(slideDir).filter(file => file.endsWith('.html')).sort()
+    const slides = slideFiles
       .map(file => expandIncludes(read(path.join(slideDir, file)), `slides/${locale.lang}/${file}`))
       .join('');
     const depth = locale.output.split('/').length - 1;

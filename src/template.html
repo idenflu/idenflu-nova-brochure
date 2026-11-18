@@ -27,14 +27,22 @@
 {{{slides}}}</main>
 <nav class="slide-controls" aria-label="{{ui.controls}}">
   <button id="previous-slide" type="button" aria-label="{{ui.previous}}" title="{{ui.previous}} (← / Page Up)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button>
-  <button id="open-overview" class="position-button" type="button" aria-label="{{ui.overview}}" aria-haspopup="dialog" title="{{ui.overview}} (O)"><span id="slide-position" aria-live="polite" aria-atomic="true"></span></button>
+  <button id="open-overview" class="position-button" type="button" aria-label="{{ui.overview}}" aria-haspopup="dialog" aria-controls="slide-overview" title="{{ui.overview}} (O)">
+    <span class="position-label">{{ui.overviewButton}}</span>
+    <span id="slide-position" aria-live="polite" aria-atomic="true"></span>
+  </button>
   <button id="next-slide" type="button" aria-label="{{ui.next}}" title="{{ui.next}} (→ / Page Down)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
   <i class="control-divider" aria-hidden="true"></i>
   <button id="fullscreen-toggle" type="button" aria-label="{{ui.fullscreen}}" aria-pressed="false" title="{{ui.fullscreen}} (F)"><svg class="fullscreen-enter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg><svg class="fullscreen-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h4V4m12 4h-4V4M8 20v-4H4m12 4v-4h4"/></svg></button>
 {{{languageSwitch}}}</nav>
 <dialog id="slide-overview" class="overview-dialog" aria-labelledby="overview-title">
   <div class="overview-heading"><div><h2 id="overview-title">{{ui.overviewTitle}}</h2><p>{{ui.overviewHint}}</p></div><button id="close-overview" class="overview-close" type="button" aria-label="{{ui.overviewClose}}">×</button></div>
-  <div id="overview-grid" class="overview-grid"></div>
+  <div class="overview-shortcuts">
+    <button type="button" data-overview-target="positioning-title">{{ui.overviewProducts}}</button>
+    <button type="button" data-overview-target="references-title">{{ui.overviewReferences}}</button>
+    <button type="button" data-overview-target="contact-title">{{ui.overviewContact}}</button>
+  </div>
+  <div class="overview-scroll"><div id="overview-grid" class="overview-grid"></div></div>
 </dialog>
 <div id="viewer-message" class="viewer-message" role="status" hidden></div>
 <script id="deck-i18n" type="application/json">{{{i18n}}}</script>

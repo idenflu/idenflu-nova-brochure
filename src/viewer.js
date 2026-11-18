@@ -23,6 +23,21 @@
   });
   position.textContent = pageLabel(current);
 
+  function jumpFromOverview(index) {
+    // Deliberate jumps get their own history entry.
+    showSlide(index, { historyMode: 'push' });
+    overview.close();
+  }
+
+  overview.querySelectorAll('[data-overview-target]').forEach(button => {
+    const index = slides.findIndex(slide => slide.getAttribute('aria-labelledby') === button.dataset.overviewTarget);
+    if (index === -1) {
+      button.remove();
+      return;
+    }
+    button.addEventListener('click', () => jumpFromOverview(index));
+  });
+
   const overviewItems = slides.map((slide, index) => {
     const item = document.createElement('button');
     item.type = 'button';
@@ -35,8 +50,7 @@
     heading.querySelectorAll('br').forEach(br => br.replaceWith(' '));
     title.textContent = heading.textContent;
     item.append(number, title);
-    // Jumping from the overview is a deliberate move, so it gets its own history entry.
-    item.addEventListener('click', () => { showSlide(index, { historyMode: 'push' }); overview.close(); });
+    item.addEventListener('click', () => jumpFromOverview(index));
     overviewGrid.append(item);
     return item;
   });
@@ -79,7 +93,6 @@
   function openOverview() {
     buildThumbnails();
     overview.showModal();
-    overviewItems[current].focus({ preventScroll: true });
     overviewItems[current].scrollIntoView({ block: 'nearest' });
   }
   overviewButton.addEventListener('click', openOverview);
