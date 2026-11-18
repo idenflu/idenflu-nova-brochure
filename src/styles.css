@@ -37,7 +37,8 @@ button { font: inherit; }
 .brand i { width: 1px; height: 14px; background: var(--line); }
 .brand b { color: var(--subtle); font-size: 12px; font-weight: 500; letter-spacing: .06em; }
 .branded-topline { min-height: 36px; }
-.nova-brand { display: inline-flex; align-items: center; gap: 8px; font-size: 21px; line-height: 1; font-weight: 600; }
+.branded-topline .brand > img { height: auto; }
+.nova-brand { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; line-height: 1; font-weight: 500; letter-spacing: .04em; }
 .nova-brand img { filter: brightness(1.35); }
 .footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex: none; height: 36px; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--line); font-size: 10px; color: var(--subtle); letter-spacing: .05em; }
 .footer-topic { margin-left: auto; margin-right: 28px; }
