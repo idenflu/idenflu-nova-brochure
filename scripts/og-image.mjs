@@ -38,15 +38,20 @@ const locales = fs.readdirSync(path.join(src, 'locales'))
 
 const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'nova-og-'));
 try {
+  // Capture all locales before writing into public/, so an active `npm run dev` watcher
+  // rebuilding dist/ on public/ changes cannot remove dist/en/index.html mid-run.
+  const pending = [];
   for (const locale of locales) {
     const ogImage = locale.meta?.ogImage;
     if (!ogImage) continue;
     const raw = path.join(tmpDir, `${locale.lang}.png`);
-    const out = path.join(publicDir, ogImage);
+    const cropped = path.join(tmpDir, `${locale.lang}-og.png`);
     const url = `${pathToFileURL(path.join(dist, locale.output)).href}#slide-1`;
 
     execFileSync(chrome, [
       '--headless=new',
+      '--no-first-run',
+      `--user-data-dir=${path.join(tmpDir, `profile-${locale.lang}`)}`,
       '--hide-scrollbars',
       '--force-device-scale-factor=1',
       '--window-size=1440,888',
@@ -59,9 +64,13 @@ try {
       '-c',
       'import sys; from PIL import Image; Image.open(sys.argv[1]).convert("RGB").crop((0,27,1440,783)).resize((1200,630), Image.LANCZOS).save(sys.argv[2], optimize=True)',
       raw,
-      out,
+      cropped,
     ], { stdio: 'inherit' });
 
+    pending.push({ cropped, ogImage });
+  }
+  for (const { cropped, ogImage } of pending) {
+    fs.copyFileSync(cropped, path.join(publicDir, ogImage));
     console.log(`updated public/${ogImage}`);
   }
 } finally {
