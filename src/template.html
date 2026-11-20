@@ -23,6 +23,7 @@
 {{{styles}}}</style>
 </head>
 <body>
+<div class="deck-progress" aria-hidden="true"><span id="deck-progress-bar"></span></div>
 <main class="deck" aria-label="{{ui.deck}}">
 {{{slides}}}</main>
 <nav class="slide-controls" aria-label="{{ui.controls}}">
@@ -34,16 +35,23 @@
   <button id="next-slide" type="button" aria-label="{{ui.next}}" title="{{ui.next}} (→ / Page Down)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg></button>
   <i class="control-divider" aria-hidden="true"></i>
   <button id="fullscreen-toggle" type="button" aria-label="{{ui.fullscreen}}" aria-pressed="false" title="{{ui.fullscreen}} (F)"><svg class="fullscreen-enter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg><svg class="fullscreen-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h4V4m12 4h-4V4M8 20v-4H4m12 4v-4h4"/></svg></button>
-  <button id="print-deck" type="button" aria-label="{{ui.print}}" title="{{ui.print}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4M6 17H4v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6h-2"/><path d="M7 14h10v6H7z"/></svg></button>
+  <button id="copy-slide-link" type="button" aria-label="{{ui.copyLink}}" title="{{ui.copyLink}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+  <button id="print-deck" type="button" aria-label="{{ui.print}}" title="{{ui.print}} (P)"{{{pdfAttr}}}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8V4h10v4M6 17H4v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6h-2"/><path d="M7 14h10v6H7z"/></svg></button>
 {{{languageSwitch}}}</nav>
 <dialog id="slide-overview" class="overview-dialog" aria-labelledby="overview-title">
   <div class="overview-heading"><div><h2 id="overview-title">{{ui.overviewTitle}}</h2><p>{{ui.overviewHint}}</p></div><button id="close-overview" class="overview-close" type="button" aria-label="{{ui.overviewClose}}">×</button></div>
   <div class="overview-shortcuts">
     <button type="button" data-overview-target="positioning-title">{{ui.overviewProducts}}</button>
+    <button type="button" data-overview-target="workspace-title">{{ui.overviewWorkspace}}</button>
+    <button type="button" data-overview-target="studio-title">{{ui.overviewStudio}}</button>
     <button type="button" data-overview-target="references-title">{{ui.overviewReferences}}</button>
     <button type="button" data-overview-target="contact-title">{{ui.overviewContact}}</button>
   </div>
   <div class="overview-scroll"><div id="overview-grid" class="overview-grid"></div></div>
+</dialog>
+<dialog id="image-lightbox" class="lightbox-dialog" aria-label="{{ui.zoomImage}}">
+  <div class="lightbox-bar"><p id="lightbox-caption"></p><button id="close-lightbox" class="overview-close" type="button" aria-label="{{ui.closeLightbox}}">×</button></div>
+  <div class="lightbox-stage"><img id="lightbox-image" alt=""></div>
 </dialog>
 <div id="viewer-message" class="viewer-message" role="status" hidden></div>
 <script id="deck-i18n" type="application/json">{{{i18n}}}</script>

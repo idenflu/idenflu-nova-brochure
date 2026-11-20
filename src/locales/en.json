@@ -20,16 +20,25 @@
     "overview": "Slide contents",
     "overviewButton": "Contents",
     "overviewTitle": "NOVA at a glance",
-    "overviewHint": "Choose a slide to jump to.",
+    "overviewHint": "Choose a slide to jump to. (← → navigate · O contents · F full screen · P print)",
     "overviewClose": "Close overview",
     "overviewProducts": "Product lineup",
+    "overviewWorkspace": "Workspace",
+    "overviewStudio": "Studio",
     "overviewReferences": "Case studies",
     "overviewContact": "Contact",
     "fullscreen": "Full screen",
     "fullscreenExit": "Exit full screen",
     "fullscreenUnavailable": "Full screen is not available in this browser.",
     "print": "Save PDF · Print",
+    "pdfDownload": "Download PDF",
+    "copyLink": "Copy slide link",
+    "linkCopied": "Slide link copied.",
+    "linkCopyFailed": "Could not copy the link.",
     "emailCopied": "Email address copied.",
-    "emailCopyFailed": "Could not copy the email address."
+    "emailCopyFailed": "Could not copy the email address.",
+    "nextSlideLabel": "Next slide",
+    "zoomImage": "Enlarge image",
+    "closeLightbox": "Close"
   }
 }

@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:public": "node scripts/build.mjs --public-only",
+    "build:pdf": "node scripts/build-pdf.mjs",
     "check": "node scripts/check.mjs",
     "og": "node scripts/og-image.mjs",
     "watch": "node scripts/build.mjs --watch",

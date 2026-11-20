@@ -23,6 +23,8 @@ const dist = path.join(root, 'dist');
 const args = new Set(process.argv.slice(2));
 const serve = args.has('--serve');
 const watch = serve || args.has('--watch');
+const publicOnly = args.has('--public-only') || process.env.PUBLIC_ONLY === '1';
+const withPdf = args.has('--with-pdf') || process.env.WITH_PDF === '1';
 
 const read = file => fs.readFileSync(file, 'utf8');
 const escapeHtml = value => String(value)
@@ -149,21 +151,26 @@ function build() {
 
   for (const locale of locales) {
     const slideDir = path.join(src, 'slides', locale.lang);
-    const slides = slideFiles
+    const slideHtmls = slideFiles
       .map(file => expandIncludes(read(path.join(slideDir, file)), `slides/${locale.lang}/${file}`))
-      .join('');
+      .filter(html => !publicOnly || !html.includes('example-placeholder'));
+    if (!slideHtmls.length) throw new Error(`slides/${locale.lang}: no slides remaining after filtering`);
+    slideHtmls[0] = slideHtmls[0].replace(/(<section\b[^>]*?)\s+hidden(?=[\s>])/, '$1');
+    const slides = slideHtmls.join('');
     const depth = locale.output.split('/').length - 1;
     const base = '../'.repeat(depth);
     const ogImageUrl = siteUrl ? new URL(locale.meta.ogImage, siteUrl).href : base + locale.meta.ogImage;
     const data = { ...locale, base, ogImageUrl };
     const i18n = JSON.stringify(locale.ui).replaceAll('<', '\\u003c');
-    const raw = { styles, viewer, slides, i18n, ...languageBlocks(locale, locales) };
+    const pdfAttr = withPdf ? ` data-pdf="${escapeHtml(`${base}nova-brochure-${locale.lang}.pdf`)}"` : '';
+    const raw = { styles, viewer, slides, i18n, pdfAttr, ...languageBlocks(locale, locales) };
     const html = render(template, data, raw, `locale ${locale.lang}`);
     const out = path.join(dist, locale.output);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
   }
-  console.log(`built ${locales.map(l => l.output).join(', ')} in ${Math.round(performance.now() - started)}ms`);
+  const mode = [publicOnly && 'public-only', withPdf && 'with-pdf'].filter(Boolean).join(', ');
+  console.log(`built ${locales.map(l => l.output).join(', ')}${mode ? ` (${mode})` : ''} in ${Math.round(performance.now() - started)}ms`);
 }
 
 function safeBuild() {
@@ -181,7 +188,7 @@ if (watch) {
 }
 
 if (serve) {
-  const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.json': 'application/json', '.mp4': 'video/mp4', '.webp': 'image/webp' };
+  const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.json': 'application/json', '.mp4': 'video/mp4', '.webp': 'image/webp', '.pdf': 'application/pdf' };
   const port = Number(process.env.PORT) || 5173;
   http.createServer((req, res) => {
     let file = path.join(dist, decodeURIComponent(new URL(req.url, 'http://x').pathname));

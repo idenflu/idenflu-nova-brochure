@@ -4,11 +4,17 @@
   const previous = document.getElementById('previous-slide');
   const next = document.getElementById('next-slide');
   const position = document.getElementById('slide-position');
+  const progressBar = document.getElementById('deck-progress-bar');
+  const controls = document.querySelector('.slide-controls');
   const overview = document.getElementById('slide-overview');
   const overviewGrid = document.getElementById('overview-grid');
   const overviewButton = document.getElementById('open-overview');
   const fullscreenButton = document.getElementById('fullscreen-toggle');
+  const copyLinkButton = document.getElementById('copy-slide-link');
   const printButton = document.getElementById('print-deck');
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxCaption = document.getElementById('lightbox-caption');
   const feedback = document.getElementById('viewer-message');
   const languageLinks = [...document.querySelectorAll('.language-button')];
   const readingLayout = window.matchMedia('screen and (max-width: 900px)');
@@ -23,6 +29,33 @@
     feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 3500);
   }
 
+  async function copyText(text) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const input = document.createElement('textarea');
+    input.value = text;
+    input.setAttribute('readonly', '');
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.append(input);
+    input.select();
+    const ok = document.execCommand('copy');
+    input.remove();
+    if (!ok) throw new Error('copy failed');
+  }
+
+  function slideTitle(slide) {
+    const heading = slide.querySelector('h1, h2').cloneNode(true);
+    heading.querySelectorAll('br').forEach(br => br.replaceWith(' '));
+    return heading.textContent.replace(/\s+/g, ' ').trim();
+  }
+
+  function slideChapter(slide) {
+    return slide.querySelector('.topline > span:last-child')?.textContent.trim() || '';
+  }
+
   // Page labels are derived from slide order so slides can be added or reordered freely.
   const pageLabel = index => `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   slides.forEach((slide, index) => {
@@ -30,6 +63,33 @@
     if (page) page.textContent = pageLabel(index);
   });
   position.textContent = pageLabel(current);
+
+  function updateProgress() {
+    if (progressBar) progressBar.style.transform = `scaleX(${(current + 1) / slides.length})`;
+  }
+  updateProgress();
+
+  // Mobile reading mode: add a next-slide link at the bottom of each page (except the last).
+  slides.forEach((slide, index) => {
+    if (index >= slides.length - 1) return;
+    const footer = slide.querySelector('.footer');
+    if (!footer) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'mobile-next';
+    const label = document.createElement('span');
+    label.className = 'mobile-next-label';
+    label.textContent = `${ui.nextSlideLabel} · ${String(index + 2).padStart(2, '0')}`;
+    const title = document.createElement('strong');
+    title.textContent = slideTitle(slides[index + 1]);
+    const arrow = document.createElement('span');
+    arrow.className = 'mobile-next-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.textContent = '→';
+    button.append(label, title, arrow);
+    button.addEventListener('click', () => showSlide(index + 1));
+    footer.before(button);
+  });
 
   function jumpFromOverview(index) {
     // Deliberate jumps get their own history entry.
@@ -46,7 +106,16 @@
     button.addEventListener('click', () => jumpFromOverview(index));
   });
 
+  let lastChapter = null;
   const overviewItems = slides.map((slide, index) => {
+    const chapter = slideChapter(slide);
+    if (chapter && chapter !== lastChapter) {
+      const heading = document.createElement('h3');
+      heading.className = 'overview-chapter';
+      heading.textContent = chapter;
+      overviewGrid.append(heading);
+      lastChapter = chapter;
+    }
     const item = document.createElement('button');
     item.type = 'button';
     item.className = 'overview-item';
@@ -54,9 +123,7 @@
     number.className = 'overview-number';
     number.textContent = String(index + 1).padStart(2, '0');
     const title = document.createElement('span');
-    const heading = slide.querySelector('h1, h2').cloneNode(true);
-    heading.querySelectorAll('br').forEach(br => br.replaceWith(' '));
-    title.textContent = heading.textContent;
+    title.textContent = slideTitle(slide);
     item.append(number, title);
     item.addEventListener('click', () => jumpFromOverview(index));
     overviewGrid.append(item);
@@ -80,6 +147,12 @@
       copy.hidden = false;
       ['tabindex', 'aria-labelledby', 'aria-roledescription'].forEach(name => copy.removeAttribute(name));
       copy.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+      copy.querySelectorAll('.mobile-next').forEach(element => element.remove());
+      copy.querySelectorAll('img[tabindex]').forEach(img => {
+        img.removeAttribute('tabindex');
+        img.removeAttribute('role');
+        img.removeAttribute('title');
+      });
       // Buttons cannot contain links, buttons or embedded media: swap them for static stand-ins.
       copy.querySelectorAll('a, button').forEach(interactive => {
         const span = document.createElement('span');
@@ -105,6 +178,12 @@
     }).observe(firstThumb);
   }
 
+  function closeOnBackdrop(dialog, event) {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+  }
+
   function openOverview() {
     buildThumbnails();
     overview.showModal();
@@ -112,10 +191,57 @@
   }
   overviewButton.addEventListener('click', openOverview);
   document.getElementById('close-overview').addEventListener('click', () => overview.close());
-  overview.addEventListener('click', event => {
-    if (event.target !== overview) return;
-    const bounds = overview.getBoundingClientRect();
-    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) overview.close();
+  overview.addEventListener('click', event => closeOnBackdrop(overview, event));
+
+  // Image lightbox for enlarging product screenshots.
+  function openLightbox(img) {
+    if (!lightbox || !lightboxImage) return;
+    lightboxImage.src = img.currentSrc || img.src;
+    lightboxImage.alt = img.alt;
+    const figure = img.closest('figure');
+    const heading = figure?.querySelector('figcaption h3')?.textContent.trim();
+    const desc = figure?.querySelector('figcaption p')?.textContent.trim();
+    lightboxCaption.textContent = heading ? (desc ? `${heading} — ${desc}` : heading) : img.alt;
+    lightbox.showModal();
+  }
+  if (lightbox) {
+    document.getElementById('close-lightbox')?.addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', event => closeOnBackdrop(lightbox, event));
+    deck.querySelectorAll('.example-media img').forEach(img => {
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.title = ui.zoomImage;
+      img.addEventListener('click', () => openLightbox(img));
+      img.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openLightbox(img);
+        }
+      });
+    });
+  }
+
+  const anyModalOpen = () => overview.open || Boolean(lightbox?.open);
+
+  // Auto-fade bottom controls while idle in full-screen presentations.
+  let idleTimer;
+  function clearIdleControls() {
+    clearTimeout(idleTimer);
+    document.documentElement.classList.remove('controls-idle');
+  }
+  function scheduleIdleControls() {
+    clearIdleControls();
+    if (!document.fullscreenElement || anyModalOpen()) return;
+    idleTimer = setTimeout(() => {
+      if (document.fullscreenElement && !anyModalOpen() && !controls.matches(':hover, :focus-within')) {
+        document.documentElement.classList.add('controls-idle');
+      }
+    }, 2500);
+  }
+  ['pointermove', 'pointerdown', 'keydown'].forEach(type => {
+    document.addEventListener(type, () => {
+      if (document.fullscreenElement) scheduleIdleControls();
+    }, { passive: true });
   });
 
   async function toggleFullscreen() {
@@ -128,35 +254,57 @@
   }
   fullscreenButton.disabled = !document.fullscreenEnabled;
   fullscreenButton.addEventListener('click', toggleFullscreen);
-  printButton?.addEventListener('click', () => window.print());
-  document.querySelectorAll('[data-copy-email]').forEach(button => {
-    button.addEventListener('click', async () => {
-      const email = button.dataset.copyEmail;
-      try {
-        if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(email);
-        } else {
-          const input = document.createElement('textarea');
-          input.value = email;
-          input.setAttribute('readonly', '');
-          input.style.position = 'fixed';
-          input.style.opacity = '0';
-          document.body.append(input);
-          input.select();
-          document.execCommand('copy');
-          input.remove();
-        }
-        showFeedback(ui.emailCopied);
-      } catch (_) {
-        showFeedback(ui.emailCopyFailed);
-      }
-    });
-  });
   document.addEventListener('fullscreenchange', () => {
     const active = Boolean(document.fullscreenElement);
     fullscreenButton.setAttribute('aria-pressed', String(active));
     fullscreenButton.setAttribute('aria-label', active ? ui.fullscreenExit : ui.fullscreen);
     fullscreenButton.title = active ? `${ui.fullscreenExit} (Esc / F)` : `${ui.fullscreen} (F)`;
+    if (active) scheduleIdleControls();
+    else clearIdleControls();
+  });
+
+  // Download pre-rendered PDF when bundled (CI / build:pdf), otherwise open browser print dialog.
+  function triggerPrintOrPdf() {
+    const pdfHref = printButton?.dataset.pdf;
+    if (pdfHref) {
+      const link = document.createElement('a');
+      link.href = pdfHref;
+      link.download = pdfHref.split('/').pop();
+      document.body.append(link);
+      link.click();
+      link.remove();
+      return;
+    }
+    window.print();
+  }
+  if (printButton) {
+    if (printButton.dataset.pdf) {
+      printButton.setAttribute('aria-label', ui.pdfDownload);
+      printButton.title = `${ui.pdfDownload} (P)`;
+    }
+    printButton.addEventListener('click', triggerPrintOrPdf);
+  }
+
+  copyLinkButton?.addEventListener('click', async () => {
+    const url = new URL(location.href);
+    url.hash = `#slide-${current + 1}`;
+    try {
+      await copyText(url.href);
+      showFeedback(ui.linkCopied);
+    } catch (_) {
+      showFeedback(ui.linkCopyFailed);
+    }
+  });
+
+  document.querySelectorAll('[data-copy-email]').forEach(button => {
+    button.addEventListener('click', async () => {
+      try {
+        await copyText(button.dataset.copyEmail);
+        showFeedback(ui.emailCopied);
+      } catch (_) {
+        showFeedback(ui.emailCopyFailed);
+      }
+    });
   });
 
   function updateOverview() {
@@ -230,6 +378,7 @@
     previous.disabled = current === 0;
     next.disabled = current === slides.length - 1;
     position.textContent = pageLabel(current);
+    updateProgress();
     updateOverview();
     fitSlide();
     if (push) {
@@ -295,12 +444,13 @@
   next.addEventListener('click', () => showSlide(current + 1));
   document.addEventListener('keydown', event => {
     if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('video, audio, input, textarea, select, [contenteditable="true"]')) return;
-    if (overview.open) return;
+    if (anyModalOpen()) return;
     if (event.key.toLowerCase() === 'o') { event.preventDefault(); openOverview(); return; }
     if (event.key.toLowerCase() === 'f' && !fullscreenButton.disabled) { event.preventDefault(); toggleFullscreen(); return; }
+    if (event.key.toLowerCase() === 'p' && printButton) { event.preventDefault(); triggerPrintOrPdf(); return; }
     if (readingLayout.matches && !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
     const destinations = { ArrowRight: current + 1, ArrowDown: current + 1, PageDown: current + 1, ArrowLeft: current - 1, ArrowUp: current - 1, PageUp: current - 1, Home: 0, End: slides.length - 1 };
-    if (event.key === ' ' && !event.target.closest('button, a')) destinations[' '] = current + (event.shiftKey ? -1 : 1);
+    if (event.key === ' ' && !event.target.closest('button, a, [role="button"]')) destinations[' '] = current + (event.shiftKey ? -1 : 1);
     if (Object.hasOwn(destinations, event.key)) {
       event.preventDefault();
       // A held key scrubs through the deck: swap instantly instead of queueing pushes.
@@ -313,7 +463,7 @@
   let wheelLocked = false;
   let wheelReset;
   document.addEventListener('wheel', event => {
-    if (event.ctrlKey || overview.open || readingLayout.matches || event.target.closest('video, audio')) return;
+    if (event.ctrlKey || anyModalOpen() || readingLayout.matches || event.target.closest('video, audio')) return;
     event.preventDefault();
     clearTimeout(wheelReset);
     wheelReset = setTimeout(() => { wheelDelta = 0; wheelLocked = false; }, 180);
@@ -330,7 +480,7 @@
 
   let touchStart;
   deck.addEventListener('touchstart', event => {
-    touchStart = !overview.open && !event.target.closest('video, audio') && event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
+    touchStart = !anyModalOpen() && !event.target.closest('video, audio') && event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY } : null;
   }, { passive: true });
   deck.addEventListener('touchend', event => {
     if (!touchStart || event.touches.length || event.changedTouches.length !== 1) return;
@@ -345,6 +495,7 @@
 
   function restoreRoute() {
     if (overview.open) overview.close();
+    if (lightbox?.open) lightbox.close();
     showSlide(routeIndex(), { historyMode: 'replace' });
   }
   window.addEventListener('popstate', restoreRoute);

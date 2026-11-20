@@ -20,16 +20,25 @@
     "overview": "슬라이드 목차",
     "overviewButton": "목차",
     "overviewTitle": "NOVA 소개 목차",
-    "overviewHint": "이동할 슬라이드를 선택하세요.",
+    "overviewHint": "이동할 슬라이드를 선택하세요. (← → 이동 · O 목차 · F 전체화면 · P 인쇄)",
     "overviewClose": "목차 닫기",
     "overviewProducts": "제품 구성",
+    "overviewWorkspace": "Workspace",
+    "overviewStudio": "Studio",
     "overviewReferences": "도입 사례",
     "overviewContact": "문의",
     "fullscreen": "전체화면",
     "fullscreenExit": "전체화면 종료",
     "fullscreenUnavailable": "이 브라우저에서는 전체화면을 사용할 수 없습니다.",
     "print": "PDF 저장 · 인쇄",
+    "pdfDownload": "PDF 다운로드",
+    "copyLink": "현재 슬라이드 링크 복사",
+    "linkCopied": "현재 슬라이드 링크가 복사되었습니다.",
+    "linkCopyFailed": "링크를 복사하지 못했습니다.",
     "emailCopied": "이메일 주소가 복사되었습니다.",
-    "emailCopyFailed": "이메일 주소를 복사하지 못했습니다."
+    "emailCopyFailed": "이메일 주소를 복사하지 못했습니다.",
+    "nextSlideLabel": "다음 슬라이드",
+    "zoomImage": "이미지 크게 보기",
+    "closeLightbox": "닫기"
   }
 }
