@@ -27,6 +27,9 @@
     "overviewContact": "Contact",
     "fullscreen": "Full screen",
     "fullscreenExit": "Exit full screen",
-    "fullscreenUnavailable": "Full screen is not available in this browser."
+    "fullscreenUnavailable": "Full screen is not available in this browser.",
+    "print": "Save PDF · Print",
+    "emailCopied": "Email address copied.",
+    "emailCopyFailed": "Could not copy the email address."
   }
 }

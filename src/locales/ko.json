@@ -27,6 +27,9 @@
     "overviewContact": "문의",
     "fullscreen": "전체화면",
     "fullscreenExit": "전체화면 종료",
-    "fullscreenUnavailable": "이 브라우저에서는 전체화면을 사용할 수 없습니다."
+    "fullscreenUnavailable": "이 브라우저에서는 전체화면을 사용할 수 없습니다.",
+    "print": "PDF 저장 · 인쇄",
+    "emailCopied": "이메일 주소가 복사되었습니다.",
+    "emailCopyFailed": "이메일 주소를 복사하지 못했습니다."
   }
 }

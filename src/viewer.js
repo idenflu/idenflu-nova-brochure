@@ -8,12 +8,20 @@
   const overviewGrid = document.getElementById('overview-grid');
   const overviewButton = document.getElementById('open-overview');
   const fullscreenButton = document.getElementById('fullscreen-toggle');
+  const printButton = document.getElementById('print-deck');
   const feedback = document.getElementById('viewer-message');
   const languageLinks = [...document.querySelectorAll('.language-button')];
   const readingLayout = window.matchMedia('screen and (max-width: 900px)');
   const ui = JSON.parse(document.getElementById('deck-i18n').textContent);
   let current = 0;
   let feedbackTimer;
+
+  function showFeedback(message) {
+    feedback.textContent = message;
+    feedback.hidden = false;
+    clearTimeout(feedbackTimer);
+    feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 3500);
+  }
 
   // Page labels are derived from slide order so slides can be added or reordered freely.
   const pageLabel = index => `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
@@ -72,12 +80,12 @@
       copy.hidden = false;
       ['tabindex', 'aria-labelledby', 'aria-roledescription'].forEach(name => copy.removeAttribute(name));
       copy.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
-      // Buttons cannot contain links or embedded media: swap them for static stand-ins.
-      copy.querySelectorAll('a').forEach(link => {
+      // Buttons cannot contain links, buttons or embedded media: swap them for static stand-ins.
+      copy.querySelectorAll('a, button').forEach(interactive => {
         const span = document.createElement('span');
-        span.className = link.className;
-        span.append(...link.childNodes);
-        link.replaceWith(span);
+        span.className = interactive.className;
+        span.append(...interactive.childNodes);
+        interactive.replaceWith(span);
       });
       copy.querySelectorAll('video[poster]').forEach(video => {
         const poster = document.createElement('img');
@@ -115,14 +123,35 @@
       if (document.fullscreenElement) await document.exitFullscreen();
       else await document.documentElement.requestFullscreen();
     } catch (_) {
-      feedback.textContent = ui.fullscreenUnavailable;
-      feedback.hidden = false;
-      clearTimeout(feedbackTimer);
-      feedbackTimer = setTimeout(() => { feedback.hidden = true; }, 4000);
+      showFeedback(ui.fullscreenUnavailable);
     }
   }
   fullscreenButton.disabled = !document.fullscreenEnabled;
   fullscreenButton.addEventListener('click', toggleFullscreen);
+  printButton?.addEventListener('click', () => window.print());
+  document.querySelectorAll('[data-copy-email]').forEach(button => {
+    button.addEventListener('click', async () => {
+      const email = button.dataset.copyEmail;
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(email);
+        } else {
+          const input = document.createElement('textarea');
+          input.value = email;
+          input.setAttribute('readonly', '');
+          input.style.position = 'fixed';
+          input.style.opacity = '0';
+          document.body.append(input);
+          input.select();
+          document.execCommand('copy');
+          input.remove();
+        }
+        showFeedback(ui.emailCopied);
+      } catch (_) {
+        showFeedback(ui.emailCopyFailed);
+      }
+    });
+  });
   document.addEventListener('fullscreenchange', () => {
     const active = Boolean(document.fullscreenElement);
     fullscreenButton.setAttribute('aria-pressed', String(active));
@@ -245,7 +274,22 @@
   function settleAll() {
     [...travelling.keys()].forEach(settle);
   }
-  window.addEventListener('beforeprint', settleAll);
+  const printVideos = [];
+  window.addEventListener('beforeprint', () => {
+    settleAll();
+    printVideos.length = 0;
+    deck.querySelectorAll('video').forEach(video => {
+      video.pause();
+      if (video.controls) {
+        video.controls = false;
+        printVideos.push(video);
+      }
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    printVideos.forEach(video => { video.controls = true; });
+    printVideos.length = 0;
+  });
 
   previous.addEventListener('click', () => showSlide(current - 1));
   next.addEventListener('click', () => showSlide(current + 1));
