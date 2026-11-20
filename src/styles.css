@@ -287,10 +287,6 @@ button { font: inherit; }
 .reference-card dl div { display: grid; grid-template-columns: 65px 1fr; gap: 12px; font-size: 13px; }
 .reference-card dt { color: var(--subtle); }
 .reference-card dd { margin: 0; color: var(--muted); }
-.page.is-entering > :is(.content, .hero, .closing-layout) { animation: slide-content-fade 550ms ease-in-out both; }
-@keyframes slide-content-fade { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .page.is-entering > :is(.content, .hero, .closing-layout) { animation: none; } }
-@media print { .page.is-entering > :is(.content, .hero, .closing-layout) { animation: none; } }
 .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 36px; }
 .metric-card { padding: 26px 30px; border: 1px solid var(--line); }
 .metric-card h3 { font-size: 21px; font-weight: 500; }
@@ -371,8 +367,10 @@ button { font: inherit; }
 
 /* Small screens use a readable, scrollable page above the viewer controls. */
 @media screen and (max-width: 900px) {
-  .deck { overflow-y: auto; touch-action: pan-y pinch-zoom; overscroll-behavior-y: contain; }
+  .deck { overflow-x: hidden; overflow-y: auto; touch-action: pan-y pinch-zoom; overscroll-behavior-y: contain; }
   .page { position: relative; top: auto; left: auto; width: 100%; height: auto; min-height: 100%; padding: 24px 20px; transform: none; }
+  /* A page being pushed out leaves the flow so the next one can take its place (viewer.js sets its top). */
+  .page.is-leaving { position: absolute; top: 0; left: 0; }
   .page :where(div, article, aside, figure) { min-width: 0; }
   .page h2, .closing-copy h2 { font-size: 32px; }
   .page p { font-size: 15px; }

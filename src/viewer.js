@@ -61,6 +61,8 @@
   function buildThumbnails() {
     if (thumbnailsBuilt || readingLayout.matches) return;
     thumbnailsBuilt = true;
+    // Copy pages at rest, not mid-transition.
+    settleAll();
     slides.forEach((slide, index) => {
       const frame = document.createElement('span');
       frame.className = 'overview-thumb';
@@ -68,7 +70,6 @@
       frame.inert = true;
       const copy = slide.cloneNode(true);
       copy.hidden = false;
-      copy.classList.remove('is-entering');
       ['tabindex', 'aria-labelledby', 'aria-roledescription'].forEach(name => copy.removeAttribute(name));
       copy.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
       // Buttons cannot contain links or embedded media: swap them for static stand-ins.
@@ -171,21 +172,80 @@
     // The other-language deck opens on the same slide.
     languageLinks.forEach(link => { link.hash = `#slide-${target + 1}`; });
     if (target === current) return;
-    const moveFocus = slides[current].contains(document.activeElement);
-    slides[current].querySelectorAll('video, audio').forEach(media => media.pause());
-    slides[current].classList.remove('is-entering');
-    slides[current].hidden = true;
+    const outgoing = slides[current];
+    const incoming = slides[target];
+    const direction = Math.sign(target - current);
+    const moveFocus = outgoing.contains(document.activeElement);
+    outgoing.querySelectorAll('video, audio').forEach(media => media.pause());
+    const push = animate && canPush();
+    // Read where both pages are before the layout changes, so an interrupted push continues smoothly.
+    const outgoingFrom = push ? pageOffset(outgoing) : 0;
+    const incomingFrom = push && travelling.has(incoming) ? pageOffset(incoming) : null;
+    const scrollTop = deck.scrollTop;
     current = target;
-    slides[current].hidden = false;
+    if (push) {
+      // The leaving page stays visible, but out of reach, until it is off screen.
+      outgoing.inert = true;
+      outgoing.classList.add('is-leaving');
+      // In the reading layout it leaves the flow: keep it where the reader had scrolled to.
+      if (readingLayout.matches) outgoing.style.top = `${-scrollTop}px`;
+      incoming.inert = false;
+      incoming.classList.remove('is-leaving');
+      incoming.style.top = '';
+    } else {
+      settleAll();
+      outgoing.hidden = true;
+    }
+    incoming.hidden = false;
     deck.scrollTop = 0;
-    if (animate) slides[current].classList.add('is-entering');
     previous.disabled = current === 0;
     next.disabled = current === slides.length - 1;
     position.textContent = pageLabel(current);
     updateOverview();
     fitSlide();
-    if (moveFocus) slides[current].focus({ preventScroll: true });
+    if (push) {
+      // Just far enough to clear the deck, so the two pages move like one strip.
+      const distance = Math.ceil((deck.clientWidth + incoming.getBoundingClientRect().width) / 2);
+      travel(outgoing, outgoingFrom, -direction * distance);
+      travel(incoming, incomingFrom ?? outgoingFrom + direction * distance, 0);
+    }
+    if (moveFocus) incoming.focus({ preventScroll: true });
   }
+
+  // Slide changes push the pages sideways: the current page leaves towards the side it came
+  // from in reading order while the target follows it in. Pages still moving are tracked here.
+  const pushTiming = { duration: 600, easing: 'cubic-bezier(.4, 0, .15, 1)', fill: 'both' };
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const travelling = new Map();
+
+  function canPush() {
+    return !reducedMotion.matches && document.visibilityState === 'visible' && CSS.supports('translate', '1px');
+  }
+
+  function pageOffset(page) {
+    return travelling.has(page) ? parseFloat(getComputedStyle(page).translate) || 0 : 0;
+  }
+
+  function travel(page, from, to) {
+    travelling.get(page)?.cancel();
+    const animation = page.animate({ translate: [`${from}px 0`, `${to}px 0`] }, pushTiming);
+    travelling.set(page, animation);
+    animation.onfinish = () => settle(page);
+  }
+
+  function settle(page) {
+    travelling.get(page)?.cancel();
+    travelling.delete(page);
+    page.classList.remove('is-leaving');
+    page.style.top = '';
+    page.inert = false;
+    if (page !== slides[current]) page.hidden = true;
+  }
+
+  function settleAll() {
+    [...travelling.keys()].forEach(settle);
+  }
+  window.addEventListener('beforeprint', settleAll);
 
   previous.addEventListener('click', () => showSlide(current - 1));
   next.addEventListener('click', () => showSlide(current + 1));
@@ -199,7 +259,8 @@
     if (event.key === ' ' && !event.target.closest('button, a')) destinations[' '] = current + (event.shiftKey ? -1 : 1);
     if (Object.hasOwn(destinations, event.key)) {
       event.preventDefault();
-      showSlide(destinations[event.key], { historyMode: ['Home', 'End'].includes(event.key) ? 'push' : 'replace' });
+      // A held key scrubs through the deck: swap instantly instead of queueing pushes.
+      showSlide(destinations[event.key], { historyMode: ['Home', 'End'].includes(event.key) ? 'push' : 'replace', animate: !event.repeat });
     }
   });
 
@@ -247,6 +308,7 @@
   showSlide(routeIndex(), { historyMode: 'replace', animate: false });
 
   readingLayout.addEventListener('change', () => {
+    settleAll();
     deck.scrollTop = 0;
     fitSlide();
   });
