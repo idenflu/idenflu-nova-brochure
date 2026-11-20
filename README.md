@@ -10,6 +10,8 @@ Node.js 20 이상이 필요합니다.
 npm install      # Pretendard 글꼴 패키지 설치 (최초 1회)
 npm run dev      # 빌드 + 변경 감지 + http://localhost:5173 로컬 서버
 npm run build    # dist/ 한 번 빌드
+npm run check    # 슬라이드 구조 · 에셋 · HTML 정적 검증
+npm run og       # 공유 미리보기 이미지(og-image*.png) 재생성
 npm run watch    # 서버 없이 빌드 + 변경 감지
 ```
 
@@ -28,7 +30,10 @@ src/
   slides/en/NN-이름.html
   partials/*.svg       여러 슬라이드에서 쓰는 큰 일러스트
 public/                그대로 dist/에 복사되는 정적 파일 (브랜드·공유 이미지, 제품 화면, 시연 영상)
-scripts/build.mjs      빌드 스크립트
+scripts/
+  build.mjs            빌드 · 감시 · 로컬 미리보기 서버
+  check.mjs            슬라이드 구조 · 에셋 · HTML 정적 검증
+  og-image.mjs         공유 미리보기 이미지(1200×630) 생성
 dist/                  빌드 결과 (git에 올리지 않음)
   index.html           한국어
   en/index.html        영어
@@ -43,15 +48,17 @@ dist/                  빌드 결과 (git에 올리지 않음)
 | 처음 / 마지막 | Home / End |
 | 목차 (썸네일) | O 또는 하단 목차 버튼 |
 | 전체화면 | F |
+| PDF 저장 · 인쇄 | 하단 인쇄 버튼 또는 ⌘P / Ctrl+P |
 | 언어 전환 | 하단 EN / KO 버튼 (보던 슬라이드 그대로 열림) |
 | 특정 슬라이드 링크 | `index.html#slide-7`, `en/index.html#slide-7` |
 
 - 슬라이드는 옆으로 밀려나며 넘어갑니다(약 0.6초). 키를 꾹 누르고 있거나 시스템의 '동작 줄이기'가 켜져 있으면 바로 바뀝니다.
 - 목차 상단에서 제품 구성, 도입 사례, 문의 슬라이드로 바로 이동할 수 있습니다.
+- 문의 슬라이드에서는 메일 열기 링크와 함께 이메일 주소 복사 버튼을 제공합니다.
 - 화면 폭 900px 이하에서는 세로로 스크롤되는 읽기 모드로 바뀌고, 목차 목록에는 제목만 표시됩니다.
 - 슬라이드를 차례로 넘길 때는 브라우저 기록이 쌓이지 않습니다. 목차에서 이동하거나 Home/End로 점프할 때만 기록이 남으므로, 뒤로가기는 직전에 보던 위치나 덱 이전 페이지로 돌아갑니다.
 - 영상에 포커스가 있으면 방향키와 스페이스는 영상에서 동작합니다. 다른 장으로 이동하면 재생이 멈춥니다.
-- 브라우저 인쇄(⌘P / Ctrl+P)로 슬라이드 한 장당 한 쪽(1440×810)인 PDF를 만들 수 있습니다.
+- 하단 인쇄 버튼이나 브라우저 인쇄(⌘P / Ctrl+P)로 슬라이드 한 장당 한 쪽(1440×810)인 PDF를 만들 수 있습니다.
 
 ## 슬라이드 추가 · 수정
 
@@ -100,16 +107,8 @@ partial 안의 `{{aria-label}}`처럼 `{{이름}}`으로 적힌 자리가 넘긴
 
 ### 공유 미리보기 이미지 다시 만들기
 
-표지 슬라이드를 바꿨다면 `public/og-image.png`(한국어)와 `public/og-image-en.png`(영어)도 다시 만듭니다. 1440×888 창에서 표지를 캡처한 뒤 위아래를 잘라 1200×630으로 줄입니다. Python Pillow가 필요합니다.
+표지 슬라이드나 전체 장수를 바꿨다면 `public/og-image.png`(한국어)와 `public/og-image-en.png`(영어)를 다시 만듭니다. Google Chrome과 Python Pillow가 필요합니다.
 
 ```sh
-npm run build
-for pair in "index.html:og-image.png" "en/index.html:og-image-en.png"; do
-  page=${pair%%:*}; out=${pair##*:}
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
-    --force-device-scale-factor=1 --window-size=1440,888 --virtual-time-budget=3000 \
-    --screenshot=cover.png "file://$PWD/dist/$page#slide-1"
-  python3 -c "from PIL import Image; Image.open('cover.png').convert('RGB').crop((0,27,1440,783)).resize((1200,630), Image.LANCZOS).save('public/$out', optimize=True)"
-done
-rm cover.png
+npm run og
 ```

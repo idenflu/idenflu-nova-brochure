@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "og": "node scripts/og-image.mjs",
     "watch": "node scripts/build.mjs --watch",
     "dev": "node scripts/build.mjs --serve"
   },
