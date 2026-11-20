@@ -8,6 +8,8 @@
   const controls = document.querySelector('.slide-controls');
   const overview = document.getElementById('slide-overview');
   const overviewGrid = document.getElementById('overview-grid');
+  const overviewSearch = document.getElementById('overview-search');
+  const overviewEmpty = document.getElementById('overview-empty');
   const overviewButton = document.getElementById('open-overview');
   const fullscreenButton = document.getElementById('fullscreen-toggle');
   const copyLinkButton = document.getElementById('copy-slide-link');
@@ -15,10 +17,14 @@
   const lightbox = document.getElementById('image-lightbox');
   const lightboxImage = document.getElementById('lightbox-image');
   const lightboxCaption = document.getElementById('lightbox-caption');
+  const speakerNotes = document.getElementById('speaker-notes');
+  const speakerNotesMeta = document.getElementById('speaker-notes-meta');
+  const speakerNotesBody = document.getElementById('speaker-notes-body');
   const feedback = document.getElementById('viewer-message');
   const languageLinks = [...document.querySelectorAll('.language-button')];
   const readingLayout = window.matchMedia('screen and (max-width: 900px)');
   const ui = JSON.parse(document.getElementById('deck-i18n').textContent);
+  const notes = JSON.parse(document.getElementById('deck-notes')?.textContent || '{}');
   let current = 0;
   let feedbackTimer;
 
@@ -107,6 +113,8 @@
   });
 
   let lastChapter = null;
+  const overviewChapters = [];
+  const searchCorpus = [];
   const overviewItems = slides.map((slide, index) => {
     const chapter = slideChapter(slide);
     if (chapter && chapter !== lastChapter) {
@@ -114,8 +122,13 @@
       heading.className = 'overview-chapter';
       heading.textContent = chapter;
       overviewGrid.append(heading);
+      overviewChapters.push({ heading, indices: [] });
       lastChapter = chapter;
     }
+    if (overviewChapters.length) overviewChapters[overviewChapters.length - 1].indices.push(index);
+    const titleText = slideTitle(slide);
+    const bodyText = slide.querySelector('.content, .hero, .closing-layout')?.textContent || slide.textContent;
+    searchCorpus.push(`${String(index + 1).padStart(2, '0')} ${chapter} ${titleText} ${bodyText}`.replace(/\s+/g, ' ').toLowerCase());
     const item = document.createElement('button');
     item.type = 'button';
     item.className = 'overview-item';
@@ -123,11 +136,41 @@
     number.className = 'overview-number';
     number.textContent = String(index + 1).padStart(2, '0');
     const title = document.createElement('span');
-    title.textContent = slideTitle(slide);
+    title.textContent = titleText;
     item.append(number, title);
     item.addEventListener('click', () => jumpFromOverview(index));
     overviewGrid.append(item);
     return item;
+  });
+
+  function filterOverview(rawQuery) {
+    const tokens = rawQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    let visibleCount = 0;
+    overviewItems.forEach((item, index) => {
+      const match = tokens.every(token => searchCorpus[index].includes(token));
+      item.hidden = !match;
+      if (match) visibleCount += 1;
+    });
+    overviewChapters.forEach(({ heading, indices }) => {
+      heading.hidden = !indices.some(index => !overviewItems[index].hidden);
+    });
+    if (overviewEmpty) overviewEmpty.hidden = visibleCount > 0;
+  }
+
+  overviewSearch?.addEventListener('input', () => filterOverview(overviewSearch.value));
+  overviewSearch?.addEventListener('keydown', event => {
+    if (event.key !== 'Enter') return;
+    const firstIndex = overviewItems.findIndex(item => !item.hidden);
+    if (firstIndex !== -1) {
+      event.preventDefault();
+      jumpFromOverview(firstIndex);
+    }
+  });
+  overview.addEventListener('close', () => {
+    if (overviewSearch && overviewSearch.value) {
+      overviewSearch.value = '';
+      filterOverview('');
+    }
   });
 
   // Thumbnails are live, inert copies of each slide scaled down from the 1440px design size.
@@ -307,6 +350,29 @@
     });
   });
 
+  function updateSpeakerNotes() {
+    if (!speakerNotes || !speakerNotesBody) return;
+    const slide = slides[current];
+    const id = slide.getAttribute('aria-labelledby');
+    const chapter = slideChapter(slide);
+    if (speakerNotesMeta) speakerNotesMeta.textContent = chapter ? `${pageLabel(current)} · ${chapter}` : pageLabel(current);
+    speakerNotesBody.textContent = notes[id] || ui.speakerNotesEmpty;
+  }
+
+  function setSpeakerNotesOpen(open) {
+    if (!speakerNotes) return;
+    speakerNotes.hidden = !open;
+    if (open) updateSpeakerNotes();
+    languageLinks.forEach(link => {
+      const url = new URL(link.getAttribute('href'), location.href);
+      if (open) url.searchParams.set('notes', '');
+      else url.searchParams.delete('notes');
+      link.search = url.search;
+    });
+  }
+  document.getElementById('close-notes')?.addEventListener('click', () => setSpeakerNotesOpen(false));
+  if (new URLSearchParams(location.search).has('notes')) setSpeakerNotesOpen(true);
+
   function updateOverview() {
     overviewItems.forEach((item, index) => {
       if (index === current) item.setAttribute('aria-current', 'page');
@@ -379,6 +445,7 @@
     next.disabled = current === slides.length - 1;
     position.textContent = pageLabel(current);
     updateProgress();
+    updateSpeakerNotes();
     updateOverview();
     fitSlide();
     if (push) {
@@ -448,6 +515,7 @@
     if (event.key.toLowerCase() === 'o') { event.preventDefault(); openOverview(); return; }
     if (event.key.toLowerCase() === 'f' && !fullscreenButton.disabled) { event.preventDefault(); toggleFullscreen(); return; }
     if (event.key.toLowerCase() === 'p' && printButton) { event.preventDefault(); triggerPrintOrPdf(); return; }
+    if (event.key === 'N' && event.shiftKey && speakerNotes) { event.preventDefault(); setSpeakerNotesOpen(speakerNotes.hidden); return; }
     if (readingLayout.matches && !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
     const destinations = { ArrowRight: current + 1, ArrowDown: current + 1, PageDown: current + 1, ArrowLeft: current - 1, ArrowUp: current - 1, PageUp: current - 1, Home: 0, End: slides.length - 1 };
     if (event.key === ' ' && !event.target.closest('button, a, [role="button"]')) destinations[' '] = current + (event.shiftKey ? -1 : 1);

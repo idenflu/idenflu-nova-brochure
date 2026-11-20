@@ -20,11 +20,14 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = path.join(root, 'src');
 const publicDir = path.join(root, 'public');
 const dist = path.join(root, 'dist');
-const args = new Set(process.argv.slice(2));
+const argv = process.argv.slice(2);
+const args = new Set(argv);
 const serve = args.has('--serve');
 const watch = serve || args.has('--watch');
 const publicOnly = args.has('--public-only') || process.env.PUBLIC_ONLY === '1';
 const withPdf = args.has('--with-pdf') || process.env.WITH_PDF === '1';
+const clientArg = argv.find(arg => arg.startsWith('--client='))?.slice('--client='.length);
+const clientName = (clientArg ?? process.env.CLIENT ?? '').trim();
 
 const read = file => fs.readFileSync(file, 'utf8');
 const escapeHtml = value => String(value)
@@ -156,20 +159,25 @@ function build() {
       .filter(html => !publicOnly || !html.includes('example-placeholder'));
     if (!slideHtmls.length) throw new Error(`slides/${locale.lang}: no slides remaining after filtering`);
     slideHtmls[0] = slideHtmls[0].replace(/(<section\b[^>]*?)\s+hidden(?=[\s>])/, '$1');
+    if (clientName) {
+      const badge = `<p class="client-badge">${escapeHtml(locale.ui.preparedFor)} · ${escapeHtml(clientName)}</p>`;
+      slideHtmls[0] = slideHtmls[0].replace('<div class="hero-copy">', `<div class="hero-copy">${badge}`);
+    }
     const slides = slideHtmls.join('');
     const depth = locale.output.split('/').length - 1;
     const base = '../'.repeat(depth);
     const ogImageUrl = siteUrl ? new URL(locale.meta.ogImage, siteUrl).href : base + locale.meta.ogImage;
     const data = { ...locale, base, ogImageUrl };
     const i18n = JSON.stringify(locale.ui).replaceAll('<', '\\u003c');
+    const notes = JSON.stringify(locale.notes || {}).replaceAll('<', '\\u003c');
     const pdfAttr = withPdf ? ` data-pdf="${escapeHtml(`${base}nova-brochure-${locale.lang}.pdf`)}"` : '';
-    const raw = { styles, viewer, slides, i18n, pdfAttr, ...languageBlocks(locale, locales) };
+    const raw = { styles, viewer, slides, i18n, notes, pdfAttr, ...languageBlocks(locale, locales) };
     const html = render(template, data, raw, `locale ${locale.lang}`);
     const out = path.join(dist, locale.output);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
   }
-  const mode = [publicOnly && 'public-only', withPdf && 'with-pdf'].filter(Boolean).join(', ');
+  const mode = [publicOnly && 'public-only', withPdf && 'with-pdf', clientName && `client=${clientName}`].filter(Boolean).join(', ');
   console.log(`built ${locales.map(l => l.output).join(', ')}${mode ? ` (${mode})` : ''} in ${Math.round(performance.now() - started)}ms`);
 }
 
