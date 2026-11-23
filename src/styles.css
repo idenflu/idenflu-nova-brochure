@@ -340,6 +340,13 @@ button { font: inherit; }
 .studio-examples .example-media { height: 345px; }
 .studio-examples figure:nth-child(2) .example-media { height: 268px; }
 .studio-examples figcaption, .paired-views figcaption { min-height: 78px; }
+.studio-feature { display: grid; grid-template-columns: minmax(0, 1fr) 280px; align-items: end; gap: 40px; margin: auto 0; padding: 24px 0; }
+.studio-feature .example-media { height: auto; aspect-ratio: 1.85 / 1; }
+.studio-feature .example-media:not(:has(.example-placeholder)) { display: block; border: 1px solid var(--line); }
+.studio-points { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.studio-points li { padding: 16px 0; border-top: 1px solid var(--line); }
+.studio-points h3 { font-size: 19px; font-weight: 550; }
+.studio-points p { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
 .studio-videos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: auto 0; padding: 32px 0; }
 .studio-video-media { aspect-ratio: 16 / 9; background: #20282b; }
 .studio-video-media:has(.example-placeholder) { display: grid; place-items: center; border: 1px dashed #c5d2e5; background: var(--surface); }
@@ -448,7 +455,7 @@ button { font: inherit; }
   .hero, .closing-layout, .three-col, .four-col, .paired-views,
   .route-layout, .foundation-layout,
   .domain-modules, .detail-split, .boundary-grid,
-  .contract-grid, .workspace-overview,
+  .contract-grid, .workspace-overview, .studio-feature,
   .comparison-grid, .example-gallery, .adoption-layout, .roadmap, .metric-grid, .studio-videos {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
@@ -484,7 +491,7 @@ button { font: inherit; }
   .pain-card { min-height: 0; }
   .system-path { flex-wrap: wrap; justify-content: flex-start; gap: 6px 12px; }
   .system-path li + li::before { margin-right: 8px; }
-  .paired-views, .route-layout, .workspace-examples, .studio-examples, .studio-videos { margin: 20px 0 0; padding: 0; }
+  .paired-views, .route-layout, .workspace-examples, .studio-examples, .studio-feature, .studio-videos { margin: 20px 0 0; padding: 0; }
   .route-result { margin-top: 20px; }
   .paired-views .example-media, .studio-examples .example-media, .studio-examples figure:nth-child(2) .example-media { height: auto; aspect-ratio: 16 / 10; }
   .paired-views figcaption, .studio-examples figcaption, .offering-fit { min-height: 0; }
