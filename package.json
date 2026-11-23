@@ -9,6 +9,7 @@
     "build:pdf": "node scripts/build-pdf.mjs",
     "check": "node scripts/check.mjs",
     "og": "node scripts/og-image.mjs",
+    "illustrations": "node scripts/illustrations/index.mjs",
     "watch": "node scripts/build.mjs --watch",
     "dev": "node scripts/build.mjs --serve"
   },

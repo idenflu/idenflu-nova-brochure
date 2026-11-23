@@ -10,7 +10,7 @@
     "ogImage": "og-image-en.png",
     "ogTitle": "NOVA Logistics Automation Platform | IDENFLU",
     "ogDescription": "NOVA, the integrated WES/WCS platform that connects logistics operating decisions to task execution, system integration and equipment control.",
-    "ogImageAlt": "From shipping priorities to equipment tasks. NOVA integrated WES/WCS"
+    "ogImageAlt": "Coordinate work. Connect equipment. NOVA integrated WES/WCS"
   },
   "ui": {
     "deck": "Introducing the NOVA logistics automation platform",
@@ -49,7 +49,7 @@
     "speakerNotesEmpty": "No speaker notes for this slide."
   },
   "notes": {
-    "cover-title": "Opening: Position NOVA as an integrated WES/WCS platform that orchestrates end-to-end warehouse flow, not just individual machines.",
+    "cover-title": "NOVA sequences warehouse tasks and connects equipment. Use shipping deadlines and equipment status to illustrate how it adjusts the work sequence.",
     "challenge-title": "Empathy: Highlight three recurring pain points—disconnected priorities, growing multi-vendor integration cost, and tribal knowledge in exception handling.",
     "positioning-title": "Product suite: Clearly separate execution (WES/WCS), web operations (Workspace), and 3D spatial monitoring (Studio). Note that Studio can also connect to existing systems.",
     "architecture-title": "Concrete hook: Walk through a delayed outbound wave—spotting the lagging wave in Workspace and pinpointing the equipment fault in Studio.",
@@ -70,7 +70,7 @@
     "adoption-title": "Adoption options: Keep existing WMS and start at a bottleneck. Supports integrated or separated WES/WCS across on-premise, air-gapped or hybrid sites.",
     "delivery-title": "Phased delivery: Reduce risk across four phases—assess, core rollout, expand, optimize—validated with failure, reconnection and regression tests.",
     "measurement-title": "Honest KPIs: Agree on baseline scope and formulas first—traceability, response time, manual intervention and latency—before comparing before/after results.",
-    "references-title": "References: Walk through shareable deployments most relevant to the prospect's industry and equipment mix.",
+    "references-title": "These cases cover retail, pharmaceutical and general logistics sites. Use site A’s daily volume, site B’s SKU count and site C’s hourly volume to describe each site’s scale.",
     "contact-title": "Closing: Propose an initial scoping workshop built around the three-item discovery checklist on the right."
   }
 }

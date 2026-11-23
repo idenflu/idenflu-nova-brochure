@@ -14,6 +14,7 @@ npm run build:public # 준비 중 플레이스홀더 슬라이드를 제외한 �
 npm run build:pdf    # 웹 덱 + 1440×810 공식 PDF(ko/en) 함께 빌드
 npm run check        # 슬라이드 구조 · 에셋 · HTML 정적 검증
 npm run og           # 공유 미리보기 이미지(og-image*.png) 재생성
+npm run illustrations # 아이소메트릭 일러스트 partial(1·5·10·14장) 재생성
 npm run watch        # 서버 없이 빌드 + 변경 감지
 ```
 
@@ -37,6 +38,8 @@ scripts/
   build-pdf.mjs        웹 덱 + 1440×810 공식 PDF(ko/en) 함께 생성
   check.mjs            슬라이드 구조 · 에셋 · HTML 정적 검증
   og-image.mjs         공유 미리보기 이미지(1200×630) 생성
+  illustrations/       1·5·10·14장 아이소메트릭 일러스트 생성기 → src/partials/*.svg
+                       (생성된 SVG는 직접 고치지 말고 스크립트를 고친 뒤 재생성)
 dist/                  빌드 결과 (git에 올리지 않음)
   index.html           한국어
   en/index.html        영어
@@ -92,7 +95,7 @@ dist/                  빌드 결과 (git에 올리지 않음)
 큰 SVG는 `src/partials/`에 두고 슬라이드에서 불러옵니다. 언어마다 다른 문구는 매개변수로 넘깁니다.
 
 ```html
-<!--@include partials/warehouse-scene-dark.svg aria-label="자동창고 랙과 컨베이어 …"-->
+<!--@include partials/warehouse-cover-scene.svg aria-label="자동창고 랙과 컨베이어 …"-->
 ```
 
 partial 안의 `{{aria-label}}`처럼 `{{이름}}`으로 적힌 자리가 넘긴 값으로 바뀝니다. 필요한 값을 빠뜨리면 빌드가 실패합니다.
