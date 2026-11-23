@@ -89,7 +89,8 @@ button { font: inherit; }
 
 /* One outbound incident, shown in the operating and spatial views. */
 .paired-views { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin: auto 0; padding: 24px 0; }
-.paired-views .example-media { height: 264px; background: #20282b; border-color: var(--line); }
+.paired-views .example-media { height: 264px; }
+.paired-views .example-placeholder { color: var(--muted); }
 .paired-views figcaption, .example-gallery figcaption, .studio-videos figcaption { margin-top: 18px; }
 .system-path { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0 0; margin: 0; list-style: none; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
 .system-path li + li::before { content: '→'; margin-right: 24px; color: var(--accent-ink); }
@@ -172,7 +173,18 @@ button { font: inherit; }
 
 /* Viewer controls remain unscaled and reachable on every screen. */
 .slide-controls { position: fixed; z-index: 2; bottom: max(12px, env(safe-area-inset-bottom)); left: 50%; display: flex; align-items: center; gap: 3px; padding: 4px; border: 1px solid #d2dce9; border-radius: 28px; background: rgb(255 255 255 / 96%); transform: translateX(-50%); transition: opacity .35s ease; }
-.controls-idle .slide-controls:not(:hover):not(:focus-within) { opacity: .14; }
+@media screen {
+  :root:fullscreen { --controls-space: 0px; }
+  :root:fullscreen .slide-controls {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    box-shadow: 0 4px 20px rgb(23 43 67 / 20%);
+  }
+  :root:fullscreen.controls-idle .slide-controls:not(:has(:focus-visible)) {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) { .slide-controls { transition: none; } }
 .slide-controls button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #273c5c; cursor: pointer; }
 .slide-controls button:hover:not(:disabled) { background: #eaf0fa; }
 .slide-controls button:disabled { color: #a9b4c6; cursor: default; }

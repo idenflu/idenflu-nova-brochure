@@ -5,7 +5,6 @@
   const next = document.getElementById('next-slide');
   const position = document.getElementById('slide-position');
   const progressBar = document.getElementById('deck-progress-bar');
-  const controls = document.querySelector('.slide-controls');
   const overview = document.getElementById('slide-overview');
   const overviewGrid = document.getElementById('overview-grid');
   const overviewSearch = document.getElementById('overview-search');
@@ -274,18 +273,18 @@
   }
   function scheduleIdleControls() {
     clearIdleControls();
-    if (!document.fullscreenElement || anyModalOpen()) return;
+    if (document.fullscreenElement !== document.documentElement || anyModalOpen()) return;
     idleTimer = setTimeout(() => {
-      if (document.fullscreenElement && !anyModalOpen() && !controls.matches(':hover, :focus-within')) {
-        document.documentElement.classList.add('controls-idle');
-      }
+      if (!anyModalOpen()) document.documentElement.classList.add('controls-idle');
     }, 2500);
   }
-  ['pointermove', 'pointerdown', 'keydown'].forEach(type => {
+  ['pointermove', 'pointerdown', 'keydown', 'wheel'].forEach(type => {
     document.addEventListener(type, () => {
       if (document.fullscreenElement) scheduleIdleControls();
     }, { passive: true });
   });
+  overview.addEventListener('close', scheduleIdleControls);
+  lightbox?.addEventListener('close', scheduleIdleControls);
 
   async function toggleFullscreen() {
     try {
