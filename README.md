@@ -15,6 +15,7 @@ npm run build:pdf    # 웹 덱 + 1440×810 공식 PDF(ko/en) 함께 빌드
 npm run check        # 슬라이드 구조 · 에셋 · HTML 정적 검증
 npm run og           # 공유 미리보기 이미지(og-image*.png) 재생성
 npm run illustrations # 아이소메트릭 일러스트 partial(1·5·10·14장) 재생성
+npm run screens      # Workspace 화면 시안(4·11·12·13장) 재렌더링 (Chrome 필요)
 npm run watch        # 서버 없이 빌드 + 변경 감지
 ```
 
@@ -33,12 +34,14 @@ src/
   slides/en/NN-이름.html
   partials/*.svg       여러 슬라이드에서 쓰는 큰 일러스트
 public/                그대로 dist/에 복사되는 정적 파일 (브랜드·공유 이미지, 제품 화면, 시연 영상)
+assets-src/            슬라이드 이미지의 원본 보관소 (dist/에 복사되지 않음, assets-src/README.md 참고)
 scripts/
   build.mjs            빌드 · 감시 · 로컬 미리보기 서버 (`--public-only`, `--with-pdf` 지원)
   build-pdf.mjs        웹 덱 + 1440×810 공식 PDF(ko/en) 함께 생성
   check.mjs            슬라이드 구조 · 에셋 · HTML 정적 검증
   og-image.mjs         공유 미리보기 이미지(1200×630) 생성
   illustrations/       1·5·10·14장 아이소메트릭 일러스트 생성기 → src/partials/*.svg
+  workspace-screens.mjs Workspace 화면 시안 렌더러 → assets-src/workspace/png/*.png + public/media/workspace/*.webp
                        (생성된 SVG는 직접 고치지 말고 스크립트를 고친 뒤 재생성)
 dist/                  빌드 결과 (git에 올리지 않음)
   index.html           한국어

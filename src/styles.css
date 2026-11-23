@@ -97,7 +97,7 @@ button { font: inherit; }
 
 /* One outbound incident, shown in the operating and spatial views. */
 .paired-views { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin: auto 0; padding: 24px 0; }
-.paired-views .example-media { height: 264px; }
+.paired-views .example-media { height: auto; aspect-ratio: 1.9 / 1; }
 .paired-views .example-placeholder { color: var(--muted); }
 .paired-views figcaption, .example-gallery figcaption, .studio-videos figcaption { margin-top: 18px; }
 .system-path { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0 0; margin: 0; list-style: none; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }

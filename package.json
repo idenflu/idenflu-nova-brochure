@@ -10,6 +10,7 @@
     "check": "node scripts/check.mjs",
     "og": "node scripts/og-image.mjs",
     "illustrations": "node scripts/illustrations/index.mjs",
+    "screens": "node scripts/workspace-screens.mjs",
     "watch": "node scripts/build.mjs --watch",
     "dev": "node scripts/build.mjs --serve"
   },

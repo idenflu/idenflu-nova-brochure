@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: Pretendard; src: url('../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2'); font-weight: 45 920; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --ink: #1b2337; --muted: #56637b; --subtle: #8391a7; --line: #d7dee9; --soft: #e8edf4; --bg: #f4f8fb; --blue: #3562d7; --blue2: #3f68bc; --sel: #ecf1ff; --brown: #994e2c; --brownbg: #fceee1; --green: #2f7a55; --greenbg: #e4f3ec; --bluebg: #e8eefb; --red: #b8322a; --redbg: #fbe7e5; }
+html, body { overflow: hidden; font-family: Pretendard, sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum"; -webkit-font-smoothing: antialiased; font-size: 13.5px; }
+#app { display: flex; flex-direction: column; width: 100vw; height: 100vh; }
+.top { flex: none; height: 56px; display: flex; align-items: center; gap: 36px; padding: 0 24px; background: #fff; border-bottom: 1px solid var(--line); }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 19px; white-space: nowrap; }
+.logo b { font-weight: 800; letter-spacing: -.01em; }
+.logo span { font-weight: 450; }
+.logo svg { width: 22px; height: 22px; }
+.nav { display: flex; gap: 26px; height: 100%; font-size: 15px; color: var(--muted); white-space: nowrap; }
+.nav a { display: flex; align-items: center; height: 100%; border-bottom: 3px solid transparent; padding-top: 3px; }
+.nav a.on { color: var(--blue); font-weight: 650; border-color: var(--blue); }
+.right { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.badge { padding: 5px 10px; border: 1px solid #c9d6ef; background: #eef3fc; color: #33415c; font-weight: 600; border-radius: 3px; }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #2f9e62; margin-right: 6px; vertical-align: 1px; }
+.dot.warn { background: #d0872f; } .dot.err { background: var(--red); } .dot.off { background: #b4bdcb; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; background: #dbe4f5; color: #3b5590; display: grid; place-items: center; font-weight: 700; font-size: 12px; }
+.shell { flex: 1; display: grid; grid-template-columns: 210px 1fr; min-height: 0; }
+.side { background: #fff; border-right: 1px solid var(--line); padding: 20px 12px; font-size: 14px; }
+.side h4 { font-size: 12.5px; color: var(--muted); font-weight: 650; margin: 16px 10px 6px; }
+.side h4:first-child { margin-top: 0; }
+.side a { display: block; padding: 7px 10px; color: #2d3850; border-radius: 3px; white-space: nowrap; }
+.side a.on { background: var(--sel); color: var(--blue); font-weight: 650; box-shadow: inset 3px 0 var(--blue); }
+main { padding: 24px 30px; display: flex; flex-direction: column; gap: 16px; min-width: 0; min-height: 0; }
+.head { display: flex; align-items: flex-end; justify-content: space-between; flex: none; }
+h1 { font-size: 26px; font-weight: 750; letter-spacing: -.01em; }
+.head p { font-size: 14px; color: var(--muted); margin-top: 6px; }
+.filters { display: flex; gap: 8px; font-size: 13px; white-space: nowrap; }
+.filters span { padding: 7px 12px; background: #fff; border: 1px solid var(--line); border-radius: 3px; color: #33415c; }
+.filters span.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; }
+.kpis { display: grid; gap: 12px; flex: none; }
+.kpi { background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 12px 16px; }
+.kpi small { font-size: 13px; color: var(--muted); }
+.kpi strong { display: block; font-size: 28px; font-weight: 750; margin-top: 2px; white-space: nowrap; }
+.kpi em { font-style: normal; font-size: 12px; color: var(--subtle); margin-left: 6px; font-weight: 500; }
+.kpi.warn { background: var(--brownbg); border-color: #efd2b8; }
+.kpi.warn strong { color: var(--brown); }
+.grid { display: grid; gap: 16px; min-height: 0; flex: 1; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+.card > header { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.card > header h2 { font-size: 16px; font-weight: 700; }
+.card > header span { font-size: 12.5px; color: var(--muted); }
+.card .body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; font-weight: 550; color: var(--muted); background: #f7f9fc; padding: 9px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 9px 14px; border-bottom: 1px solid var(--soft); white-space: nowrap; }
+.num { text-align: right; }
+.compact td { padding-top: 7px; padding-bottom: 7px; }
+.compact tr.group td { padding-top: 5px; padding-bottom: 5px; }
+.tight th, .tight td { padding-left: 11px; padding-right: 11px; }
+.c { text-align: center; }
+tr.sel td { background: var(--sel); }
+tr.sel td:first-child { box-shadow: inset 3px 0 var(--blue); color: var(--blue); }
+td.b { font-weight: 700; }
+.muted { color: var(--muted); } .subtle { color: var(--subtle); }
+.bar { display: inline-block; vertical-align: middle; width: 70px; height: 6px; border-radius: 3px; background: #e3e8f0; margin-right: 8px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--blue2); border-radius: 3px; }
+.bar.late i { background: var(--brown); }
+.pill { display: inline-block; font-size: 12px; font-weight: 650; padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
+.pill.late, .pill.warn { background: var(--brownbg); color: var(--brown); }
+.pill.crit { background: var(--redbg); color: var(--red); }
+.pill.run { background: var(--bluebg); color: #2d55b5; }
+.pill.done { background: var(--greenbg); color: var(--green); }
+.pill.wait { background: #eef1f5; color: #5b6880; }
+.label { font-size: 12.5px; font-weight: 650; color: var(--muted); }
+.track { height: 10px; border-radius: 5px; background: #e9edf3; display: flex; overflow: hidden; flex: none; }
+.track i { display: block; height: 100%; }
+.facts { display: grid; gap: 8px; }
+.facts div { background: #f7f9fc; border: 1px solid #e6ebf2; border-radius: 3px; padding: 8px 10px; white-space: nowrap; }
+.facts small { display: block; color: var(--muted); font-size: 12px; }
+.facts b { font-size: 16px; }
+.facts b.blue { color: var(--blue); }
+.zones .label { margin-bottom: 2px; }
+.zones > div:not(.label) { display: grid; grid-template-columns: 118px 1fr 44px; align-items: center; gap: 10px; margin-top: 7px; white-space: nowrap; }
+.zones .bar { width: 100%; margin: 0; }
+.zones span:last-child { text-align: right; color: var(--muted); }
+.alarm { border-left: 3px solid var(--brown); background: #fdf3e6; padding: 10px 12px; border-radius: 0 3px 3px 0; }
+.alarm.crit { border-color: var(--red); background: #fdf0ef; }
+.alarm b { color: var(--brown); margin-right: 8px; }
+.alarm.crit b { color: var(--red); }
+.alarm small { display: block; color: var(--muted); margin-top: 3px; font-size: 12px; }
+.list > div:not(.label) { display: grid; grid-template-columns: 52px 1fr auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid #edf1f6; white-space: nowrap; }
+.list > div:last-child { border-bottom: 0; }
+.list time { color: var(--subtle); }
+.legend { display: flex; gap: 16px; font-size: 12.5px; color: var(--muted); }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+.items > a { display: block; padding: 11px 14px; border-bottom: 1px solid var(--soft); }
+.items > a b { display: flex; justify-content: space-between; align-items: center; font-weight: 650; font-size: 14px; }
+.items > a small { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+.items > a.on { background: var(--sel); box-shadow: inset 3px 0 var(--blue); }
+.items > a.on b { color: var(--blue); }
+.check { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 3px; background: var(--bluebg); color: var(--blue); font-size: 12px; font-weight: 800; }
+.check.no { background: none; color: #b4bdcb; font-weight: 500; }
+tr.group td { background: #fafbfd; color: var(--muted); font-weight: 650; font-size: 12.5px; padding: 6px 14px; }
+.chart { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.chart svg { flex: 1; width: 100%; min-height: 0; }
+.steps > div { display: grid; grid-template-columns: 18px 52px 1fr; gap: 8px; align-items: start; padding: 5px 0; }
+.steps i { width: 10px; height: 10px; border-radius: 50%; background: var(--blue2); margin-top: 4px; box-shadow: 0 0 0 3px #e3eafa; }
+.steps i.err { background: var(--red); box-shadow: 0 0 0 3px #f8dcd9; }
+.steps i.warn { background: #d0872f; box-shadow: 0 0 0 3px #f7e5d0; }
+.steps time { color: var(--subtle); }
+.code { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; background: #f2f5f9; border: 1px solid #e3e8f0; padding: 1px 6px; border-radius: 3px; }
+.guide > div { display: flex; gap: 10px; align-items: center; padding: 4px 0; }
+.mini { display: flex; align-items: flex-end; gap: 6px; height: 54px; flex: none; }
+.mini i { flex: 1; background: #c9d7f3; border-radius: 2px 2px 0 0; }
+.mini i:last-child { background: var(--blue2); }
+.fill { flex: 1; min-height: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const EN = q.get('lang') === 'en';
+const SCREEN = q.get('screen') || 'waves';
+const L = (ko, en) => (EN ? en : ko);
+const f = n => n.toLocaleString('en-US');
+
+/* ---------- shared sample data ---------- */
+const TYPES = { same: L('당일 배송', 'Same-day orders'), std: L('일반 택배', 'Standard parcels'), rep: L('매장 보충', 'Store replenishment'), b2b: L('B2B 팔레트', 'B2B pallets') };
+const ST = { late: L('지연', 'Delayed'), run: L('진행', 'Active'), done: L('완료', 'Complete'), wait: L('대기', 'Queued') };
+const WAVES = [
+  ['W-1046', 'same', '17:00', 300, 0, 0, 'wait'],
+  ['W-1045', 'rep', '16:30', 520, 0, 0, 'wait'],
+  ['W-1044', 'same', '16:00', 420, 0, 0, 'wait'],
+  ['W-1043', 'std', '15:30', 380, 60, 40, 'run'],
+  ['W-1042', 'same', '14:30', 1200, 210, 780, 'late'],
+  ['W-1041', 'std', '14:00', 860, 140, 720, 'run'],
+  ['W-1040', 'rep', '12:00', 640, 0, 640, 'done'],
+  ['W-1039', 'b2b', '11:00', 320, 0, 320, 'done'],
+  ['W-1038', 'same', '10:30', 540, 0, 540, 'done'],
+  ['W-1037', 'std', '09:30', 700, 0, 700, 'done'],
+  ['W-1036', 'rep', '09:00', 450, 0, 450, 'done'],
+  ['W-1035', 'b2b', '08:30', 260, 0, 260, 'done'],
+];
+const SUM = WAVES.reduce((a, w) => ({ rel: a.rel + w[3], act: a.act + w[4], done: a.done + w[5] }), { rel: 0, act: 0, done: 0 });
+const ALARMS = [
+  ['13:09', 'warn', 'CV-B02', L('출고라인1 컨베이어', 'Outbound line 1 conveyor'), L('화물 정체', 'Parcel jam'), 'ERR:CNV:0311', 'open', ''],
+  ['13:08', 'crit', 'CV-B02', L('출고라인1 · P0-L0-U48', 'Outbound line 1 · P0-L0-U48'), L('모터 과부하·차단기 트립', 'Motor overload · breaker trip'), 'ERR:CNV:0253', 'open', ''],
+  ['12:52', 'warn', 'SC-01', L('출고 소터 바코드 스캐너', 'Sorter barcode scanner'), L('판독 실패 연속 발생', 'Repeated read failures'), 'ERR:SCN:0102', 'closed', '12:57'],
+  ['12:34', 'warn', 'CV-A01', L('입고 컨베이어', 'Inbound conveyor'), L('센서 신호 이상', 'Sensor signal fault'), 'ERR:CNV:0127', 'closed', '12:38'],
+  ['11:47', 'info', 'AS-02', L('자동창고 2호기', 'AS/RS unit 2'), L('셔틀 응답 지연', 'Shuttle response delay'), 'ERR:ASR:0415', 'closed', '11:49'],
+  ['11:15', 'warn', 'AMR-07', L('AMR 7호기', 'AMR 07'), L('배터리 부족 복귀', 'Low battery return'), 'ERR:AMR:0021', 'closed', '11:31'],
+  ['10:58', 'info', 'SO-01', L('출고 소터', 'Outbound sorter'), L('슈트 만재', 'Chute full'), 'ERR:SRT:0208', 'closed', '11:02'],
+  ['10:21', 'warn', 'CV-B01', L('출고 공용 컨베이어', 'Shared outbound conveyor'), L('화물 간격 부족', 'Insufficient carton gap'), 'ERR:CNV:0144', 'closed', '10:24'],
+  ['09:40', 'info', 'AS-01', L('자동창고 1호기', 'AS/RS unit 1'), L('리프트 위치 보정', 'Lift position recalibrated'), 'ERR:ASR:0302', 'closed', '09:41'],
+  ['09:12', 'warn', 'PK-03', L('포장 3번 스테이션', 'Packing station 3'), L('라벨 프린터 용지 없음', 'Label printer out of paper'), 'ERR:PRN:0011', 'closed', '09:20'],
+  ['08:47', 'info', 'AMR-03', L('AMR 3호기', 'AMR 03'), L('경로 재계산', 'Route recalculated'), 'ERR:AMR:0007', 'closed', '08:47'],
+  ['08:05', 'warn', 'CV-A02', L('입고 검수 컨베이어', 'Inbound inspection conveyor'), L('비상 정지 해제 대기', 'E-stop reset pending'), 'ERR:CNV:0099', 'closed', '08:11'],
+];
+const OPEN = ALARMS.filter(a => a[6] === 'open');
+
+const logo = '<svg viewBox="0 0 24 24"><path d="M3 21V3h4l10 12V3h4v18h-4L7 9v12z" fill="#3562d7"/></svg>';
+const NAV = [['overview', L('기본현황', 'Overview')], ['waves', L('웨이브 진행', 'Wave progress')], ['alarms', L('설비 알람', 'Equipment alarms')], ['roles', L('역할 관리', 'Roles')], ['schedules', L('스케줄 관리', 'Schedules')]];
+const SIDE = [
+  [L('대시보드', 'Dashboard'), [['overview', L('기본현황', 'Overview')], ['waves', L('웨이브 진행', 'Wave progress')], ['', L('현황판', 'Live board')]]],
+  ['Operation', [['', L('기준정보', 'Master data')], ['', L('재고', 'Inventory')], ['', L('입고', 'Inbound')], ['', L('출고', 'Outbound')], ['', L('작업 관리', 'Tasks')]]],
+  ['Agent', [['', L('연동 설비', 'Equipment')], ['', L('연동 시스템', 'Systems')], ['alarms', L('설비 알람', 'Equipment alarms')]]],
+  ['IAM', [['', L('사용자 관리', 'Users')], ['roles', L('역할 관리', 'Roles')], ['', L('메뉴 관리', 'Menus')]]],
+  ['System', [['', L('시스템 설정', 'Settings')], ['schedules', L('스케줄 관리', 'Schedules')]]],
+];
+const head = (title, sub, filters) => `<div class="head"><div><h1>${title}</h1><p>${sub}</p></div><div class="filters">${filters.map((x, i) => `<span class="${i === filters.length - 1 ? 'primary' : ''}">${x}</span>`).join('')}</div></div>`;
+const kpis = (items, cols) => `<div class="kpis" style="grid-template-columns:repeat(${cols || items.length},1fr)">${items.map(([k, v, e, w]) => `<div class="kpi ${w ? 'warn' : ''}"><small>${k}</small><strong>${v}<em>${e || ''}</em></strong></div>`).join('')}</div>`;
+const pct = w => (w[3] ? Math.round((w[5] / w[3]) * 100) : 0);
+const waveRow = (w, cols) => `<tr class="${w[0] === 'W-1042' ? 'sel' : ''}"><td class="b">${w[0]}</td><td>${TYPES[w[1]]}</td>${cols === 'full' ? `<td>${w[2]}</td>` : ''}<td class="num">${f(w[3])}</td><td class="num">${f(w[4])}</td><td class="num">${f(w[5])}</td><td><span class="bar ${w[6] === 'late' ? 'late' : ''}"><i style="width:${pct(w)}%"></i></span>${pct(w)}%</td><td><span class="pill ${w[6]}">${ST[w[6]]}</span></td></tr>`;
+const sev = s => (s === 'crit' ? `<span class="pill crit">${L('치명', 'Critical')}</span>` : s === 'warn' ? `<span class="pill warn">${L('경고', 'Warning')}</span>` : `<span class="pill wait">${L('정보', 'Info')}</span>`);
+const alarmState = a => (a[6] === 'open' ? `<span class="pill crit">${L('발생 중', 'Active')}</span>` : `<span class="pill done">${L('복구', 'Cleared')}</span>`);
+
+/* ---------- screens ---------- */
+const screens = {};
+
+screens.waves = () => `
+  ${head(L('출고 웨이브 진행', 'Outbound wave progress'), L('웨이브별 지시 수량과 현재 진행 상태를 확인합니다.', 'Compare released, active and completed quantities by wave.'), [L('오늘', 'Today'), L('전체 구역', 'All zones'), L('내보내기', 'Export')])}
+  ${kpis([[L('출고 지시', 'Released'), f(SUM.rel)], [L('처리 완료', 'Completed'), f(SUM.done), Math.round((SUM.done / SUM.rel) * 100) + '%'], [L('작업 진행', 'Active'), f(SUM.act)], [L('지연 웨이브', 'Delayed waves'), '1', 'W-1042', 1], [L('설비 알람', 'Equipment alarms'), String(OPEN.length), L('치명 1', '1 critical'), 1]])}
+  <div class="grid" style="grid-template-columns:1fr 460px">
+    <section class="card"><header><h2>${L('웨이브 목록', 'Waves')}</h2><span>${L('2026-11-23 13:12 갱신', 'Updated 2026-11-23 13:12')}</span></header>
+      <div class="fill"><table><thead><tr><th>${L('웨이브', 'Wave')}</th><th>${L('구분', 'Order type')}</th><th>${L('마감', 'Cutoff')}</th><th class="num">${L('지시', 'Released')}</th><th class="num">${L('진행', 'Active')}</th><th class="num">${L('완료', 'Completed')}</th><th>${L('진행률', 'Progress')}</th><th>${L('상태', 'Status')}</th></tr></thead>
+      <tbody>${WAVES.map(w => waveRow(w, 'full')).join('')}</tbody></table></div>
+    </section>
+    <section class="card"><header><h2>W-1042 · ${TYPES.same}</h2><span class="pill late">${ST.late}</span></header>
+      <div class="body">
+        <div style="display:flex;align-items:baseline;justify-content:space-between"><strong style="font-size:34px;font-weight:800;color:var(--brown)">65%</strong><span class="muted">${L('마감 14:30 · 78분 남음', 'Cutoff 14:30 · 78 min left')}</span></div>
+        <div class="track"><i style="width:65%;background:#3f68bc"></i><i style="width:17.5%;background:#9db4e6"></i><i style="width:17.5%;background:#e0a77d"></i></div>
+        <div class="facts" style="grid-template-columns:repeat(3,1fr)"><div><small>${L('지시', 'Released')}</small><b>1,200</b></div><div><small>${L('완료', 'Completed')}</small><b>780</b></div><div><small>${L('투입 대기', 'Awaiting')}</small><b>210</b></div></div>
+        <div class="zones"><div class="label">${L('구역별 진행', 'Progress by zone')}</div>${[[L('자동창고 피킹', 'AS/RS picking'), 92, ''], [L('소터', 'Sorter'), 78, ''], [L('출고라인1', 'Outbound line 1'), 41, 'late'], [L('포장', 'Packing'), 55, '']].map(([n, p, c]) => `<div><span>${n}</span><span class="bar ${c}"><i style="width:${p}%"></i></span><span>${p}%</span></div>`).join('')}</div>
+        <div class="alarm crit"><b>ERR:CNV:0253</b>${L('모터 과부하·차단기 트립', 'Motor overload · breaker trip')}<small>${L('출고라인1 유닛 · P0-L0-U48 · 13:08', 'Outbound line 1 · P0-L0-U48 · 13:08')}</small></div>
+        <div class="list"><div class="label">${L('최근 이벤트', 'Recent events')}</div>${[['13:09', L('출고라인1 화물 정체', 'Outbound line 1 parcel jam')], ['13:08', L('출고라인1 설비 알람 발생', 'Outbound line 1 alarm raised')], ['12:56', L('소터 처리량 목표 미달', 'Sorter throughput below target')], ['12:41', L('W-1042 투입 시작', 'W-1042 release started')], ['12:02', L('W-1040 완료', 'W-1040 completed')]].map(([t, m]) => `<div><time>${t}</time><span>${m}</span><span></span></div>`).join('')}</div>
+      </div>
+    </section>
+  </div>`;
+
+screens.overview = () => {
+  const hours = [['08', 410, 0], ['09', 620, 0], ['10', 760, 0], ['11', 840, 0], ['12', 905, 0], ['13', 520, 380]];
+  const max = 1000, W = 640, H = 240, bw = 54, gap = (W - 40 - hours.length * bw) / hours.length;
+  const svg = `<svg viewBox="0 0 ${W} ${H + 24}" preserveAspectRatio="none">${[0, 250, 500, 750, 1000].map(v => { const y = H - (v / max) * H + 4; return `<line x1="40" x2="${W}" y1="${y}" y2="${y}" stroke="#e8edf4"/><text x="32" y="${y + 4}" text-anchor="end" font-size="11" fill="#8391a7">${v}</text>`; }).join('')}
+    ${hours.map(([h, v, t], i) => { const x = 40 + gap / 2 + i * (bw + gap); const hv = (v / max) * H, ht = (t / max) * H; return `<rect x="${x}" y="${H - hv + 4}" width="${bw}" height="${hv}" fill="#3f68bc" rx="2"/>${t ? `<rect x="${x}" y="${H - hv - ht + 4}" width="${bw}" height="${ht}" fill="#c9d7f3" rx="2"/>` : ''}<text x="${x + bw / 2}" y="${H + 20}" text-anchor="middle" font-size="11.5" fill="#56637b">${h}:00</text>`; }).join('')}
+    <line x1="40" x2="${W}" y1="${H - 0.85 * H + 4}" y2="${H - 0.85 * H + 4}" stroke="#994e2c" stroke-dasharray="4 4"/><text x="46" y="${H - 0.85 * H - 2}" text-anchor="start" font-size="11" fill="#994e2c">${L('목표 850', 'Target 850')}</text></svg>`;
+  const eq = [['AS-01', L('자동창고 1호기', 'AS/RS unit 1'), 'ok', '98%'], ['AS-02', L('자동창고 2호기', 'AS/RS unit 2'), 'ok', '96%'], ['SO-01', L('출고 소터', 'Outbound sorter'), 'ok', '81%'], ['CV-B02', L('출고라인1', 'Outbound line 1'), 'err', L('정지', 'Stopped')], ['CV-B03', L('출고라인2', 'Outbound line 2'), 'ok', '74%'], ['CV-A01', L('입고 컨베이어', 'Inbound conveyor'), 'ok', '62%'], ['AMR', L('AMR 12대', 'AMR fleet (12)'), 'warn', L('10대 가동', '10 running')], ['PK', L('포장 스테이션 6', 'Packing stations (6)'), 'ok', '88%']];
+  return `
+  ${head(L('출고 운영 현황', 'Outbound operations'), L('오늘의 작업 진행과 연동 설비 상태를 확인합니다.', "Today's work progress and connected equipment status."), [L('오늘', 'Today'), L('전체 센터', 'All sites'), L('새로고침', 'Refresh')])}
+  ${kpis([[L('출고 지시', 'Released'), f(SUM.rel)], [L('처리 완료', 'Completed'), f(SUM.done), Math.round((SUM.done / SUM.rel) * 100) + '%'], [L('작업 진행', 'Active'), f(SUM.act)], [L('설비 알람', 'Equipment alarms'), String(OPEN.length), L('치명 1', '1 critical'), 1]])}
+  <div class="grid" style="grid-template-columns:1fr 400px;grid-template-rows:1fr 1.15fr auto">
+    <section class="card"><header><h2>${L('시간대별 처리량', 'Hourly throughput')}</h2><span class="legend"><span><i style="background:#3f68bc"></i>${L('완료', 'Completed')}</span><span><i style="background:#c9d7f3"></i>${L('진행', 'Active')}</span></span></header>
+      <div class="body chart">${svg}</div></section>
+    <section class="card"><header><h2>${L('연동 설비 상태', 'Equipment status')}</h2><span>${L('7/8 정상', '7/8 normal')}</span></header>
+      <div class="body list fill" style="gap:0">${eq.map(([id, n, s, v]) => `<div style="grid-template-columns:70px 1fr auto"><span class="subtle">${id}</span><span><i class="dot ${s === 'ok' ? '' : s}"></i>${n}</span><span class="${s === 'err' ? '' : 'muted'}" style="${s === 'err' ? 'color:var(--red);font-weight:650' : ''}">${v}</span></div>`).join('')}</div></section>
+    <section class="card"><header><h2>${L('웨이브 진행', 'Wave progress')}</h2><span>2026-11-23</span></header>
+      <div class="fill"><table><thead><tr><th>${L('웨이브', 'Wave')}</th><th>${L('구분', 'Order type')}</th><th class="num">${L('지시', 'Released')}</th><th class="num">${L('진행', 'Active')}</th><th class="num">${L('완료', 'Completed')}</th><th>${L('진행률', 'Progress')}</th><th>${L('상태', 'Status')}</th></tr></thead>
+      <tbody>${WAVES.slice(2, 9).map(w => waveRow(w)).join('')}</tbody></table></div></section>
+    <section class="card"><header><h2>${L('최근 알람', 'Recent alarms')}</h2><span>${L('발생 중 2건', '2 active')}</span></header>
+      <div class="body list fill" style="gap:0">${ALARMS.slice(0, 7).map(a => `<div style="grid-template-columns:44px 1fr auto"><time>${a[0]}</time><span>${a[2]} · ${a[4]}</span>${a[6] === 'open' ? sev(a[1]) : `<span class="pill done">${L('복구', 'Cleared')}</span>`}</div>`).join('')}</div></section>
+    <section class="card" style="grid-column:1/-1"><div class="body" style="flex-direction:row;align-items:center;gap:24px">
+      <b style="white-space:nowrap;font-size:15px">${L('출고 작업 구성', 'Outbound work mix')}</b>
+      <div class="track" style="flex:1"><i style="width:${(SUM.done / SUM.rel) * 100}%;background:#3f68bc"></i><i style="width:${(SUM.act / SUM.rel) * 100}%;background:#9db4e6"></i><i style="flex:1;background:#e0a77d"></i></div>
+      <span class="legend"><span><i style="background:#3f68bc"></i>${L('완료', 'Completed')} ${f(SUM.done)}</span><span><i style="background:#9db4e6"></i>${L('진행', 'Active')} ${f(SUM.act)}</span><span><i style="background:#e0a77d"></i>${L('대기', 'Queued')} ${f(SUM.rel - SUM.done - SUM.act)}</span></span></div></section>
+  </div>`;
+};
+
+screens.alarms = () => `
+  ${head(L('설비 알람 이력', 'Equipment alarm history'), L('발생 구간과 발생·복구 상태를 확인합니다.', 'Review where alarms occurred and whether they have recovered.'), [L('오늘', 'Today'), L('전체 설비', 'All equipment'), L('발생 중만 보기', 'Active only')])}
+  ${kpis([[L('발생 중', 'Active'), String(OPEN.length), 'CV-B02', 1], [L('치명', 'Critical'), '1', 'ERR:CNV:0253', 1], [L('오늘 발생', 'Raised today'), String(ALARMS.length)], [L('평균 복구 시간', 'Mean time to recover'), L('6분', '6 min')]])}
+  <div class="grid" style="grid-template-columns:1fr 470px">
+    <section class="card"><header><h2>${L('알람 목록', 'Alarms')}</h2><span>${L('2026-11-23 13:12 갱신', 'Updated 2026-11-23 13:12')}</span></header>
+      <div class="fill"><table class="tight"><thead><tr><th>${L('발생 시각', 'Raised')}</th><th>${L('등급', 'Severity')}</th><th>${L('설비 ID', 'Equipment')}</th><th>${L('구간', 'Location')}</th><th>${L('내용', 'Description')}</th>${EN ? '' : `<th>코드</th>`}<th>${L('상태', 'Status')}</th><th>${L('복구', 'Cleared')}</th></tr></thead>
+      <tbody>${ALARMS.map((a, i) => `<tr class="${i === 0 ? 'sel' : ''}"><td>${a[0]}</td><td>${sev(a[1])}</td><td class="b">${a[2]}</td><td>${a[3]}</td><td>${a[4]}</td>${EN ? '' : `<td class="subtle">${a[5]}</td>`}<td>${alarmState(a)}</td><td class="subtle">${a[7] || '—'}</td></tr>`).join('')}</tbody></table></div>
+    </section>
+    <section class="card"><header><h2>CV-B02 · ${L('화물 정체', 'Parcel jam')}</h2><span class="pill crit">${L('발생 중', 'Active')}</span></header>
+      <div class="body">
+        <div class="facts" style="grid-template-columns:repeat(2,1fr)"><div><small>${L('구간', 'Location')}</small><b>${L('출고라인1 · B구역', 'Outbound line 1 · Zone B')}</b></div><div><small>${L('경과 시간', 'Elapsed')}</small><b>${L('3분 12초', '3 min 12 s')}</b></div><div><small>${L('영향 웨이브', 'Affected wave')}</small><b>W-1042</b></div><div><small>${L('정체 화물', 'Jammed parcels')}</small><b>${L('14박스', '14 parcels')}</b></div></div>
+        <div class="steps"><div class="label" style="grid-column:1/-1;display:block;margin-bottom:2px">${L('발생 경과', 'Timeline')}</div>${[['err', '13:08', L('CV-B02 모터 과부하·차단기 트립 (ERR:CNV:0253)', 'CV-B02 motor overload · breaker trip (ERR:CNV:0253)')], ['warn', '13:09', L('후단 화물 정체 감지', 'Downstream parcel jam detected')], ['', '13:10', L('출고 1조 담당자 알림 발송', 'Shift 1 operator notified')], ['', '13:11', L('W-1042 투입 일시 보류', 'W-1042 release paused')]].map(([c, t, m]) => `<div><i class="${c}"></i><time>${t}</time><span>${m}</span></div>`).join('')}</div>
+        <div class="guide"><div class="label">${L('조치 가이드', 'Response guide')}</div>${[[1, L('현장 차단기 상태 확인', 'Check the breaker on site')], [0, L('정체 화물 제거 후 리셋', 'Clear parcels, then reset')], [0, L('출고라인2로 우회 투입', 'Divert release to outbound line 2')]].map(([d, m]) => `<div><span class="check ${d ? '' : 'no'}">${d ? '✓' : '○'}</span><span>${m}</span></div>`).join('')}</div>
+        <div class="list"><div class="label">${L('같은 설비 최근 알람', 'Recent alarms on this equipment')}</div>${[['13:08', L('모터 과부하·차단기 트립', 'Motor overload · breaker trip'), 'crit'], ['11-21', L('화물 간격 부족', 'Insufficient carton gap'), ''], ['11-18', L('센서 신호 이상', 'Sensor signal fault'), '']].map(([d, m, s]) => `<div><time>${d}</time><span>${m}</span>${s ? sev(s) : `<span class="pill done">${L('복구', 'Cleared')}</span>`}</div>`).join('')}</div>
+      </div>
+    </section>
+  </div>`;
+
+screens.roles = () => {
+  const roles = [[L('현장 운영자', 'Site operator'), L('출고 작업·알람 확인', 'Outbound work and alarms'), 12], [L('설비 담당자', 'Equipment engineer'), L('설비 상태·이력 확인', 'Equipment status and history'), 5], [L('운영 관리자', 'Operations manager'), L('설정과 운영 도구 관리', 'Settings and operating tools'), 3], [L('시스템 관리자', 'System administrator'), L('연동·계정·전체 설정', 'Integrations, accounts, all settings'), 2], [L('조회 전용', 'Read-only'), L('현황판·리포트 조회', 'Live board and reports'), 8], [L('입고 운영자', 'Inbound operator'), L('입고 검수·적치 확인', 'Inbound inspection and putaway'), 7], [L('협력사 조회', 'Partner viewer'), L('출고 현황 일부 조회', 'Limited outbound status'), 4]];
+  const Y = '<span class="check">✓</span>', N = '<span class="check no">—</span>';
+  const perms = [[L('대시보드', 'Dashboard'), [[L('기본현황', 'Overview'), 1, 0, 0, 0], [L('웨이브 진행', 'Wave progress'), 1, 1, 1, 0]]], ['Operation', [[L('기준정보', 'Master data'), 1, 0, 0, 0], [L('재고', 'Inventory'), 1, 0, 0, 0], [L('입고', 'Inbound'), 1, 1, 0, 0], [L('출고', 'Outbound'), 1, 1, 1, 0], [L('작업 관리', 'Tasks'), 1, 1, 1, 0]]], ['Agent', [[L('연동 설비', 'Equipment'), 1, 0, 0, 0], [L('설비 알람', 'Equipment alarms'), 1, 1, 0, 0], [L('연동 시스템', 'Systems'), 0, 0, 0, 0]]], ['IAM', [[L('사용자 관리', 'Users'), 0, 0, 0, 0], [L('역할 관리', 'Roles'), 0, 0, 0, 0]]], ['System', [[L('시스템 설정', 'Settings'), 1, 0, 0, 0], [L('스케줄 관리', 'Schedules'), 1, 0, 0, 0]]]];
+  const users = [['OP-01', L('출고 1조', 'Shift 1'), L('13:02 접속', 'Active 13:02')], ['OP-02', L('출고 1조', 'Shift 1'), L('12:58 접속', 'Active 12:58')], ['OP-03', L('출고 1조', 'Shift 1'), L('12:44 접속', 'Active 12:44')], ['OP-07', L('출고 2조', 'Shift 2'), L('어제', 'Yesterday')], ['OP-08', L('출고 2조', 'Shift 2'), L('어제', 'Yesterday')], ['OP-09', L('출고 2조', 'Shift 2'), L('어제', 'Yesterday')], ['OP-10', L('출고 2조', 'Shift 2'), L('11-22', 'Nov 22')], ['OP-11', L('입고조', 'Inbound'), L('11-21', 'Nov 21')]];
+  return `
+  ${head(L('역할과 접근 권한', 'Roles and permissions'), L('업무별 조회·배정·변경 권한을 역할 단위로 관리합니다.', 'Manage view, assign and edit permissions by role.'), [L('변경 이력', 'History'), L('역할 추가', 'Add role')])}
+  <div class="grid" style="grid-template-columns:280px 1fr 330px">
+    <section class="card"><header><h2>${L('역할', 'Roles')}</h2><span>${roles.length}</span></header>
+      <div class="items">${roles.map(([n, d, c], i) => `<a class="${i === 0 ? 'on' : ''}"><b>${n}<span class="subtle" style="font-weight:500;font-size:12px">${c}${L('명', '')}</span></b><small>${d}</small></a>`).join('')}</div></section>
+    <section class="card"><header><h2>${roles[0][0]}</h2><span><span class="pill done">${L('활성', 'Active')}</span>&nbsp; ${L('사용자 12명 · 11-18 수정', '12 users · edited Nov 18')}</span></header>
+      <div class="fill"><table class="compact"><thead><tr><th>${L('메뉴', 'Menu')}</th><th class="c">${L('조회', 'View')}</th><th class="c">${L('배정', 'Assign')}</th><th class="c">${L('변경', 'Edit')}</th><th class="c">${L('승인', 'Approve')}</th></tr></thead>
+      <tbody>${perms.map(([g, rows]) => `<tr class="group"><td colspan="5">${g}</td></tr>${rows.map(([n, ...p]) => `<tr><td>${n}</td>${p.map(x => `<td class="c">${x ? Y : N}</td>`).join('')}</tr>`).join('')}`).join('')}</tbody></table></div></section>
+    <section class="card"><header><h2>${L('소속 사용자', 'Members')}</h2><span>12</span></header>
+      <div class="body list" style="gap:0">${users.map(([id, g, t]) => `<div style="grid-template-columns:32px 1fr auto"><span class="avatar" style="width:26px;height:26px;font-size:10.5px">${id.slice(3)}</span><span><b style="font-weight:650">${id}</b> <span class="muted">· ${g}</span></span><span class="subtle">${t}</span></div>`).join('')}
+        <div class="label" style="margin-top:10px">${L('최근 변경', 'Recent changes')}</div>${[['11-18', L('설비 알람 배정 권한 추가', 'Added assign on equipment alarms')], ['11-02', L('웨이브 변경 권한 추가', 'Added edit on wave progress')]].map(([t, m]) => `<div style="grid-template-columns:44px 1fr"><time>${t}</time><span>${m}</span></div>`).join('')}</div></section>
+  </div>`;
+};
+
+screens.schedules = () => {
+  const list = [[L('출고 실적 집계', 'Outbound results rollup'), L('매일 03:00', 'Daily 03:00'), 'on'], [L('재고 스냅샷', 'Inventory snapshot'), L('매일 04:00', 'Daily 04:00'), 'on'], [L('웨이브 자동 생성', 'Auto wave creation'), L('30분마다', 'Every 30 min'), 'on'], [L('설비 상태 동기화', 'Equipment status sync'), L('5분마다', 'Every 5 min'), 'on'], [L('알람 리포트 발송', 'Alarm report email'), L('매일 18:00', 'Daily 18:00'), 'on'], [L('입고 예정 수신', 'Inbound ASN import'), L('10분마다', 'Every 10 min'), 'on'], [L('월간 운영 리포트', 'Monthly operations report'), L('매월 1일 06:00', '1st of month 06:00'), 'on'], [L('이벤트 이력 정리', 'Event history cleanup'), L('매주 일 02:00', 'Sun 02:00'), 'off']];
+  const runs = [['11-23 03:00', '1.8 s', '5,214'], ['11-22 03:00', '2.1 s', '5,902'], ['11-21 03:00', '2.0 s', '5,688'], ['11-20 03:00', '1.9 s', '5,431'], ['11-19 03:00', '2.3 s', '6,120'], ['11-18 03:00', '1.7 s', '4,975'], ['11-17 03:00', '1.6 s', '4,402'], ['11-16 03:00', '1.5 s', '3,980'], ['11-15 03:00', '2.0 s', '5,733'], ['11-14 03:00', '1.9 s', '5,501']];
+  return `
+  ${head(L('정기 작업 스케줄', 'Recurring job schedules'), L('실행 주기와 최근 실행 결과를 확인합니다.', 'Review run frequency and recent results.'), [L('실행 이력', 'Run history'), L('스케줄 추가', 'Add schedule')])}
+  ${kpis([[L('활성 스케줄', 'Active schedules'), '7', L('전체 8', 'of 8')], [L('오늘 실행', 'Runs today'), '186'], [L('실패', 'Failed'), '0', L('최근 7일', 'last 7 days')], [L('다음 실행', 'Next run'), '13:15', L('설비 상태 동기화', 'Equipment sync')]])}
+  <div class="grid" style="grid-template-columns:330px 1fr">
+    <section class="card"><header><h2>${L('스케줄', 'Schedules')}</h2><span>8</span></header>
+      <div class="items">${list.map(([n, c, s], i) => `<a class="${i === 0 ? 'on' : ''}"><b>${n}${s === 'on' ? `<span class="pill done">${L('활성', 'On')}</span>` : `<span class="pill wait">${L('일시중지', 'Paused')}</span>`}</b><small>${c}</small></a>`).join('')}</div></section>
+    <section class="card"><header><h2>${list[0][0]}</h2><span><span class="code">0 3 * * *</span>&nbsp; ${L('대상: 전일 출고 실적 → ERP', 'Target: previous-day outbound results → ERP')}</span></header>
+      <div class="body">
+        <div class="facts" style="grid-template-columns:repeat(4,1fr)"><div><small>${L('실행 주기', 'Frequency')}</small><b>${L('매일 03:00', 'Daily 03:00')}</b></div><div><small>${L('마지막 실행', 'Last run')}</small><b>11-23 03:00</b></div><div><small>${L('다음 실행', 'Next run')}</small><b class="blue">11-24 03:00</b></div><div><small>${L('평균 소요', 'Avg. duration')}</small><b>1.9 s</b></div></div>
+        <div style="display:grid;grid-template-columns:1fr 260px;gap:16px;min-height:0">
+          <div style="border:1px solid var(--soft);border-radius:3px;overflow:hidden"><table><thead><tr><th>${L('최근 실행', 'Recent runs')}</th><th class="num">${L('소요 시간', 'Duration')}</th><th class="num">${L('처리 건수', 'Records')}</th><th>${L('결과', 'Result')}</th></tr></thead>
+            <tbody>${runs.map(([t, d, n]) => `<tr><td>${t}</td><td class="num">${d}</td><td class="num">${n}</td><td><span class="pill done">${L('완료', 'Success')}</span></td></tr>`).join('')}</tbody></table></div>
+          <div style="display:flex;flex-direction:column;gap:10px"><div class="label">${L('소요 시간 추이', 'Duration trend')}</div><div class="mini">${[1.6, 1.7, 2.3, 1.9, 2.0, 2.1, 1.8].map(v => `<i style="height:${(v / 2.4) * 100}%"></i>`).join('')}</div>
+            <div class="label" style="margin-top:6px">${L('실패 시 알림', 'On failure')}</div><div class="muted">${L('운영 관리자 · 메일, 메신저', 'Operations manager · email, chat')}</div>
+            <div class="label" style="margin-top:6px">${L('재시도', 'Retry')}</div><div class="muted">${L('최대 3회 · 5분 간격', 'Up to 3 times · 5 min apart')}</div></div>
+        </div>
+      </div>
+    </section>
+  </div>`;
+};
+
+document.getElementById('app').innerHTML = `
+<div class="top"><div class="logo">${logo}<b>NOVA</b><span>Workspace</span></div>
+  <nav class="nav">${NAV.map(([k, n]) => `<a class="${k === SCREEN ? 'on' : ''}">${n}</a>`).join('')}</nav>
+  <div class="right"><span><i class="dot"></i>${L('에이전트 연결 8/8', 'Agents online 8/8')}</span><span class="badge">${L('화면 시안 · 예시 데이터', 'Concept · Sample data')}</span><span class="avatar">OP</span></div></div>
+<div class="shell">
+  <aside class="side">${SIDE.map(([h, items]) => `<h4>${h}</h4>${items.map(([k, n]) => `<a class="${k && k === SCREEN ? 'on' : ''}">${n}</a>`).join('')}`).join('')}</aside>
+  <main>${screens[SCREEN]()}</main>
+</div>`;
+</script>
+</body>
+</html>
