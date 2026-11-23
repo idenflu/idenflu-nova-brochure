@@ -60,20 +60,22 @@ button { font: inherit; }
 .four-col { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
 
 /* Opening: the platform is shown in the context of a warehouse. */
-.hero { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 40px; flex: 1; padding: 32px 0; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); align-items: center; gap: 56px; flex: 1; padding: 24px 0; }
 .client-badge { display: inline-block; margin-bottom: 18px; padding: 5px 12px; border: 1px solid #455c7b; background: #202d42; color: var(--accent); font-size: 11px; font-weight: 600; letter-spacing: .1em; }
-.hero .kicker { margin-bottom: 28px; }
-.hero h1 { white-space: nowrap; }
-.hero .lead { margin-top: 28px; font-size: 18px; }
-.hero-products { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; max-width: 520px; margin-top: 42px; padding-top: 24px; border-top: 1px solid var(--line); }
-.hero-products strong { display: block; font-size: 15px; font-weight: 500; }
-.hero-products small { display: block; margin-top: 4px; color: var(--subtle); font-size: 12px; }
-.hero-visual { position: relative; padding: 24px 0; }
-.platform-label { display: flex; align-items: center; justify-content: space-between; margin: 0 10px; padding: 18px 22px; border: 1px solid #455c7b; background: #202d42; }
-.platform-label strong { font-size: 25px; letter-spacing: .06em; font-weight: 500; }
-.platform-label span { color: var(--muted); font-size: 12px; }
+.hero .kicker { margin-bottom: 20px; color: var(--accent); font-size: 14px; letter-spacing: .06em; }
+.hero h1 { font-size: 65px; font-weight: 600; line-height: 1.12; }
+:lang(en) .hero h1 { font-size: 54px; }
+.hero .lead { max-width: 28em; margin-top: 24px; font-size: 20px; line-height: 1.65; text-wrap: pretty; }
+.hero-visual { margin: 0; border: 1px solid var(--line); background: radial-gradient(ellipse at 52% 44%, #293e5a, #1b283b 75%); }
 .warehouse-scene { display: block; width: 100%; height: auto; }
-.scene-caption { display: flex; justify-content: space-between; margin: 0 12px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 11px; letter-spacing: .04em; }
+.hero-visual .warehouse-scene text { fill: #d5e5ff; font-size: 14px; }
+.hero-visual .warehouse-scene polyline { stroke: #88befc; stroke-width: 2.5; }
+.scene-caption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--line); background: var(--paper); color: var(--muted); font-size: 14px; }
+.scene-caption strong { color: var(--ink); font-weight: 500; }
+.scene-caption span::before { content: ""; display: inline-block; width: 22px; margin-right: 8px; border-top: 2px dashed #88befc; vertical-align: middle; }
+.hero-products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 0; padding: 24px 0 28px; border-top: 1px solid var(--line); }
+.hero-products dt { color: var(--accent); font-size: 20px; font-weight: 600; }
+.hero-products dd { margin: 4px 0 0; color: var(--muted); font-size: 16px; }
 
 /* Customer problems and the operational response. */
 .pain-card { min-height: 264px; padding: 28px 30px; border-top: 2px solid var(--line); background: var(--surface); }
@@ -418,12 +420,15 @@ button { font: inherit; }
     gap: 20px;
   }
   .hero, .closing-layout { flex: none; padding: 28px 0; }
-  .hero h1 { font-size: clamp(32px, 8vw, 48px); white-space: normal; }
-  .hero .kicker { margin-bottom: 18px; }
-  .hero-products { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 28px; }
-  .hero-visual { padding: 8px 0; }
-  .platform-label { margin: 0; padding: 14px; }
-  .scene-caption { margin: 0; }
+  .hero h1, :lang(en) .hero h1 { font-size: clamp(32px, 8.5vw, 48px); }
+  .hero .kicker { margin-bottom: 12px; font-size: 13px; }
+  .hero .lead { margin-top: 16px; font-size: 16px; }
+  .hero-visual { width: 100%; max-width: 620px; }
+  .scene-caption { padding: 8px 12px; font-size: 12px; }
+  .hero-products { grid-template-columns: 1fr; gap: 10px; padding: 18px 0; }
+  .hero-products > div { display: grid; grid-template-columns: 6.5em 1fr; align-items: baseline; gap: 8px; }
+  .hero-products dt { font-size: 16px; }
+  .hero-products dd { margin: 0; font-size: 14px; }
 
   .response, .route-result, .message-band, .sequence-band,
   .equipment-topline, .decision-strip {
@@ -431,8 +436,7 @@ button { font: inherit; }
     align-items: flex-start;
     gap: 12px;
   }
-  .detail-panel .panel-header,
-  .platform-label, .scene-caption { flex-wrap: wrap; gap: 8px; }
+  .detail-panel .panel-header { flex-wrap: wrap; gap: 8px; }
   .pain-card, .suite-card, .detail-panel, .edge-panel, .equipment-card,
   .channel-card, .adoption-card, .comparison-card, .metric-card,
   .brief-panel { padding: 22px 20px; }
