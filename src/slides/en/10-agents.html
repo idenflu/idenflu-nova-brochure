@@ -1,7 +1,49 @@
 <section class="page" aria-labelledby="agents-title" tabindex="-1" aria-roledescription="slide" hidden>
   <header class="topline"><span class="brand">IDENFLU<i aria-hidden="true"></i><b>NOVA</b></span><span>NOVA execution and integration</span></header>
-<div class="content"><div class="heading-row"><div><h2 id="agents-title">Integration scope,<br>designed per equipment role.</h2></div><p>Equipment, controller and fleet touchpoints<br>are defined with clear command, status and completion rules.</p></div>
-    <div class="equipment-topline body-block"><strong>Equipment Agent ↔ Equipment side</strong><span>Command translation · Status/result mapping · Comms recovery rules</span></div>
-    <div class="four-col equipment-grid"><article class="equipment-card"><svg class="icon" viewBox="0 0 36 38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6v27m26-27v27M5 15h26M5 27h26M9 7h7v7H9zm12 0h6v7h-6zM9 19h7v7H9zm12 0h6v7h-6z"/></svg><h3>Storage</h3><p>Unit-load / mini-load AS/RS · Shuttle<br>Vertical carousel storage</p><small>Links AS/RS tasks with progress and completion</small></article><article class="equipment-card"><svg class="icon" viewBox="0 0 36 38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h26v10H5zM8 27v6m20-6v6M13 7h10v10H13z"/><circle cx="11" cy="22" r="2"/><circle cx="18" cy="22" r="2"/><circle cx="25" cy="22" r="2"/></svg><h3>Transport</h3><p>Conveyor · Vertical lift<br>AGV · AMR fleet integration</p><small>Links moves between steps and equipment status</small></article><article class="equipment-card"><svg class="icon" viewBox="0 0 36 38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 26h28M7 26V16h22v10M18 16V7m0 6L9 7m9 6 9-6M7 29v4m22-4v4"/><path d="M11 20h4m7 0h3"/></svg><h3>Sorting</h3><p>Cross-belt sorter<br>Tilt-tray sorter</p><small>Sort orders and result capture</small></article><article class="equipment-card"><svg class="icon" viewBox="0 0 36 38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h10v10H6zm14 0h10v10H20zM13 22h10v10H13zM11 17v6h2m12-6v6h-2"/></svg><h3>Picking · Assortment</h3><p>DPS · Digital picking<br>DAS · Digital assorting</p><small>Links work orders and processing status</small></article></div></div>
+  <div class="content">
+    <div class="heading-row"><div><h2 id="agents-title">Integration scope,<br>designed per equipment role.</h2></div><p>Equipment, controller and fleet touchpoints<br>are defined with clear command, status and completion rules.</p></div>
+    <div class="equipment-agent-bar">
+      <div class="agent-bar-lead"><strong>NOVA Equipment Agent</strong><span>Standardizes commands, status mapping and recovery across device touchpoints</span></div>
+      <div class="agent-bar-pills"><span>Command translation</span><span>Status / fault mapping</span><span>Comms recovery rules</span></div>
+    </div>
+    <div class="four-col equipment-grid">
+      <div class="equipment-col">
+        <div class="equipment-drop"><span>Equip. controller · PLC</span></div>
+        <article class="equipment-card">
+          <!--@include partials/equipment-illust.svg kind="storage" confirm-label="CONFIRMED" aria-label="Isometric AS/RS storage racks and shuttle unit"-->
+          <h3>Storage</h3>
+          <p>Unit-load / mini-load AS/RS · Shuttle<br>Vertical carousel storage</p>
+          <small>Putaway / retrieval orders ↔ Completion</small>
+        </article>
+      </div>
+      <div class="equipment-col">
+        <div class="equipment-drop"><span>Line PLC · Fleet manager</span></div>
+        <article class="equipment-card">
+          <!--@include partials/equipment-illust.svg kind="transport" confirm-label="CONFIRMED" aria-label="Isometric roller conveyor and AMR robot following a route"-->
+          <h3>Transport</h3>
+          <p>Conveyor · Vertical lift<br>AGV · AMR fleet integration</p>
+          <small>Transfer / dispatch ↔ Position &amp; status</small>
+        </article>
+      </div>
+      <div class="equipment-col">
+        <div class="equipment-drop"><span>Sorter controller · PLC</span></div>
+        <article class="equipment-card">
+          <!--@include partials/equipment-illust.svg kind="sorting" confirm-label="CONFIRMED" aria-label="Cross-belt sorter diverting parcels into destination chutes"-->
+          <h3>Sorting</h3>
+          <p>Cross-belt sorter<br>Tilt-tray sorter</p>
+          <small>Sort destination orders ↔ Chute results</small>
+        </article>
+      </div>
+      <div class="equipment-col">
+        <div class="equipment-drop"><span>Indicator gateway</span></div>
+        <article class="equipment-card">
+          <!--@include partials/equipment-illust.svg kind="picking" confirm-label="CONFIRMED" aria-label="Digital picking and assorting indicators lit with quantities"-->
+          <h3>Picking · Assortment</h3>
+          <p>DPS · Digital picking<br>DAS · Digital assorting</p>
+          <small>Indicator display ↔ Operator confirmation</small>
+        </article>
+      </div>
+    </div>
+  </div>
   <footer class="footer"><span class="footer-page"></span></footer>
 </section>

@@ -1,0 +1,122 @@
+<svg class="interfaces-infographic" viewBox="0 0 1264 348" role="img" aria-label="{{aria-label}}" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="Pretendard Variable, Pretendard, -apple-system, BlinkMacSystemFont, sans-serif">
+    <rect x="1" y="8" width="152" height="332" rx="6" fill="#1e2b3e"/>
+    <text x="77" y="40" text-anchor="middle" font-size="10.5" font-weight="700" letter-spacing="1.2" fill="#9fbbe3">EXTERNAL</text>
+    <text x="77" y="63" text-anchor="middle" font-size="13.5" font-weight="600" fill="#ffffff">{{ext-title}}</text>
+    <line x1="22" y1="80" x2="132" y2="80" stroke="#364a66"/>
+
+    <rect x="19" y="100" width="116" height="64" rx="4" fill="#293b54" stroke="#465d7d"/>
+    <text x="77" y="128" text-anchor="middle" font-size="16" font-weight="650" fill="#ffffff">ERP</text>
+    <text x="77" y="149" text-anchor="middle" font-size="11.5" fill="#b8cae3">{{erp-sub}}</text>
+
+    <rect x="19" y="178" width="116" height="64" rx="4" fill="#293b54" stroke="#465d7d"/>
+    <text x="77" y="206" text-anchor="middle" font-size="16" font-weight="650" fill="#ffffff">WMS</text>
+    <text x="77" y="227" text-anchor="middle" font-size="11.5" fill="#b8cae3">{{wms-sub}}</text>
+
+    <rect x="19" y="256" width="116" height="64" rx="4" fill="#293b54" stroke="#465d7d"/>
+    <text x="77" y="284" text-anchor="middle" font-size="16" font-weight="650" fill="#ffffff">MES</text>
+    <text x="77" y="305" text-anchor="middle" font-size="11.5" fill="#b8cae3">{{mes-sub}}</text>
+
+    <g fill="none" stroke="#8aa8d1" stroke-width="1.6">
+      <line x1="153" y1="210" x2="169" y2="210"/>
+      <path d="M186 56 H175 Q169 56 169 62 V286 Q169 292 175 292 H186"/>
+      <line x1="169" y1="174" x2="186" y2="174"/>
+    </g>
+    <circle cx="169" cy="210" r="3" fill="#4f78b3"/>
+
+    <g>
+      <rect x="186" y="8" width="308" height="96" rx="5" fill="#f6f8fb" stroke="#cad8ed"/>
+      <path d="M186 13a5 5 0 0 1 4-4.9V103.9a5 5 0 0 1-4-4.9z" fill="#2863bc"/>
+      <text x="206" y="32" font-size="10.5" font-weight="700" letter-spacing="0.9" fill="#2863bc">01 / REQUEST &amp; RESPONSE</text>
+      <rect x="422" y="18" width="58" height="20" rx="10" fill="#e6eef9"/>
+      <text x="451" y="32" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="0.4" fill="#2863bc">SYNC</text>
+      <text x="206" y="60" font-size="17" font-weight="600" fill="#1e2b3e">{{ch-1-title}}</text>
+      <text x="206" y="85" font-size="12.5" fill="#5e6d80">{{ch-1-sub}}</text>
+    </g>
+
+    <g>
+      <rect x="186" y="126" width="308" height="96" rx="5" fill="#f6f8fb" stroke="#cad8ed"/>
+      <path d="M186 131a5 5 0 0 1 4-4.9V221.9a5 5 0 0 1-4-4.9z" fill="#3c73c7"/>
+      <text x="206" y="150" font-size="10.5" font-weight="700" letter-spacing="0.9" fill="#2863bc">02 / MESSAGE &amp; EVENT</text>
+      <rect x="416" y="136" width="64" height="20" rx="10" fill="#e6eef9"/>
+      <text x="448" y="150" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="0.4" fill="#2863bc">ASYNC</text>
+      <text x="206" y="178" font-size="17" font-weight="600" fill="#1e2b3e">{{ch-2-title}}</text>
+      <text x="206" y="203" font-size="12.5" fill="#5e6d80">{{ch-2-sub}}</text>
+    </g>
+
+    <g>
+      <rect x="186" y="244" width="308" height="96" rx="5" fill="#f6f8fb" stroke="#cad8ed"/>
+      <path d="M186 249a5 5 0 0 1 4-4.9V339.9a5 5 0 0 1-4-4.9z" fill="#5b7a9e"/>
+      <text x="206" y="268" font-size="10.5" font-weight="700" letter-spacing="0.9" fill="#4f6d96">03 / LEGACY &amp; BATCH</text>
+      <rect x="416" y="254" width="64" height="20" rx="10" fill="#eaeff6"/>
+      <text x="448" y="268" text-anchor="middle" font-size="10" font-weight="700" letter-spacing="0.4" fill="#4f6d96">BATCH</text>
+      <text x="206" y="296" font-size="17" font-weight="600" fill="#1e2b3e">{{ch-3-title}}</text>
+      <text x="206" y="321" font-size="12.5" fill="#5e6d80">{{ch-3-sub}}</text>
+    </g>
+
+    <path d="M494 56 C 542 56, 542 146, 588 146" fill="none" stroke="#2863bc" stroke-width="2.2"/>
+    <path d="M494 174 L 588 174" fill="none" stroke="#3c73c7" stroke-width="2.2" stroke-dasharray="6 3"/>
+    <path d="M494 292 C 542 292, 542 202, 588 202" fill="none" stroke="#5b7a9e" stroke-width="2.2"/>
+    <g fill="#2863bc">
+      <circle cx="494" cy="56" r="3.5"/>
+      <circle cx="494" cy="174" r="3.5" fill="#3c73c7"/>
+      <circle cx="494" cy="292" r="3.5" fill="#5b7a9e"/>
+      <path d="M582 142 L589 146 L582 150 Z"/>
+      <path d="M582 170 L589 174 L582 178 Z" fill="#3c73c7"/>
+      <path d="M582 198 L589 202 L582 206 Z" fill="#5b7a9e"/>
+    </g>
+
+    <rect x="590" y="18" width="286" height="312" rx="6" fill="#eaf1fd" stroke="#9fbbe3" stroke-width="1.5"/>
+    <text x="612" y="48" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#2863bc">SYSTEM AGENT</text>
+    <text x="612" y="75" font-size="19.5" font-weight="600" fill="#1e2b3e">{{agent-title}}</text>
+    <line x1="612" y1="92" x2="854" y2="92" stroke="#c6d7ef"/>
+
+    <rect x="610" y="110" width="246" height="58" rx="4" fill="#ffffff" stroke="#c6d7ef"/>
+    <text x="626" y="135" font-size="13.5" font-weight="600" fill="#1e2b3e">{{sa-1-title}}</text>
+    <text x="626" y="156" font-size="11.5" fill="#6b788a">{{sa-1-sub}}</text>
+
+    <rect x="610" y="180" width="246" height="58" rx="4" fill="#ffffff" stroke="#c6d7ef"/>
+    <text x="626" y="205" font-size="13.5" font-weight="600" fill="#1e2b3e">{{sa-2-title}}</text>
+    <text x="626" y="226" font-size="11.5" fill="#6b788a">{{sa-2-sub}}</text>
+
+    <rect x="610" y="250" width="246" height="58" rx="4" fill="#ffffff" stroke="#c6d7ef"/>
+    <text x="626" y="275" font-size="13.5" font-weight="600" fill="#1e2b3e">{{sa-3-title}}</text>
+    <text x="626" y="296" font-size="11.5" fill="#6b788a">{{sa-3-sub}}</text>
+
+    <rect x="882" y="116" width="104" height="24" rx="12" fill="#2863bc"/>
+    <text x="934" y="132" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">{{pipe-out}}</text>
+    <line x1="876" y1="154" x2="982" y2="154" stroke="#2863bc" stroke-width="3"/>
+    <path d="M976 148 L986 154 L976 160" fill="none" stroke="#2863bc" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <line x1="988" y1="202" x2="884" y2="202" stroke="#5b769c" stroke-width="2" stroke-dasharray="5 3"/>
+    <path d="M890 197 L881 202 L890 207" fill="none" stroke="#5b769c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="934" y="225" text-anchor="middle" font-size="11.5" font-weight="500" fill="#5e6d80">{{pipe-in}}</text>
+
+    <rect x="992" y="18" width="271" height="312" rx="6" fill="#ffffff" stroke="#cad8ed" stroke-width="1.5"/>
+    <path d="M992 24a6 6 0 0 1 6-6h259a6 6 0 0 1 6 6v3H992z" fill="#1e2b3e"/>
+    <text x="1014" y="48" font-size="10.5" font-weight="700" letter-spacing="1.1" fill="#5e6d80">CONSISTENT WORKFLOW</text>
+    <text x="1014" y="75" font-size="19.5" font-weight="600" fill="#1e2b3e">NOVA Operation</text>
+    <line x1="1014" y1="92" x2="1241" y2="92" stroke="#dce3ed"/>
+
+    <rect x="1012" y="110" width="231" height="54" rx="4" fill="#f6f8fb" stroke="#dce3ed"/>
+    <text x="1026" y="133" font-size="11" font-weight="700" fill="#2863bc">01</text>
+    <text x="1046" y="133" font-size="13.5" font-weight="600" fill="#1e2b3e">{{op-1-title}}</text>
+    <text x="1046" y="153" font-size="11.5" fill="#6b788a">{{op-1-sub}}</text>
+
+    <line x1="1127" y1="164" x2="1127" y2="180" stroke="#9fbbe3" stroke-width="1.6"/>
+    <path d="M1123.5 176 L1127 181 L1130.5 176" fill="none" stroke="#9fbbe3" stroke-width="1.6"/>
+
+    <rect x="1012" y="182" width="231" height="54" rx="4" fill="#f6f8fb" stroke="#dce3ed"/>
+    <text x="1026" y="205" font-size="11" font-weight="700" fill="#2863bc">02</text>
+    <text x="1046" y="205" font-size="13.5" font-weight="600" fill="#1e2b3e">{{op-2-title}}</text>
+    <text x="1046" y="225" font-size="11.5" fill="#6b788a">{{op-2-sub}}</text>
+
+    <line x1="1127" y1="236" x2="1127" y2="252" stroke="#9fbbe3" stroke-width="1.6"/>
+    <path d="M1123.5 248 L1127 253 L1130.5 248" fill="none" stroke="#9fbbe3" stroke-width="1.6"/>
+
+    <rect x="1012" y="254" width="231" height="54" rx="4" fill="#f6f8fb" stroke="#dce3ed"/>
+    <text x="1026" y="277" font-size="11" font-weight="700" fill="#2863bc">03</text>
+    <text x="1046" y="277" font-size="13.5" font-weight="600" fill="#1e2b3e">{{op-3-title}}</text>
+    <text x="1046" y="297" font-size="11.5" fill="#6b788a">{{op-3-sub}}</text>
+  </g>
+</svg>

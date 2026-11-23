@@ -1,0 +1,114 @@
+<svg class="equip-illust" data-kind="{{kind}}" viewBox="0 0 256 118" role="img" aria-label="{{aria-label}}" xmlns="http://www.w3.org/2000/svg">
+  <g class="equip-scene equip-storage">
+    <polygon points="128,16 238,56 128,106 18,62" fill="#e2ecf9" stroke="#cbd9ee" stroke-width="0.8"/>
+    <g stroke="#5b7aa6" stroke-width="0.9">
+      <polygon points="74,24 102,13 122,21 94,32" fill="#d2e1f6"/>
+      <polygon points="74,24 94,32 94,76 74,68" fill="#89a8d2"/>
+      <polygon points="122,21 94,32 94,76 122,65" fill="#aec5e6"/>
+      <line x1="74" y1="39" x2="94" y2="47" stroke="#476691"/>
+      <line x1="74" y1="54" x2="94" y2="62" stroke="#476691"/>
+      <line x1="94" y1="47" x2="122" y2="36" stroke="#5b7aa6"/>
+      <line x1="94" y1="62" x2="122" y2="51" stroke="#5b7aa6"/>
+
+      <polygon points="108,37 136,26 156,34 128,45" fill="#d2e1f6"/>
+      <polygon points="108,37 128,45 128,89 108,81" fill="#89a8d2"/>
+      <polygon points="156,34 128,45 128,89 156,78" fill="#aec5e6"/>
+      <line x1="108" y1="52" x2="128" y2="60" stroke="#476691"/>
+      <line x1="108" y1="67" x2="128" y2="75" stroke="#476691"/>
+      <line x1="128" y1="60" x2="156" y2="49" stroke="#5b7aa6"/>
+      <line x1="128" y1="75" x2="156" y2="64" stroke="#5b7aa6"/>
+    </g>
+    <line x1="60" y1="78" x2="196" y2="48" stroke="#2863bc" stroke-width="2.2" stroke-dasharray="4 3"/>
+    <line x1="168" y1="22" x2="168" y2="92" stroke="#2863bc" stroke-width="2.2"/>
+    <g transform="translate(150, 48)">
+      <polygon points="0,14 20,7 36,14 16,21" fill="#2863bc"/>
+      <polygon points="0,14 16,21 16,27 0,20" fill="#1b4687"/>
+      <polygon points="16,21 36,14 36,20 16,27" fill="#4981d4"/>
+      <polygon points="6,5 20,0 30,5 16,10" fill="#edf4ff" stroke="#2863bc" stroke-width="0.9"/>
+      <polygon points="6,5 16,10 16,17 6,12" fill="#9fc0ec" stroke="#2863bc" stroke-width="0.9"/>
+      <polygon points="16,10 30,5 30,12 16,17" fill="#c7dcf9" stroke="#2863bc" stroke-width="0.9"/>
+    </g>
+  </g>
+
+  <g class="equip-scene equip-transport">
+    <polygon points="128,16 238,56 128,106 18,62" fill="#e2ecf9" stroke="#cbd9ee" stroke-width="0.8"/>
+    <g stroke="#5b7aa6" stroke-width="0.9">
+      <polygon points="36,52 126,22 142,29 52,59" fill="#cbdcf2"/>
+      <polygon points="36,52 52,59 52,66 36,59" fill="#7796c2"/>
+      <polygon points="52,59 142,29 142,36 52,66" fill="#9ab5dc"/>
+      <line x1="54" y1="46" x2="70" y2="53"/><line x1="72" y1="40" x2="88" y2="47"/>
+      <line x1="90" y1="34" x2="106" y2="41"/><line x1="108" y1="28" x2="124" y2="35"/>
+    </g>
+    <g transform="translate(74, 24)" stroke="#2863bc" stroke-width="0.9">
+      <polygon points="0,7 13,2 24,7 11,12" fill="#edf4ff"/>
+      <polygon points="0,7 11,12 11,20 0,15" fill="#9fc0ec"/>
+      <polygon points="11,12 24,7 24,15 11,20" fill="#c7dcf9"/>
+    </g>
+    <polyline points="86,78 136,92 206,68" fill="none" stroke="#2863bc" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="86" cy="78" r="3.2" fill="#2863bc"/>
+    <circle cx="206" cy="68" r="3.2" fill="#2863bc"/>
+    <g transform="translate(138, 56)">
+      <polygon points="0,18 26,9 48,18 22,27" fill="#2863bc"/>
+      <polygon points="0,18 22,27 22,34 0,25" fill="#1a4380"/>
+      <polygon points="22,27 48,18 48,25 22,34" fill="#4981d4"/>
+      <polygon points="9,8 25,2 39,8 23,14" fill="#ffffff" stroke="#2863bc" stroke-width="0.9"/>
+      <polygon points="9,8 23,14 23,22 9,16" fill="#a8c6ef" stroke="#2863bc" stroke-width="0.9"/>
+      <polygon points="23,14 39,8 39,16 23,22" fill="#d3e4fc" stroke="#2863bc" stroke-width="0.9"/>
+    </g>
+  </g>
+
+  <g class="equip-scene equip-sorting" font-family="Pretendard Variable, Pretendard, sans-serif">
+    <rect x="18" y="24" width="220" height="24" rx="12" fill="#d5e2f4" stroke="#6c8bb5" stroke-width="1.2"/>
+    <line x1="30" y1="36" x2="226" y2="36" stroke="#5b82b8" stroke-width="1.4" stroke-dasharray="6 4"/>
+    <path d="M52 20 V14 H76 V20" fill="none" stroke="#2863bc" stroke-width="2"/>
+    <rect x="57" y="11" width="14" height="5" rx="2" fill="#2863bc"/>
+    <rect x="36" y="29" width="18" height="14" rx="2" fill="#ffffff" stroke="#5b82b8"/>
+    <rect x="92" y="29" width="18" height="14" rx="2" fill="#2863bc"/>
+    <rect x="148" y="29" width="18" height="14" rx="2" fill="#2863bc"/>
+    <rect x="204" y="29" width="18" height="14" rx="2" fill="#ffffff" stroke="#5b82b8"/>
+    <g>
+      <polygon points="66,48 80,48 64,90 50,90" fill="#dbe6f6" stroke="#7e9bc1"/>
+      <polygon points="121,48 135,48 135,90 121,90" fill="#cee0ff" stroke="#2863bc" stroke-width="1.2"/>
+      <rect x="123" y="64" width="10" height="10" rx="1.5" fill="#2863bc"/>
+      <polygon points="176,48 190,48 206,90 192,90" fill="#cee0ff" stroke="#2863bc" stroke-width="1.2"/>
+      <rect x="187" y="68" width="10" height="10" rx="1.5" fill="#2863bc" transform="rotate(-18 192 73)"/>
+    </g>
+    <g font-size="9.5" font-weight="700" fill="#5b769c" text-anchor="middle">
+      <text x="57" y="106">CHUTE 01</text>
+      <text x="128" y="106" fill="#2863bc">CHUTE 02</text>
+      <text x="199" y="106" fill="#2863bc">CHUTE 03</text>
+    </g>
+  </g>
+
+  <g class="equip-scene equip-picking" font-family="Pretendard Variable, Pretendard, sans-serif">
+    <rect x="28" y="16" width="200" height="72" rx="3" fill="#ffffff" stroke="#7e9bc1" stroke-width="1.2"/>
+    <line x1="28" y1="52" x2="228" y2="52" stroke="#7e9bc1" stroke-width="1.2"/>
+    <line x1="95" y1="16" x2="95" y2="88" stroke="#cbd8ea"/>
+    <line x1="161" y1="16" x2="161" y2="88" stroke="#cbd8ea"/>
+
+    <rect x="38" y="23" width="46" height="18" rx="3" fill="#2863bc"/>
+    <circle cx="47" cy="32" r="3" fill="#9ddaff"/>
+    <text x="75" y="36" text-anchor="end" font-size="11" font-weight="700" fill="#ffffff">12</text>
+
+    <rect x="105" y="23" width="46" height="18" rx="3" fill="#e9eff8" stroke="#b9cbe4"/>
+    <text x="142" y="36" text-anchor="end" font-size="10.5" font-weight="600" fill="#8a9bb2">--</text>
+
+    <rect x="172" y="23" width="46" height="18" rx="3" fill="#2863bc"/>
+    <circle cx="181" cy="32" r="3" fill="#9ddaff"/>
+    <text x="209" y="36" text-anchor="end" font-size="11" font-weight="700" fill="#ffffff">04</text>
+
+    <rect x="38" y="59" width="46" height="18" rx="3" fill="#e9eff8" stroke="#b9cbe4"/>
+    <text x="75" y="72" text-anchor="end" font-size="10.5" font-weight="600" fill="#8a9bb2">--</text>
+
+    <rect x="105" y="59" width="46" height="18" rx="3" fill="#2863bc"/>
+    <circle cx="114" cy="68" r="3" fill="#9ddaff"/>
+    <text x="142" y="72" text-anchor="end" font-size="11" font-weight="700" fill="#ffffff">08</text>
+
+    <rect x="172" y="59" width="46" height="18" rx="3" fill="#e9eff8" stroke="#b9cbe4"/>
+    <text x="209" y="72" text-anchor="end" font-size="10.5" font-weight="600" fill="#8a9bb2">--</text>
+
+    <path d="M61 88 V102 H195 V88" fill="none" stroke="#2863bc" stroke-width="1.6" stroke-dasharray="4 3"/>
+    <rect x="92" y="94" width="72" height="16" rx="8" fill="#dce9fc" stroke="#8fb4e8"/>
+    <text x="128" y="105" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2863bc">{{confirm-label}}</text>
+  </g>
+</svg>
