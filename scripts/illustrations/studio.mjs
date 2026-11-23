@@ -15,19 +15,21 @@ const pts = (...ps) => ps.map(p => p.join(',')).join(' ');
 const poly = (ps, fill, extra = '') => `<polygon points="${pts(...ps)}" fill="${fill}"${extra}/>`;
 const line = (a, b, attrs) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attrs}/>`;
 const FONT = 'font-family="Pretendard Variable, Pretendard, sans-serif"';
-const ACCENT = '#2863bc', INK = '#1e2b3e', MUTED = '#5e6d80';
-const AMBER = '#c98724', AMBER_BG = '#fff5e2', AMBER_LINE = '#dfc088';
+// Muted slate-blue palette shared with equipment.mjs (slide 10); amber is reserved for the alarm.
+const ACCENT = '#4f78b4', INK = '#1e2b3e', MUTED = '#5e6d80';
+const AMBER = '#bf8638', AMBER_BG = '#fbf5ea', AMBER_LINE = '#e2cca4';
+const PANEL_LINE = '#dde3ea', RIB = 'stroke="#a3b1c4" stroke-width="0.8"';
 
 const C = {
-  frame: { t: '#d2e1f6', l: '#89a8d2', r: '#aec5e6', s: '#5b7aa6' },
-  post: { t: '#8aa6cd', l: '#5f7fae', r: '#7a98c4', s: '#4c6b97' },
-  tote: { t: '#eaf1fb', l: '#a3bbdc', r: '#c6d7ee', s: '#7e9bc1' },
-  white: { t: '#ffffff', l: '#9fc0ec', r: '#c7dcf9', s: ACCENT },
-  accent: { t: ACCENT, l: '#1a4380', r: '#4981d4', s: '#1a4380' },
-  bed: { t: '#cbdcf2', l: '#7796c2', r: '#9ab5dc', s: '#5b7aa6' },
-  amber: { t: '#f1b24a', l: '#b37419', r: '#d9952f', s: '#94600f' },
-  ghost: { t: '#f1f5fb', l: '#d3deed', r: '#e2e9f4', s: '#b8c8de' },
-  ghostPost: { t: '#d3deed', l: '#b8c8de', r: '#c6d4e6', s: '#a7bad4' },
+  frame: { t: '#e1e7ef', l: '#a7b5c8', r: '#c3cedc', s: '#8394ab' },
+  post: { t: '#a9b6c8', l: '#7f8fa6', r: '#95a4b9', s: '#6e7f97' },
+  tote: { t: '#f3f6f9', l: '#bcc7d6', r: '#d5dde8', s: '#9aa8bb' },
+  white: { t: '#ffffff', l: '#b6c8e2', r: '#d3dff0', s: '#6f8fbd' },
+  accent: { t: '#7b9ccc', l: '#4a6a99', r: '#6688bb', s: '#4a6a99' },
+  bed: { t: '#dbe2eb', l: '#98a7bc', r: '#b4c0d0', s: '#8394ab' },
+  amber: { t: '#e6b66c', l: '#a97b37', r: '#c9984f', s: '#8d6630' },
+  ghost: { t: '#f4f6f9', l: '#dbe1e9', r: '#e7ebf1', s: '#c4cdd9' },
+  ghostPost: { t: '#dbe1e9', l: '#c4cdd9', r: '#d0d8e2', s: '#b3bfce' },
 };
 
 function box(x, y, z, dx, dy, dz, c, sw = 0.9) {
@@ -82,17 +84,17 @@ function fit(body, area) {
 /* ---------------- overview: three zones on one floor ---------------- */
 function overview() {
   acc = []; AX = [1, 0.22]; AY = [-0.62, 0.46];
-  const out = [floor(0, 0, 184, 54, '#e2ecf9', '#cbd9ee')];
-  const pad = (x0, x1, warn) => floor(x0, 2, x1, 33, warn ? AMBER_BG : '#d8e5f7', warn ? AMBER_LINE : '#b9cde8', ' stroke-dasharray="3 2"');
+  const out = [floor(0, 0, 184, 54, '#e8edf3', '#d5dde7')];
+  const pad = (x0, x1, warn) => floor(x0, 2, x1, 33, warn ? AMBER_BG : '#dfe6ee', warn ? AMBER_LINE : '#c3cedc', ' stroke-dasharray="3 2"');
   out.push(pad(2, 58, false), pad(64, 122, true), pad(128, 182, false));
   out.push(ring(93, 18, 13, AMBER, ' stroke-width="0.9" opacity="0.45"'), ring(93, 18, 19, AMBER, ' stroke-width="0.7" opacity="0.25"'));
   // A · storage
   out.push(rackBlock(8, 5, 0, 44, 9, 26, 3, 4, C.frame), rackBlock(8, 20, 0, 44, 9, 26, 3, 4, C.frame));
   // B · sorter with chutes
   out.push(box(70, 6, 0, 46, 11, 8, C.bed));
-  for (let x = 76; x < 116; x += 8) out.push(line(P(x, 6, 8), P(x, 17, 8), 'stroke="#7f9cc6" stroke-width="0.8"'));
+  for (let x = 76; x < 116; x += 8) out.push(line(P(x, 6, 8), P(x, 17, 8), RIB));
   for (const xc of [78, 93, 108]) {
-    out.push(poly([P(xc - 4, 17, 7), P(xc + 4, 17, 7), P(xc + 4, 30, 1), P(xc - 4, 30, 1)], '#dbe5f2', ' stroke="#7e9bc1" stroke-width="0.8" stroke-linejoin="round"'));
+    out.push(poly([P(xc - 4, 17, 7), P(xc + 4, 17, 7), P(xc + 4, 30, 1), P(xc - 4, 30, 1)], '#e3e8ef', ' stroke="#9aa8bb" stroke-width="0.8" stroke-linejoin="round"'));
   }
   out.push(box(84, 8, 8, 7, 7, 6, C.amber), box(99, 8, 8, 7, 7, 6, C.tote, 0.8));
   // C · shipping pallets
@@ -103,7 +105,7 @@ function overview() {
   // main conveyor + flow
   out.push(box(2, 38, 0, 180, 9, 6, C.bed));
   const f = [P(6, 42.5, 6), P(172, 42.5, 6)];
-  out.push(line(f[0], f[1], `stroke="${ACCENT}" stroke-width="1.6" stroke-dasharray="4 3"`));
+  out.push(line(f[0], f[1], `stroke="${ACCENT}" stroke-width="1.4" stroke-dasharray="4 3" opacity="0.85"`));
   out.push(poly([P(171, 39.5, 6), P(180, 42.5, 6), P(171, 45.5, 6)], ACCENT));
   for (const x of [14, 32]) out.push(box(x, 39.5, 6, 9, 6, 6, C.tote, 0.8));
   for (const x of [50, 60, 70]) out.push(box(x, 39.5, 6, 9, 6, 6, C.amber));
@@ -119,7 +121,7 @@ function overview() {
     ['C', '{{zone-c}}', '{{state-ok}}', false],
   ];
   const px = 12, pw = 162, top = 22, rh = 30, gap = 6;
-  const panel = [`<rect x="${px}" y="${top - 10}" width="${pw}" height="${rows.length * (rh + gap) + 14}" rx="6" fill="#ffffff" stroke="#d7e2f1"/>`];
+  const panel = [`<rect x="${px}" y="${top - 10}" width="${pw}" height="${rows.length * (rh + gap) + 14}" rx="6" fill="#ffffff" stroke="${PANEL_LINE}"/>`];
   rows.forEach(([id, name, state, warn], i) => {
     const y = top + i * (rh + gap);
     if (warn) panel.push(`<rect x="${px + 6}" y="${y - 4}" width="${pw - 12}" height="${rh + 2}" rx="4" fill="${AMBER_BG}" stroke="${AMBER_LINE}"/>`);
@@ -141,7 +143,7 @@ function inspect() {
   const LV = [0, 30, 60], W = 92, D = 44;
   const active = 1;
   const pal = k => (k === active ? { slab: C.frame, item: C.frame, post: C.post, bed: C.bed } : { slab: C.ghost, item: C.ghost, post: C.ghostPost, bed: C.ghost });
-  out.push(floor(-6, -6, W + 24, D + 6, '#e2ecf9', '#cbd9ee'));
+  out.push(floor(-6, -6, W + 24, D + 6, '#e8edf3', '#d5dde7'));
   out.push(box(0, 0, 0, 2.5, 2.5, 63, C.ghostPost), box(W - 2.5, 0, 0, 2.5, 2.5, 63, C.ghostPost));
   LV.forEach((z, k) => {
     const p = pal(k);
@@ -167,7 +169,7 @@ function inspect() {
     acc.push([t[0] - 26, t[1]]);
     const hot = k === active;
     out.push(line([t[0] - 3, t[1]], [t[0] + 3, t[1]], `stroke="${hot ? AMBER : ACCENT}" stroke-width="1.4"`));
-    out.push(`<text x="${r(t[0] - 7)}" y="${r(t[1] + 3.5)}" text-anchor="end" font-size="10" font-weight="700" fill="${hot ? AMBER : '#6f86a6'}">${k + 1}F</text>`);
+    out.push(`<text x="${r(t[0] - 7)}" y="${r(t[1] + 3.5)}" text-anchor="end" font-size="10" font-weight="700" fill="${hot ? AMBER : '#8a99ad'}">${k + 1}F</text>`);
   });
   const pinTop = P(lx + 8, ly + 8, lz + 30);
   out.push(pin(lx + 8, ly + 8, lz + 11, lz + 30, '!', AMBER));
@@ -175,12 +177,12 @@ function inspect() {
 
   // level selector + alarm card
   const px = 330, pw = 136, top = 11;
-    const panel = [`<rect x="${px}" y="${top}" width="${pw}" height="128" rx="6" fill="#ffffff" stroke="#d7e2f1"/>`];
+    const panel = [`<rect x="${px}" y="${top}" width="${pw}" height="128" rx="6" fill="#ffffff" stroke="${PANEL_LINE}"/>`];
   ['3F', '2F', '1F'].forEach((lv, i) => {
     const x = px + 10 + i * 40, hot = lv === '2F';
     panel.push(
-      `<rect x="${x}" y="${top + 10}" width="36" height="22" rx="4" fill="${hot ? AMBER_BG : '#f1f5fb'}" stroke="${hot ? AMBER : '#d7e2f1'}"${hot ? ' stroke-width="1.3"' : ''}/>`,
-      `<text x="${x + 18}" y="${top + 25}" text-anchor="middle" font-size="11" font-weight="700" fill="${hot ? AMBER : '#8a9bb2'}">${lv}</text>`,
+      `<rect x="${x}" y="${top + 10}" width="36" height="22" rx="4" fill="${hot ? AMBER_BG : '#f3f5f8'}" stroke="${hot ? AMBER : PANEL_LINE}"${hot ? ' stroke-width="1.3"' : ''}/>`,
+      `<text x="${x + 18}" y="${top + 25}" text-anchor="middle" font-size="11" font-weight="700" fill="${hot ? AMBER : '#97a4b6'}">${lv}</text>`,
     );
   });
   const pinAt = scene.map(pinTop);
