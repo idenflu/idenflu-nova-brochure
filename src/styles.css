@@ -146,7 +146,7 @@ button { font: inherit; }
 .equipment-drop::after { content: ""; position: absolute; bottom: 3px; left: 50%; border-width: 7px 4.5px 0; border-style: solid; border-color: var(--accent-ink) transparent transparent; transform: translateX(-50%); }
 .equipment-drop span { position: relative; z-index: 1; padding: 3px 14px; border: 1px solid #b9ceec; border-radius: 12px; background: #eaf1fd; color: #294769; font-size: 11px; font-weight: 600; white-space: nowrap; }
 .equipment-card { display: flex; flex: 1; flex-direction: column; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); }
-.equip-illust { display: block; width: 100%; height: auto; margin-bottom: 14px; border-radius: 4px; background: #edf3fb; }
+.equip-illust { display: block; width: 100%; height: auto; margin-bottom: 14px; border-radius: 4px; background: #f0f3f7; }
 .equip-illust .equip-scene { display: none; }
 .equip-illust[data-kind="storage"] .equip-storage,
 .equip-illust[data-kind="transport"] .equip-transport,

@@ -13,18 +13,20 @@ const pts = (...ps) => ps.map(p => p.join(',')).join(' ');
 const poly = (ps, fill, extra = '') => `<polygon points="${pts(...ps)}" fill="${fill}"${extra}/>`;
 const line = (a, b, attrs) => `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" ${attrs}/>`;
 const polyline = (ps, attrs) => `<polyline points="${pts(...ps)}" fill="none" ${attrs}/>`;
-const dot = p => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#2863bc"/>`;
-const ACCENT = '#2863bc';
-const DASH = `stroke="${ACCENT}" stroke-width="1.8" stroke-dasharray="4 3"`;
+// Muted slate-blue palette: the illustration supports the card copy rather than competing with it.
+const ACCENT = '#4f78b4', INK = '#3f6296';
+const dot = p => `<circle cx="${p[0]}" cy="${p[1]}" r="2.6" fill="${ACCENT}"/>`;
+const DASH = `stroke="${ACCENT}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.85"`;
+const RIB = 'stroke="#a3b1c4" stroke-width="0.8"';
 
 const C = {
-  frame: { t: '#d2e1f6', l: '#89a8d2', r: '#aec5e6', s: '#5b7aa6' },
-  post: { t: '#8aa6cd', l: '#5f7fae', r: '#7a98c4', s: '#4c6b97' },
-  tote: { t: '#eaf1fb', l: '#a3bbdc', r: '#c6d7ee', s: '#7e9bc1' },
-  white: { t: '#ffffff', l: '#9fc0ec', r: '#c7dcf9', s: ACCENT },
-  accent: { t: ACCENT, l: '#1a4380', r: '#4981d4', s: '#1a4380' },
-  bed: { t: '#cbdcf2', l: '#7796c2', r: '#9ab5dc', s: '#5b7aa6' },
-  module: { t: '#f1f5fb', l: '#ffffff', r: '#dbe5f2', s: '#7e9bc1' },
+  frame: { t: '#e1e7ef', l: '#a7b5c8', r: '#c3cedc', s: '#8394ab' },
+  post: { t: '#a9b6c8', l: '#7f8fa6', r: '#95a4b9', s: '#6e7f97' },
+  tote: { t: '#f3f6f9', l: '#bcc7d6', r: '#d5dde8', s: '#9aa8bb' },
+  white: { t: '#ffffff', l: '#b6c8e2', r: '#d3dff0', s: '#6f8fbd' },
+  accent: { t: '#7b9ccc', l: '#4a6a99', r: '#6688bb', s: '#4a6a99' },
+  bed: { t: '#dbe2eb', l: '#98a7bc', r: '#b4c0d0', s: '#8394ab' },
+  module: { t: '#f4f6f9', l: '#ffffff', r: '#e0e6ee', s: '#9aa8bb' },
 };
 
 function box(x, y, z, dx, dy, dz, c, sw = 0.9) {
@@ -33,11 +35,11 @@ function box(x, y, z, dx, dy, dz, c, sw = 0.9) {
   const left = [P(x, y + dy, z), P(x + dx, y + dy, z), P(x + dx, y + dy, z + dz), P(x, y + dy, z + dz)];
   return `<g stroke="${c.s}" stroke-width="${sw}" stroke-linejoin="round">${poly(left, c.l)}${poly(right, c.r)}${poly(top, c.t)}</g>`;
 }
-const ground = (x0, y0, x1, y1) => poly([P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)], '#e2ecf9', ' stroke="#cbd9ee" stroke-width="0.8"');
+const ground = (x0, y0, x1, y1) => poly([P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)], '#e8edf3', ' stroke="#d5dde7" stroke-width="0.8"');
 // Maps local (u = x, v = -z) onto a front face at constant y.
 const frontFace = y => `matrix(1 ${CY} 0 1 ${r(-y)} ${r(CY * y)})`;
 // Registers a text box so the auto-fit accounts for it.
-function text(p, str, { size = 12, anchor = 'middle', fill = ACCENT, width = 18 } = {}) {
+function text(p, str, { size = 12, anchor = 'middle', fill = INK, width = 18 } = {}) {
   const x0 = anchor === 'middle' ? p[0] - width / 2 : p[0];
   acc.push([x0, p[1] - size], [x0 + width, p[1] + 2]);
   return `<text x="${p[0]}" y="${p[1]}" text-anchor="${anchor}" font-size="${size}" font-weight="700" fill="${fill}">${str}</text>`;
@@ -76,7 +78,7 @@ function transport() {
   out.push(polyline([a, b, c], DASH), dot(a), dot(c));
   out.push(box(12, 15, 0, 3, 12, 10, C.post), box(66, 15, 0, 3, 12, 10, C.post));
   out.push(box(2, 12, 10, 78, 18, 6, C.bed));
-  for (let x = 8; x <= 74; x += 8) out.push(line(P(x, 13, 16), P(x, 29, 16), 'stroke="#7f9cc6" stroke-width="0.9"'));
+  for (let x = 8; x <= 74; x += 8) out.push(line(P(x, 13, 16), P(x, 29, 16), RIB));
   out.push(box(16, 15, 16, 13, 12, 9, C.tote, 0.8), box(44, 15, 16, 13, 12, 9, C.tote, 0.8));
   out.push(box(76, 44, 1, 20, 22, 7, C.accent), box(80, 49, 8, 12, 12, 9, C.white, 1.1));
   return out;
@@ -84,7 +86,7 @@ function transport() {
 
 /* ---------- sorting: cross-belt line diverting into chutes ---------- */
 function chute(xc, active) {
-  const c = active ? { b: '#cee0ff', w: '#a9c6ef', s: ACCENT } : { b: '#dbe5f2', w: '#b9cbe3', s: '#7e9bc1' };
+  const c = active ? { b: '#d9e4f3', w: '#b5c6de', s: '#6f8fbd' } : { b: '#e3e8ef', w: '#c3cdda', s: '#9aa8bb' };
   const a = xc - 6, b = xc + 6, y0 = 30, y1 = 72, z0 = 11, z1 = 1;
   const attrs = w => ` stroke="${c.s}" stroke-width="${w}" stroke-linejoin="round"`;
   return [
@@ -95,12 +97,12 @@ function chute(xc, active) {
 }
 function sorting() {
   const out = [ground(0, 4, 96, 96), box(11, 9, 0, 3, 3, 26, C.post), box(2, 14, 0, 90, 16, 12, C.bed)];
-  for (let x = 14; x < 92; x += 11) out.push(line(P(x, 14, 12), P(x, 30, 12), 'stroke="#7f9cc6" stroke-width="0.9"'));
+  for (let x = 14; x < 92; x += 11) out.push(line(P(x, 14, 12), P(x, 30, 12), RIB));
   out.push(chute(32, false), chute(57, true), chute(82, true));
   out.push(box(4, 17, 12, 9, 10, 8, C.tote, 0.8), box(22, 17, 12, 9, 10, 8, C.tote, 0.8));
   out.push(box(77, 17, 12, 10, 10, 8, C.accent), box(52, 46, 6.5, 10, 10, 8, C.accent));
   out.push(box(11, 31, 0, 3, 3, 26, C.post), box(10, 9, 26, 5, 25, 3, C.accent));
-  out.push(text(P(32, 89), '01', { fill: '#6f86a6' }), text(P(57, 89), '02'), text(P(82, 89), '03'));
+  out.push(text(P(32, 89), '01', { fill: '#8a99ad' }), text(P(57, 89), '02'), text(P(82, 89), '03'));
   return out;
 }
 
@@ -112,8 +114,8 @@ function shelf(z, mods) {
     const x = 12 + b * 28;
     out.push(box(x, 56, z - 10, 24, 2.5, 13, C.module));
     const scr = qty
-      ? `<rect x="${x + 2}" y="${-(z + 1)}" width="20" height="9" rx="1.5" fill="${ACCENT}"/><circle cx="${x + 5.5}" cy="${-(z - 3.5)}" r="1.6" fill="#9ddaff"/><text x="${x + 20.5}" y="${-(z - 6.6)}" text-anchor="end" font-size="8.5" font-weight="700" fill="#ffffff">${qty}</text>`
-      : `<rect x="${x + 2}" y="${-(z + 1)}" width="20" height="9" rx="1.5" fill="#e9eff8" stroke="#b9cbe4" stroke-width="0.7"/>`;
+      ? `<rect x="${x + 2}" y="${-(z + 1)}" width="20" height="9" rx="1.5" fill="#7193c6"/><circle cx="${x + 5.5}" cy="${-(z - 3.5)}" r="1.6" fill="#e3effc"/><text x="${x + 20.5}" y="${-(z - 6.6)}" text-anchor="end" font-size="8.5" font-weight="700" fill="#ffffff">${qty}</text>`
+      : `<rect x="${x + 2}" y="${-(z + 1)}" width="20" height="9" rx="1.5" fill="#edf1f5" stroke="#c3cdda" stroke-width="0.7"/>`;
     out.push(`<g transform="${frontFace(58.5)}">${scr}</g>`);
   });
   return out.join('');
@@ -127,10 +129,10 @@ function picking() {
   const from = P(52, 58.5, 2), pillY = r(from[1] + 14), w = 98;
   acc.push([from[0] - w / 2, pillY], [from[0] + w / 2, pillY + 18]);
   out.push(
-    line(from, [from[0], pillY], `stroke="${ACCENT}" stroke-width="1.4" stroke-dasharray="3 2.5"`),
-    `<rect x="${r(from[0] - w / 2)}" y="${pillY}" width="${w}" height="18" rx="9" fill="#ffffff" stroke="${ACCENT}" stroke-width="1.2"/>`,
-    `<path d="M${r(from[0] - 38)} ${r(pillY + 9)} l3 3 l5.5 -6" fill="none" stroke="${ACCENT}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`,
-    `<text x="${r(from[0] + 7)}" y="${r(pillY + 13)}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${ACCENT}">{{confirm-label}}</text>`,
+    line(from, [from[0], pillY], `stroke="${ACCENT}" stroke-width="1.2" stroke-dasharray="3 2.5" opacity="0.85"`),
+    `<rect x="${r(from[0] - w / 2)}" y="${pillY}" width="${w}" height="18" rx="9" fill="#ffffff" stroke="${ACCENT}" stroke-width="1"/>`,
+    `<path d="M${r(from[0] - 38)} ${r(pillY + 9)} l3 3 l5.5 -6" fill="none" stroke="${INK}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<text x="${r(from[0] + 7)}" y="${r(pillY + 13)}" text-anchor="middle" font-size="10.5" font-weight="700" fill="${INK}">{{confirm-label}}</text>`,
   );
   return out;
 }
