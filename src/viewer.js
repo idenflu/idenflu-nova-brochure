@@ -1,4 +1,4 @@
-(() => {
+function mountViewer({ signal, switchLanguage, slideHash, notesOpen }) {
   const deck = document.querySelector('.deck');
   const slides = [...deck.querySelectorAll('.page')];
   const previous = document.getElementById('previous-slide');
@@ -21,6 +21,12 @@
   const speakerNotesBody = document.getElementById('speaker-notes-body');
   const feedback = document.getElementById('viewer-message');
   const languageLinks = [...document.querySelectorAll('.language-button')];
+  languageLinks.forEach(link => link.addEventListener('click', event => {
+    if (document.fullscreenElement !== document.documentElement || event.button !== 0 ||
+        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    switchLanguage(link.hreflang, new URL(link.href));
+  }));
   const readingLayout = window.matchMedia('screen and (max-width: 900px)');
   const ui = JSON.parse(document.getElementById('deck-i18n').textContent);
   const notes = JSON.parse(document.getElementById('deck-notes')?.textContent || '{}');
@@ -174,6 +180,7 @@
 
   // Thumbnails are live, inert copies of each slide scaled down from the 1440px design size.
   // They are built on first use and only for the presentation layout (hidden in reading layout).
+  let thumbnailObserver;
   let thumbnailsBuilt = false;
   function buildThumbnails() {
     if (thumbnailsBuilt || readingLayout.matches) return;
@@ -215,9 +222,10 @@
     const firstThumb = overviewItems[0].querySelector('.overview-thumb');
     // The dialog is still closed (unrendered) here, so read the design width from CSS.
     const designWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slide-width'));
-    new ResizeObserver(([entry]) => {
+    thumbnailObserver = new ResizeObserver(([entry]) => {
       if (entry.contentRect.width) overviewGrid.style.setProperty('--thumb-scale', entry.contentRect.width / designWidth);
-    }).observe(firstThumb);
+    });
+    thumbnailObserver.observe(firstThumb);
   }
 
   function closeOnBackdrop(dialog, event) {
@@ -281,7 +289,7 @@
   ['pointermove', 'pointerdown', 'keydown', 'wheel'].forEach(type => {
     document.addEventListener(type, () => {
       if (document.fullscreenElement) scheduleIdleControls();
-    }, { passive: true });
+    }, { passive: true, signal });
   });
   overview.addEventListener('close', scheduleIdleControls);
   lightbox?.addEventListener('close', scheduleIdleControls);
@@ -296,14 +304,16 @@
   }
   fullscreenButton.disabled = !document.fullscreenEnabled;
   fullscreenButton.addEventListener('click', toggleFullscreen);
-  document.addEventListener('fullscreenchange', () => {
+  function updateFullscreen() {
     const active = Boolean(document.fullscreenElement);
     fullscreenButton.setAttribute('aria-pressed', String(active));
     fullscreenButton.setAttribute('aria-label', active ? ui.fullscreenExit : ui.fullscreen);
     fullscreenButton.title = active ? `${ui.fullscreenExit} (Esc / F)` : `${ui.fullscreen} (F)`;
     if (active) scheduleIdleControls();
     else clearIdleControls();
-  });
+  }
+  document.addEventListener('fullscreenchange', updateFullscreen, { signal });
+  updateFullscreen();
 
   // Download pre-rendered PDF when bundled (CI / build:pdf), otherwise open browser print dialog.
   function triggerPrintOrPdf() {
@@ -328,7 +338,8 @@
   }
 
   copyLinkButton?.addEventListener('click', async () => {
-    const url = new URL(location.href);
+    const url = new URL(document.baseURI);
+    url.search = location.search;
     url.hash = `#slide-${current + 1}`;
     try {
       await copyText(url.href);
@@ -363,14 +374,14 @@
     speakerNotes.hidden = !open;
     if (open) updateSpeakerNotes();
     languageLinks.forEach(link => {
-      const url = new URL(link.getAttribute('href'), location.href);
+      const url = new URL(link.href);
       if (open) url.searchParams.set('notes', '');
       else url.searchParams.delete('notes');
       link.search = url.search;
     });
   }
   document.getElementById('close-notes')?.addEventListener('click', () => setSpeakerNotesOpen(false));
-  if (new URLSearchParams(location.search).has('notes')) setSpeakerNotesOpen(true);
+  if (notesOpen) setSpeakerNotesOpen(true);
 
   function updateOverview() {
     overviewItems.forEach((item, index) => {
@@ -392,14 +403,14 @@
 
   // Hash routes work on static hosting without server rewrite rules.
   function routeIndex() {
-    const match = /^#slide-(\d+)$/.exec(location.hash);
+    const match = /^#slide-(\d+)(?:@[\w-]+)?$/.exec(location.hash);
     if (!match) return 0;
     const number = Number(match[1]);
     return Number.isSafeInteger(number) ? Math.max(0, Math.min(number - 1, slides.length - 1)) : 0;
   }
 
   function syncRoute(index, mode) {
-    const hash = `#slide-${index + 1}`;
+    const hash = slideHash(index);
     if (location.hash === hash) return;
     const url = new URL(location.href);
     url.hash = hash;
@@ -500,11 +511,11 @@
         printVideos.push(video);
       }
     });
-  });
+  }, { signal });
   window.addEventListener('afterprint', () => {
     printVideos.forEach(video => { video.controls = true; });
     printVideos.length = 0;
-  });
+  }, { signal });
 
   previous.addEventListener('click', () => showSlide(current - 1));
   next.addEventListener('click', () => showSlide(current + 1));
@@ -523,7 +534,7 @@
       // A held key scrubs through the deck: swap instantly instead of queueing pushes.
       showSlide(destinations[event.key], { historyMode: ['Home', 'End'].includes(event.key) ? 'push' : 'replace', animate: !event.repeat });
     }
-  });
+  }, { signal });
 
   // Treat one wheel or trackpad gesture as a single slide change.
   let wheelDelta = 0;
@@ -543,7 +554,7 @@
       showSlide(current + Math.sign(wheelDelta));
       wheelLocked = true;
     }
-  }, { passive: false });
+  }, { passive: false, signal });
 
   let touchStart;
   deck.addEventListener('touchstart', event => {
@@ -565,15 +576,97 @@
     if (lightbox?.open) lightbox.close();
     showSlide(routeIndex(), { historyMode: 'replace' });
   }
-  window.addEventListener('popstate', restoreRoute);
-  window.addEventListener('hashchange', restoreRoute);
+  window.addEventListener('popstate', restoreRoute, { signal });
+  window.addEventListener('hashchange', restoreRoute, { signal });
   showSlide(routeIndex(), { historyMode: 'replace', animate: false });
 
   readingLayout.addEventListener('change', () => {
     settleAll();
     deck.scrollTop = 0;
     fitSlide();
-  });
-  new ResizeObserver(fitSlide).observe(deck);
+  }, { signal });
+  const observer = new ResizeObserver(fitSlide);
+  observer.observe(deck);
   fitSlide();
+  signal.addEventListener('abort', () => {
+    observer.disconnect();
+    thumbnailObserver?.disconnect();
+    clearIdleControls();
+    clearTimeout(feedbackTimer);
+    clearTimeout(wheelReset);
+    settleAll();
+    deck.querySelectorAll('video, audio').forEach(media => media.pause());
+  });
+}
+
+(() => {
+  const root = document.documentElement;
+  const initialLanguage = root.lang;
+  const offline = location.protocol === 'file:';
+  const urls = new Map([[initialLanguage, new URL(location.pathname, location.href).href]]);
+  document.querySelectorAll('.language-button').forEach(link => urls.set(link.hreflang, link.href));
+  const translations = JSON.parse(document.getElementById('deck-translations').textContent);
+  // Keep the same fullscreen root while replacing localized content and metadata.
+  const metadata = 'title, meta[name="description"], meta[property], link[rel="canonical"], link[rel="alternate"], link[rel="icon"], link[rel="apple-touch-icon"], link[rel="stylesheet"]';
+  const base = document.createElement('base');
+  base.href = urls.get(initialLanguage);
+  document.head.prepend(base);
+  const initialBody = document.createDocumentFragment();
+  for (const child of document.body.children) {
+    if (child.matches('script:not(#deck-i18n):not(#deck-notes)')) continue;
+    initialBody.append(child.cloneNode(true));
+  }
+  const editions = new Map([[initialLanguage, {
+    head: [...document.head.querySelectorAll(metadata)],
+    body: initialBody,
+  }]]);
+  let lifetime;
+
+  function display(language, notesOpen) {
+    if (language !== root.lang) {
+      if (!editions.has(language)) {
+        const doc = new DOMParser().parseFromString(translations[language], 'text/html');
+        doc.querySelectorAll('script:not(#deck-i18n):not(#deck-notes)').forEach(node => node.remove());
+        editions.set(language, { head: [...doc.head.querySelectorAll(metadata)], body: doc.body });
+      }
+      lifetime?.abort();
+      const edition = editions.get(language);
+      base.href = urls.get(language);
+      root.lang = language;
+      document.head.querySelectorAll(metadata).forEach(node => node.remove());
+      document.head.append(...edition.head.map(node => node.cloneNode(true)));
+      document.body.replaceChildren(...[...edition.body.children].map(node => node.cloneNode(true)));
+    }
+    lifetime = new AbortController();
+    const slideHash = index => `#slide-${index + 1}${offline && language !== initialLanguage ? '@' + language : ''}`;
+    mountViewer({ signal: lifetime.signal, switchLanguage, slideHash, notesOpen });
+  }
+
+  function switchLanguage(language, target) {
+    // Local files allow same-document history changes only within the original path.
+    const url = offline ? new URL(location.href) : target;
+    if (offline) url.hash = target.hash + (language === initialLanguage ? '' : '@' + language);
+    history.pushState(null, '', url);
+    display(language, target.searchParams.has('notes'));
+    document.querySelector('.language-button')?.focus({ preventScroll: true });
+  }
+
+  function routedLanguage() {
+    if (offline) {
+      const lang = location.hash.split('@')[1];
+      return urls.has(lang) ? lang : initialLanguage;
+    }
+    for (const [language, url] of urls) {
+      if (new URL(url).pathname === location.pathname) return language;
+    }
+    return initialLanguage;
+  }
+
+  function restoreLanguage() {
+    const language = routedLanguage();
+    if (language !== root.lang) display(language, new URLSearchParams(location.search).has('notes'));
+  }
+  window.addEventListener('popstate', restoreLanguage);
+  window.addEventListener('hashchange', restoreLanguage);
+  display(routedLanguage(), new URLSearchParams(location.search).has('notes'));
 })();

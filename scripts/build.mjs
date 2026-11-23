@@ -152,7 +152,7 @@ function build() {
   if (fs.existsSync(publicDir)) fs.cpSync(publicDir, dist, { recursive: true });
   copyFonts();
 
-  for (const locale of locales) {
+  const editions = locales.map(locale => {
     const slideDir = path.join(src, 'slides', locale.lang);
     const slideHtmls = slideFiles
       .map(file => expandIncludes(read(path.join(slideDir, file)), `slides/${locale.lang}/${file}`))
@@ -171,8 +171,18 @@ function build() {
     const i18n = JSON.stringify(locale.ui).replaceAll('<', '\\u003c');
     const notes = JSON.stringify(locale.notes || {}).replaceAll('<', '\\u003c');
     const pdfAttr = withPdf ? ` data-pdf="${escapeHtml(`${base}nova-brochure-${locale.lang}.pdf`)}"` : '';
-    const raw = { styles, viewer, slides, i18n, notes, pdfAttr, ...languageBlocks(locale, locales) };
-    const html = render(template, data, raw, `locale ${locale.lang}`);
+    const raw = { styles: '', viewer: '', translations: '', slides, i18n, notes, pdfAttr, ...languageBlocks(locale, locales) };
+    const html = render(template, data, raw, locale.lang);
+    return { locale, data, raw, html };
+  });
+
+  for (const edition of editions) {
+    const { locale, data, raw } = edition;
+    // Bundle alternate markup so presentation mode can also switch languages offline.
+    const translations = JSON.stringify(Object.fromEntries(editions
+      .filter(other => other !== edition)
+      .map(other => [other.locale.lang, other.html]))).replaceAll('<', '\\u003c');
+    const html = render(template, data, { ...raw, styles, viewer, translations }, locale.lang);
     const out = path.join(dist, locale.output);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
