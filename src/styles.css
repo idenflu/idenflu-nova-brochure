@@ -347,10 +347,18 @@ button { font: inherit; }
 .studio-points li { padding: 16px 0; border-top: 1px solid var(--line); }
 .studio-points h3 { font-size: 19px; font-weight: 550; }
 .studio-points p { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
-.studio-videos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: auto 0; padding: 32px 0; }
-.studio-video-media { aspect-ratio: 16 / 9; background: #20282b; }
-.studio-video-media:has(.example-placeholder) { display: grid; place-items: center; border: 1px dashed #c5d2e5; background: var(--surface); }
-.studio-video-media :is(video, img) { display: block; width: 100%; height: 100%; object-fit: contain; }
+.studio-videos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin: auto 0; padding: 32px 0; }
+.studio-video-media { position: relative; aspect-ratio: 16 / 9; background: #20282b; }
+.studio-video-media :is(.studio-video-trigger, img, iframe) { display: block; width: 100%; height: 100%; }
+.studio-video-media img { object-fit: cover; }
+.studio-video-media iframe { position: absolute; inset: 0; border: 0; }
+.studio-video-trigger::before, .studio-video-trigger::after {
+  content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.studio-video-trigger::before { width: 64px; height: 44px; border-radius: 10px; background: rgb(17 27 43 / 88%); }
+.studio-video-trigger::after { margin-left: 2px; border-block: 9px solid transparent; border-left: 15px solid #fff; }
+.studio-video-trigger:is(:hover, :focus-visible)::before { background: var(--accent-ink); }
+.studio-video-media:has(iframe) .studio-video-trigger { visibility: hidden; }
 .workspace-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin: auto 0; padding: 28px 0; }
 .workspace-examples .example-media { height: 330px; }
 .example-card .example-media:not(:has(.example-placeholder)), .workspace-hero.example-media:not(:has(.example-placeholder)) { display: block; border: 1px solid var(--line); }
@@ -522,5 +530,7 @@ button { font: inherit; }
   .page, .page[hidden] { position: relative; top: auto; left: auto; display: flex; margin: 0; transform: none; break-after: page; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .page:last-child { break-after: auto; }
   .slide-controls, .copy-email-button { display: none; }
+  .studio-video-media iframe { display: none; }
+  .studio-video-media:has(iframe) .studio-video-trigger { visibility: visible; }
 }
 

@@ -337,6 +337,28 @@ function mountViewer({ signal, switchLanguage, slideHash, notesOpen }) {
     printButton.addEventListener('click', triggerPrintOrPdf);
   }
 
+  function stopStudioVideo() {
+    deck.querySelector('.studio-video-media iframe')?.remove();
+  }
+
+  deck.querySelectorAll('.studio-video-trigger').forEach(link => {
+    link.addEventListener('click', event => {
+      if (location.protocol === 'file:' || event.button !== 0 ||
+          event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      stopStudioVideo();
+
+      const videoId = new URL(link.href).pathname.slice(1);
+      const player = document.createElement('iframe');
+      player.title = link.getAttribute('aria-label');
+      player.allow = 'autoplay; fullscreen; picture-in-picture';
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1`;
+      link.parentElement.append(player);
+      player.focus();
+    });
+  });
+
   copyLinkButton?.addEventListener('click', async () => {
     const url = new URL(document.baseURI);
     url.search = location.search;
@@ -430,6 +452,7 @@ function mountViewer({ signal, switchLanguage, slideHash, notesOpen }) {
     const direction = Math.sign(target - current);
     const moveFocus = outgoing.contains(document.activeElement);
     outgoing.querySelectorAll('video, audio').forEach(media => media.pause());
+    stopStudioVideo();
     const push = animate && canPush();
     // Read where both pages are before the layout changes, so an interrupted push continues smoothly.
     const outgoingFrom = push ? pageOffset(outgoing) : 0;
@@ -503,6 +526,7 @@ function mountViewer({ signal, switchLanguage, slideHash, notesOpen }) {
   const printVideos = [];
   window.addEventListener('beforeprint', () => {
     settleAll();
+    stopStudioVideo();
     printVideos.length = 0;
     deck.querySelectorAll('video').forEach(video => {
       video.pause();
@@ -595,6 +619,7 @@ function mountViewer({ signal, switchLanguage, slideHash, notesOpen }) {
     clearTimeout(feedbackTimer);
     clearTimeout(wheelReset);
     settleAll();
+    stopStudioVideo();
     deck.querySelectorAll('video, audio').forEach(media => media.pause());
   });
 }
